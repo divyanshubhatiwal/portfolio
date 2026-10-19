@@ -1,0 +1,24 @@
+---
+import Page from '@/layouts/Page.astro';
+import { formatDate, getPosts, readingMinutes } from '@/lib/content';
+import { PROFILE } from '@/data/site';
+
+const posts = await getPosts();
+---
+<Page title={`Blog | ${PROFILE.name}`} description="Short write-ups on building LLM agents, trading systems and evidence-grounded pipelines.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / Blog</div>
+    <h1>Notes from <span class="g">building things</span></h1>
+    <p class="lede">Short write-ups on what I learned, what broke and what the numbers actually said. <a href="/rss.xml">Subscribe via RSS</a>.</p>
+  </header>
+  <div class="cards">
+    {posts.map((p, i) => (
+      <a class="card fade" style={`animation-delay:${i * 0.06}s`} href={`/blog/${p.id}`}>
+        <small>{p.data.tag} · {formatDate(p.data.date)} · {readingMinutes(p.body)} min read{p.data.draft && ' · DRAFT'}</small>
+        <h2>{p.data.title}</h2>
+        <p>{p.data.summary}</p>
+        <span class="more">Read →</span>
+      </a>
+    ))}
+  </div>
+</Page>

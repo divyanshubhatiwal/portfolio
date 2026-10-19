@@ -1,0 +1,48 @@
+---
+import { PROJECTS } from '@/data/site';
+
+const cats = ['All', ...new Set(PROJECTS.map((p) => p.cat))];
+const count = (c: string) => (c === 'All' ? PROJECTS.length : PROJECTS.filter((p) => p.cat === c).length);
+const VISIBLE_TAGS = 3;
+---
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="eyebrow reveal">04 / Work</div>
+    <h2 class="sec-title reveal">Featured Projects</h2>
+    <p class="sec-sub reveal">Systems built to be measured, not just demoed.</p>
+    <div class="filters reveal" id="filters" role="group" aria-label="Filter projects by category">
+      {cats.map((c) => (
+        <button class:list={['filter', { active: c === 'All' }]} data-f={c} aria-pressed={c === 'All' ? 'true' : 'false'} data-hover>
+          {c}<sup>{count(c)}</sup>
+        </button>
+      ))}
+    </div>
+    <div class="projects" id="project-grid">
+      {PROJECTS.map((p, i) => (
+        <article class:list={['project', 'spot', 'reveal', { featured: p.featured }]} data-cat={p.cat} data-name={p.name}>
+          {p.img && (
+            <div class="shot">
+              <img src={p.img} alt={`Screenshot of ${p.name}`} loading="lazy" decoding="async" width="900" height="562"
+                style={`object-position:${p.imgPos ?? 'center top'}`} />
+            </div>
+          )}
+          <div class="top"><span class="cat">{p.cat}</span><span class="num">/{String(i + 1).padStart(2, '0')}</span></div>
+          <h3>{p.name}</h3>
+          <p>{p.desc}</p>
+          <div class:list={['tags', { collapsed: p.tags.length > VISIBLE_TAGS }]}>
+            {p.tags.map((t, j) => <span class:list={{ extra: j >= VISIBLE_TAGS }}>{t}</span>)}
+            {p.tags.length > VISIBLE_TAGS && (
+              <button type="button" class="more" data-more={`+${p.tags.length - VISIBLE_TAGS}`} aria-expanded="false">+{p.tags.length - VISIBLE_TAGS}</button>
+            )}
+          </div>
+          <div class="links">
+            {p.slug && <a href={`/case/${p.slug}`} data-hover>Case study</a>}
+            {p.demo && <a href={p.demo} data-hover>Try it here</a>}
+            {p.code && <a href={p.code} target="_blank" rel="noopener noreferrer" data-hover>Source</a>}
+            {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" data-hover>Live Demo ↗</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

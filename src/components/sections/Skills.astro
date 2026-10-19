@@ -1,0 +1,23 @@
+---
+import { SKILLS } from '@/data/site';
+---
+<section class="block" id="skills">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 / Toolbox</div>
+    <h2 class="sec-title reveal">Skills &amp; Technologies</h2>
+    <p class="sec-sub reveal">The stack I reach for when an idea needs to become a working system.</p>
+    <div class="skills-grid">
+      {Object.entries(SKILLS).map(([cat, list], i) => (
+        <div class="skill-cat spot reveal" style={`--d:${(i * 0.08).toFixed(2)}s`}>
+          <h3><span class="n">0{i + 1}</span>{cat}</h3>
+          {list.map(([name, level]) => (
+            <div class="skill">
+              <div class="row"><span>{name}</span><span>{level}%</span></div>
+              <div class="meter" role="meter" aria-label={name} aria-valuemin="0" aria-valuemax="100" aria-valuenow={level}><i data-w={level}></i></div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

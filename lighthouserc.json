@@ -1,0 +1,25 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "url": [
+        "http://localhost/index.html",
+        "http://localhost/case/index.html",
+        "http://localhost/case/venture-dao/index.html",
+        "http://localhost/blog/index.html",
+        "http://localhost/demo/t20/index.html"
+      ],
+      "numberOfRuns": 1,
+      "settings": { "chromeFlags": "--no-sandbox" }
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["warn", { "minScore": 0.9 }],
+        "categories:performance": ["warn", { "minScore": 0.8 }]
+      }
+    },
+    "upload": { "target": "filesystem", "outputDir": "./.lighthouseci" }
+  }
+}

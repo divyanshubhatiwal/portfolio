@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Page from '@/layouts/Page.astro';
+import { getCases, type Case } from '@/lib/content';
+import { PROFILE } from '@/data/site';
+
+export const getStaticPaths = (async () => {
+  const cases = await getCases();
+  return cases.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: cases[i - 1], next: cases[i + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props { entry: Case; prev?: Case; next?: Case }
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Page title={`${d.title} case study | ${PROFILE.name}`} description={d.lede} image={`/og/case/${entry.id}.png`} type="article">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/case">Case studies</a> / {d.title}</div>
+    <h1>{d.title}</h1>
+    <p class="lede">{d.lede}</p>
+    <div class="meta">{d.tags.map((t) => <span>{t}</span>)}</div>
+    <div class="btns">
+      {d.links.map((l) => <a class="btn ghost" href={l.href} target="_blank" rel="noopener noreferrer">{l.label} ↗</a>)}
+      <a class="btn solid" href="/#contact">Talk to me about it</a>
+    </div>
+  </header>
+  {d.img && <div class="shot fade"><img src={d.img} alt={`Screenshot of ${d.title}`} width="900" height="562" /></div>}
+  <article class="prose fade"><Content /></article>
+  <nav class="pager" aria-label="More case studies">
+    {prev && <a href={`/case/${prev.id}`}><small>← Previous</small><b>{prev.data.title}</b></a>}
+    {next
+      ? <a class="next" href={`/case/${next.id}`}><small>Next →</small><b>{next.data.title}</b></a>
+      : <a class="next" href="/case"><small>All</small><b>Case studies</b></a>}
+  </nav>
+</Page>

@@ -1,0 +1,104 @@
+{
+  "about": "Linear Regression from github.com/divyanshubhatiwal/t20-score-predictor, retrained with the repo's own generate_data.py (seed 42, 600 simulated matches) and model.py settings. The data is synthetic.",
+  "features": [
+    "batting_team",
+    "bowling_team",
+    "venue",
+    "over",
+    "current_score",
+    "wickets",
+    "current_run_rate",
+    "last_5_overs_runs"
+  ],
+  "encoders": {
+    "batting_team": [
+      "Chennai Super Kings",
+      "Delhi Capitals",
+      "Gujarat Titans",
+      "Kolkata Knight Riders",
+      "Lucknow Super Giants",
+      "Mumbai Indians",
+      "Punjab Kings",
+      "Rajasthan Royals",
+      "Royal Challengers Bangalore",
+      "Sunrisers Hyderabad"
+    ],
+    "bowling_team": [
+      "Chennai Super Kings",
+      "Delhi Capitals",
+      "Gujarat Titans",
+      "Kolkata Knight Riders",
+      "Lucknow Super Giants",
+      "Mumbai Indians",
+      "Punjab Kings",
+      "Rajasthan Royals",
+      "Royal Challengers Bangalore",
+      "Sunrisers Hyderabad"
+    ],
+    "venue": [
+      "Arun Jaitley Stadium",
+      "BRSABV Ekana Stadium",
+      "Eden Gardens",
+      "M. Chinnaswamy Stadium",
+      "MA Chidambaram Stadium",
+      "Narendra Modi Stadium",
+      "PCA Stadium",
+      "Rajiv Gandhi Stadium",
+      "Sawai Mansingh Stadium",
+      "Wankhede Stadium"
+    ]
+  },
+  "coef": [
+    -0.012787156330921512,
+    -0.001302274437680051,
+    0.02570348517078186,
+    0.13167332826331105,
+    -0.021009399373634663,
+    0.004102417899412384,
+    20.27512148791031,
+    0.003081481000527908
+  ],
+  "intercept": -2.2710898512149527,
+  "rows": 11369,
+  "test_rows": 2274,
+  "metrics": {
+    "lr": {
+      "mae": 5.79,
+      "r2": 0.9284
+    },
+    "rf": {
+      "mae": 6.09,
+      "r2": 0.917
+    },
+    "naive_run_rate": {
+      "mae": 5.79,
+      "r2": 0.9282
+    }
+  },
+  "ranges": {
+    "over": [
+      1.0,
+      20.0
+    ],
+    "current_score": [
+      0.0,
+      201.0
+    ],
+    "wickets": [
+      0.0,
+      10.0
+    ],
+    "current_run_rate": [
+      0.0,
+      15.0
+    ],
+    "last_5_overs_runs": [
+      0.0,
+      67.0
+    ]
+  },
+  "versions": {
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1"
+  }
+}

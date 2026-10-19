@@ -1,0 +1,24 @@
+---
+import Page from '@/layouts/Page.astro';
+import { getCases } from '@/lib/content';
+import { PROFILE } from '@/data/site';
+
+const cases = await getCases();
+---
+<Page title={`Case Studies | ${PROFILE.name}`} description="In-depth case studies: the problem, how each project is built, the hard parts and the measured results.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / Case studies</div>
+    <h1>How I build, <span class="g">in depth</span></h1>
+    <p class="lede">The problem, the design decisions, the hard parts and the measured results, including the numbers that didn't go my way.</p>
+  </header>
+  <div class="cards">
+    {cases.map((c, i) => (
+      <a class="card fade" style={`animation-delay:${i * 0.06}s`} href={`/case/${c.id}`}>
+        <small>{c.data.cat}</small>
+        <h2>{c.data.title}</h2>
+        <p>{c.data.lede}</p>
+        <span class="more">Read case study →</span>
+      </a>
+    ))}
+  </div>
+</Page>

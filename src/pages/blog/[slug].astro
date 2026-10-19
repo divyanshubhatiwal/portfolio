@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Page from '@/layouts/Page.astro';
+import { formatDate, getPosts, readingMinutes, type Post } from '@/lib/content';
+import { PROFILE } from '@/data/site';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts(); // newest first
+  return posts.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props { entry: Post; newer?: Post; older?: Post }
+const { entry, newer, older } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Page title={`${d.title} | ${PROFILE.name}`} description={d.summary} image={`/og/blog/${entry.id}.png`} type="article">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/blog">Blog</a></div>
+    <h1>{d.title}</h1>
+    <p class="lede">{d.summary}</p>
+    <div class="meta">
+      <span>{d.tag}</span>
+      <span><time datetime={d.date.toISOString()}>{formatDate(d.date)}</time></span>
+      <span>{readingMinutes(entry.body)} min read</span>
+    </div>
+  </header>
+  <article class="prose fade"><Content /></article>
+  <nav class="pager" aria-label="More posts">
+    {older && <a href={`/blog/${older.id}`}><small>← Older</small><b>{older.data.title}</b></a>}
+    {newer
+      ? <a class="next" href={`/blog/${newer.id}`}><small>Newer →</small><b>{newer.data.title}</b></a>
+      : <a class="next" href="/blog"><small>All</small><b>Posts</b></a>}
+  </nav>
+</Page>

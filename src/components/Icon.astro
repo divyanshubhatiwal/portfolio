@@ -1,0 +1,11 @@
+---
+import type { IconId } from '@/data/site';
+
+interface Props {
+  id: IconId;
+  class?: string;
+  size?: number;
+}
+const { id, class: cls, size } = Astro.props;
+---
+<svg class={cls} width={size} height={size} aria-hidden="true"><use href={`#${id}`} /></svg>

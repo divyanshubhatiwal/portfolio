@@ -1,0 +1,33 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE, PROJECTS } from '@/data/site';
+
+// project name -> where its evidence lives, for linking result chips
+const projectLinks = Object.fromEntries(PROJECTS.map((p) => [p.name, p.slug ? `/case/${p.slug}` : '/#projects']));
+---
+<Page title={`Match me to your role | ${PROFILE.name}`} description="Paste a job description and see which of my projects and skills match it, with evidence, and where the gaps are.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / Job matcher</div>
+    <h1>Match me to <span class="g">your role</span></h1>
+    <p class="lede">Paste a job description. You'll get an honest fit score, the requirements my work actually demonstrates (with evidence), and the gaps.</p>
+  </header>
+
+  <form class="match-form fade" id="match-form" novalidate>
+    <label for="jd">Job description</label>
+    <textarea id="jd" name="jd" rows="12" minlength="80" maxlength="8000" required
+      placeholder="Paste the role's responsibilities and requirements here..."></textarea>
+    <div class="match-row">
+      <span class="match-count" id="jd-count" aria-live="polite">0 / 8000</span>
+      <button type="button" class="btn ghost" id="jd-sample">Try a sample</button>
+      <button type="submit" class="btn solid" id="jd-go">Analyse fit</button>
+    </div>
+    <p class="match-note">The text you paste is sent to Anthropic's Claude API to produce the analysis. This site doesn't store it.</p>
+  </form>
+
+  <section class="match-out" id="match-out" aria-live="polite" hidden></section>
+
+  <script is:inline type="application/json" id="project-links" set:html={JSON.stringify(projectLinks)}></script>
+  <script>
+    import '@/scripts/match';
+  </script>
+</Page>

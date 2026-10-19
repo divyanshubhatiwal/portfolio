@@ -1,0 +1,89 @@
+---
+import Icon from './Icon.astro';
+import { PROFILE } from '@/data/site';
+
+// `home` = the full intro experience (loader, progress bar) only plays on the home page.
+interface Props { home?: boolean }
+const { home = true } = Astro.props;
+---
+{home && (
+  <div id="loader" aria-hidden="true">
+    <div class="msg" id="loader-msg">Initializing Systems...</div>
+    <div class="bar"><i id="loader-bar"></i></div>
+  </div>
+)}
+<div id="progress" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div><div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<button id="chat-btn" aria-label="Ask my portfolio a question" aria-expanded="false" aria-controls="chat">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<section id="chat" role="dialog" aria-label="Ask my portfolio">
+  <div class="chat-head">
+    <div class="av"><img src="/profile.jpg" alt="" width="38" height="38" loading="lazy" /></div>
+    <div><b>Ask my portfolio</b><small id="chat-mode">AI answers from this site</small></div>
+    <button class="icon-btn" id="chat-close" aria-label="Close chat"><Icon id="i-x" /></button>
+  </div>
+  <div class="chat-log" id="chat-log" aria-live="polite" data-lenis-prevent></div>
+  <div class="chips" id="chat-chips"></div>
+  <form class="chat-form" id="chat-form">
+    <input id="chat-input" placeholder="e.g. What have you built with FastAPI?" autocomplete="off" aria-label="Your question" maxlength="500" />
+    <button aria-label="Send"><Icon id="i-send" /></button>
+  </form>
+  <div class="chat-foot">Answers come only from this portfolio's content.</div>
+</section>
+
+<div id="term" role="dialog" aria-modal="true" aria-label="Terminal">
+  <div class="term-win">
+    <div class="term-bar"><i id="term-close-dot" title="Close"></i><i></i><i></i><span>visitor@divyanshu: ~</span></div>
+    <div class="term-out" id="term-out" data-lenis-prevent></div>
+    <form class="term-in" id="term-form"><label for="term-input">visitor@divyanshu:~$</label><input id="term-input" autocomplete="off" spellcheck="false" autocapitalize="off" /></form>
+  </div>
+</div>
+
+<div id="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="pal">
+    <div class="pal-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="pal-input" placeholder="Search sections, projects and actions..." autocomplete="off" aria-label="Search commands" aria-controls="pal-list" />
+      <kbd>Esc</kbd>
+    </div>
+    <div class="pal-list" id="pal-list" role="listbox" aria-label="Commands" data-lenis-prevent></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>~</kbd> terminal</span></div>
+  </div>
+</div>
+
+<button id="magic-btn" aria-label="Trigger AI magic" title="Trigger AI Magic"><Icon id="i-sparkles" /></button>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<button id="top-btn" aria-label="Back to top"><Icon id="i-up" /></button>
+
+<div id="connect" role="dialog" aria-modal="true" aria-label="Contact links">
+  <div class="blob1"></div><div class="blob2"></div>
+  <button class="icon-btn close" id="connect-close" aria-label="Close" data-hover><Icon id="i-x" /></button>
+  <div class="connect-inner">
+    <div>
+      <h2>LET'S<br />CONNECT.</h2>
+      <div class="rule"></div>
+      <p>Use the links to reach out. I'm available for freelance work and new opportunities.</p>
+    </div>
+    <div class="connect-links">
+      <a class="connect-link" href={`mailto:${PROFILE.email}`} data-hover>
+        <span class="ci"><Icon id="i-mail" /></span>
+        <span class="txt"><b>Email</b><span>{PROFILE.email}</span></span>
+        <span class="arrow"><Icon id="i-arrow" /></span>
+      </a>
+      <a class="connect-link" href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" data-hover>
+        <span class="ci"><Icon id="i-linkedin" /></span>
+        <span class="txt"><b>LinkedIn</b><span>Let's connect professionally</span></span>
+        <span class="arrow"><Icon id="i-arrow" /></span>
+      </a>
+      <a class="connect-link" href={PROFILE.github} target="_blank" rel="noopener noreferrer" data-hover>
+        <span class="ci"><Icon id="i-github" /></span>
+        <span class="txt"><b>GitHub</b><span>See what I'm building</span></span>
+        <span class="arrow"><Icon id="i-arrow" /></span>
+      </a>
+    </div>
+  </div>
+</div>

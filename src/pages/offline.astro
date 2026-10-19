@@ -1,0 +1,12 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+---
+<Page title={`Offline | ${PROFILE.name}`} description="You're offline. Pages you've already visited still work.">
+  <header class="hero-page fade" style="min-height: 60vh">
+    <div class="crumb">No connection</div>
+    <h1>You're <span class="g">offline</span></h1>
+    <p class="lede">This page isn't saved on your device yet. Pages you've already opened, like the <a href="/">home page</a>, <a href="/case">case studies</a> and <a href="/blog">blog</a>, still work. Live data such as GitHub stats will load once you're back online.</p>
+    <div class="btns"><a class="btn solid" href="/">Go to the home page</a></div>
+  </header>
+</Page>

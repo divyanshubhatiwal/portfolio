@@ -1,0 +1,19 @@
+---
+// Layout for long-form pages (case studies, blog). Same nav, footer, chat, terminal and palette as the home page.
+import '@/styles/prose.css';
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+const { title, description, image, type } = Astro.props;
+---
+<Base title={title} description={description} image={image} type={type}>
+  <div class="page">
+    <div class="aurora-lite" aria-hidden="true"><span class="a1"></span><span class="a2"></span></div>
+    <slot />
+  </div>
+</Base>

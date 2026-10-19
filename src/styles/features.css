@@ -1,0 +1,59 @@
+/* Styles for features added in the Astro version (on top of global.css). */
+
+/* ---------- page transitions (native cross-document View Transitions; no router script) ---------- */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out .22s cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in .38s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+
+/* ---------- nav: current page ---------- */
+.nav-links a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
+
+/* ---------- accessibility ---------- */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.skip-link { position: absolute; left: 12px; top: -48px; z-index: 300; padding: 8px 14px; border-radius: 8px; background: var(--grad); color: var(--on-accent); font-weight: 600; transition: top .2s; }
+.skip-link:focus { top: 12px; }
+.exp-panel[hidden] { display: none; }
+
+/* "+N / Show less" is a real button now, styled like a tag chip */
+.tags button.more {
+  font: 11px var(--mono); padding: 3px 8px; border-radius: 6px; background: var(--muted);
+  border: 1px solid var(--border); color: inherit; cursor: pointer; opacity: .7;
+}
+.tags button.more:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 3D hero canvas ---------- */
+.particles .hero3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.particles { transition: opacity .6s; }
+
+/* ---------- LeetCode card ---------- */
+.lc { padding: 22px 24px; margin-bottom: 20px; }
+.lc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+.lc-head h3 { font: 700 16px var(--head); margin: 0; }
+.lc-head a { font: 12px var(--mono); color: var(--accent-text, var(--accent)); }
+.lc-body { display: grid; grid-template-columns: 132px 1fr 1fr; gap: 24px; align-items: center; }
+.lc-ring { position: relative; width: 120px; height: 120px; }
+.lc-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.lc-ring circle { fill: none; stroke-width: 9; stroke-linecap: round; }
+.lc-ring .track { stroke: var(--muted); }
+.lc-ring .e { stroke: #22c55e; } .lc-ring .m { stroke: #f59e0b; } .lc-ring .h { stroke: #ef4444; }
+.lc-ring circle:not(.track) { stroke-dasharray: 0 999; transition: stroke-dasharray 1.4s var(--ease-out), stroke-dashoffset 1.4s var(--ease-out); }
+.lc-total { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.lc-total b { font: 700 28px/1 var(--head); }
+.lc-total span { font-size: 12px; color: var(--muted-fg); }
+.lc-split, .lc-meta { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.lc-split li, .lc-meta li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; padding: 8px 12px; border-radius: 8px; background: var(--muted); }
+.lc-split li span, .lc-meta li span { color: var(--muted-fg); }
+.lc-split li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; align-self: center; margin-right: auto; display: none; }
+.lc-split .e b { color: #16a34a; } .lc-split .m b { color: #d97706; } .lc-split .h b { color: #dc2626; }
+:root[data-theme="dark"] .lc-split .e b { color: #4ade80; }
+:root[data-theme="dark"] .lc-split .m b { color: #fbbf24; }
+:root[data-theme="dark"] .lc-split .h b { color: #f87171; }
+@media (max-width: 760px) {
+  .lc-body { grid-template-columns: 1fr; justify-items: center; }
+  .lc-split, .lc-meta { width: 100%; }
+}

@@ -1,0 +1,13 @@
+---
+import { PROFILE } from '@/data/site';
+
+const year = new Date().getFullYear();
+// build date = when the site was last deployed
+const updated = new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+---
+<footer>
+  <div class="wrap">
+    <div>© {year} {PROFILE.name} · <a href="/rss.xml">RSS</a> · Built with Astro</div>
+    <span class="pill">Last updated: {updated}</span>
+  </div>
+</footer>
