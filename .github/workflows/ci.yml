@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -33,12 +33,13 @@ jobs:
 
       # Lighthouse CI is fetched here instead of being a project dependency: its own dependency tree
       # has known-vulnerable packages, so it only ever exists on this throwaway CI machine.
+      # the Vercel adapter writes the deployable static site to .vercel/output/static (see lighthouserc.json)
       - name: Lighthouse
         run: npx --yes @lhci/cli@0.15.1 autorun
 
       - name: Keep reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports
           path: |
