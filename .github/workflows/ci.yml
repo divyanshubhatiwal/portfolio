@@ -28,8 +28,9 @@ jobs:
       - name: Install Playwright's Chromium
         run: npx playwright install --with-deps chromium
 
+      # visual regression has its own workflow (visual.yml), with its own baselines
       - name: End-to-end tests
-        run: npx playwright test
+        run: npx playwright test --project=desktop --project=mobile
 
       # Lighthouse CI is fetched here instead of being a project dependency: its own dependency tree
       # has known-vulnerable packages, so it only ever exists on this throwaway CI machine.

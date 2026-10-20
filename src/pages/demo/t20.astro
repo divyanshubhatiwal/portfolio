@@ -19,7 +19,7 @@ const maxAbs = Math.max(...model.coef.map((c) => Math.abs(c)));
     <p class="t20-note"><b>Trained on simulated data.</b> The 600 IPL-style matches come from the project's own data generator, so treat predictions as a demo of the pipeline, not real forecasts.</p>
   </header>
 
-  <form class="t20 fade" id="t20-form" onsubmit="return false">
+  <form class="t20 fade" id="t20-form">
     <div class="t20-grid">
       <label>Batting team<select id="t20-bat">{model.encoders.batting_team.map((t, i) => <option value={i} selected={t === 'Mumbai Indians'}>{t}</option>)}</select></label>
       <label>Bowling team<select id="t20-bowl">{model.encoders.bowling_team.map((t, i) => <option value={i} selected={t === 'Chennai Super Kings'}>{t}</option>)}</select></label>

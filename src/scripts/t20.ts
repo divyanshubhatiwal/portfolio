@@ -38,5 +38,7 @@ function update(): void {
   if (bowl.value === bat.value) bowl.value = String((Number(bat.value) + 1) % bowl.options.length);
 }
 
+// the form only recalculates; pressing Enter must not reload the page (no inline handler: the CSP blocks those)
+$('#t20-form')?.addEventListener('submit', (e) => e.preventDefault());
 for (const el of [bat, bowl, venue, over, wk, score, last5]) el?.addEventListener('input', update);
 update();

@@ -24,6 +24,12 @@ const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) =
 const pages = walk(path.join(out, 'static'));
 for (const file of pages) {
   const html = fs.readFileSync(file, 'utf8');
+  // inline handlers (onclick="…") can't be allowed by hash, so the CSP would silently block them
+  const handler = /<[a-z][^>]*\son[a-z]+\s*=/i.exec(html);
+  if (handler) {
+    console.error(`security-headers: inline event handler in ${path.relative(out, file)}: ${handler[0].slice(0, 120)}\nUse addEventListener in a script instead.`);
+    process.exit(1);
+  }
   for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
     const [, attrs, body] = m;
     if (/\bsrc\s*=/i.test(attrs) || !body.trim()) continue;
