@@ -1,15 +1,20 @@
 ---
 import { SKILLS } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).skills;
+const { skillGroup } = content(lang);
 ---
 <section class="block" id="skills">
   <div class="wrap">
-    <div class="eyebrow reveal">02 / Toolbox</div>
-    <h2 class="sec-title reveal">Skills &amp; Technologies</h2>
-    <p class="sec-sub reveal">The stack I reach for when an idea needs to become a working system.</p>
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
     <div class="skills-grid">
       {Object.entries(SKILLS).map(([cat, list], i) => (
-        <div class="skill-cat spot reveal" style={`--d:${(i * 0.08).toFixed(2)}s`}>
-          <h3><span class="n">0{i + 1}</span>{cat}</h3>
+        <div class="skill-cat spot reveal" data-group={cat} style={`--d:${(i * 0.08).toFixed(2)}s`}>
+          <h3><span class="n">0{i + 1}</span>{skillGroup(cat)}</h3>
           {list.map(([name, level]) => (
             <div class="skill">
               <div class="row"><span>{name}</span><span>{level}%</span></div>

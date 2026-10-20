@@ -9,7 +9,12 @@ const CHIPS = ['What do you build?', 'Projects with FastAPI', 'Tell me about Ven
 /** Produces the reply HTML for a question. Replaced in initChat by the AI-backed version when available. */
 export type Answerer = (question: string) => Promise<string>;
 
-export function initChat(answer: Answerer = async (q) => localAnswer(q)): ChatApi | null {
+export interface ChatOptions {
+  /** called with each bot reply's HTML once it is shown (used by voice mode to read answers aloud) */
+  onReply?: (html: string) => void;
+}
+
+export function initChat(answer: Answerer = async (q) => localAnswer(q), opts: ChatOptions = {}): ChatApi | null {
   const chat = $('#chat'), log = $('#chat-log'), input = $<HTMLInputElement>('#chat-input'), btn = $('#chat-btn');
   if (!chat || !log || !input || !btn) return null;
 
@@ -34,7 +39,7 @@ export function initChat(answer: Answerer = async (q) => localAnswer(q)): ChatAp
     try { reply = await answer(text); } catch { reply = localAnswer(text); }
     // keep the typing dots up briefly so instant local answers don't feel jarring
     const wait = Math.max(0, Math.min(400 + reply.length * 2, 1100) - (performance.now() - started));
-    setTimeout(() => { t.innerHTML = reply; log.scrollTop = log.scrollHeight; busy = false; }, wait);
+    setTimeout(() => { t.innerHTML = reply; log.scrollTop = log.scrollHeight; busy = false; opts.onReply?.(reply); }, wait);
   };
 
   const chips = $('#chat-chips');

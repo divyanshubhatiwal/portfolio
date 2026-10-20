@@ -1,6 +1,10 @@
 ---
 import Icon from '../Icon.astro';
 import { PROFILE } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).hero;
 ---
 <section class="hero" id="home">
   <div class="grid-bg" data-parallax="0.25"></div>
@@ -8,14 +12,14 @@ import { PROFILE } from '@/data/site';
   <!-- the 3D hero (src/scripts/hero3d.ts) renders here; the 2D particle canvas is the fallback -->
   <div class="particles" id="particles" aria-hidden="true"><canvas id="net"></canvas></div>
   <div class="wrap">
-    <div class="status hero-in">Available for opportunities</div>
+    <div class="status hero-in">{T.status}</div>
     <h1 class="hero-in" style="--d:.1s">Divyanshu <span class="grad-text">Bhatiwal</span></h1>
-    <h2 class="hero-in" style="--d:.25s"><span class="typed" id="typed"></span></h2>
+    <h2 class="hero-in" style="--d:.25s"><span class="typed" id="typed" data-roles={JSON.stringify(content(lang).roles)}></span></h2>
     <div class="divider hero-bar"></div>
-    <p class="lede hero-in" style="--d:.5s">I build software that shows its work: AI agents that learn from their own failed experiments, forensic pipelines that cite every claim, and apps people actually use.</p>
+    <p class="lede hero-in" style="--d:.5s">{T.lede}</p>
     <div class="ctas hero-in" style="--d:.6s">
-      <a class="btn solid" href="#projects" data-hover>View My Work</a>
-      <button class="btn ghost" data-connect data-hover>Get in Touch</button>
+      <a class="btn solid" href="#projects" data-hover>{T.viewWork}</a>
+      <button class="btn ghost" data-connect data-hover>{T.getInTouch}</button>
     </div>
     <div class="socials hero-in" style="--d:.7s">
       <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-hover><Icon id="i-github" /></a>
@@ -23,6 +27,6 @@ import { PROFILE } from '@/data/site';
       <a href={`mailto:${PROFILE.email}`} aria-label="Email" data-hover><Icon id="i-mail" /></a>
     </div>
   </div>
-  <blockquote class="quote hero-in side" style="--d:1.2s">"A tool that only shows its good runs is a sales pitch, not a tool."</blockquote>
-  <a class="scroll-hint" href="#about">Scroll<Icon id="i-down" size={20} /></a>
+  <blockquote class="quote hero-in side" style="--d:1.2s">{T.quote}</blockquote>
+  <a class="scroll-hint" href="#about">{T.scroll}<Icon id="i-down" size={20} /></a>
 </section>

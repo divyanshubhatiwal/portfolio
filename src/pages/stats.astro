@@ -1,0 +1,61 @@
+---
+import fs from 'node:fs';
+import Page from '@/layouts/Page.astro';
+import { getCases, getPosts } from '@/lib/content';
+import { getSources } from '@/lib/ai';
+import { PROFILE, PROJECTS } from '@/data/site';
+import lhci from '../../lighthouserc.json';
+import questions from '../../tests/ai-eval/questions.json';
+import pkg from '../../package.json';
+
+const [cases, posts, sources] = await Promise.all([getCases(), getPosts(), getSources()]);
+const demos = PROJECTS.filter((p) => p.demo).length;
+const tests = (fs.readFileSync('tests/site.spec.ts', 'utf8').match(/^\s*test\(/gm) ?? []).length;
+const budgets = Object.entries(lhci.ci.assert.assertions as unknown as Record<string, [string, { minScore: number }]>).map(([k, [level, { minScore }]]) => ({
+  name: k === 'categories:seo' ? 'SEO' : k.replace('categories:', '').replace('-', ' '), min: Math.round(minScore * 100), blocking: level === 'error',
+}));
+const ver = (v: string) => v.replace(/^[\^~]/, '');
+---
+<Page title={`Site stats | ${PROFILE.name}`} description="How this portfolio is built and checked: content, tests, Lighthouse budgets and live numbers.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / Stats</div>
+    <h1>This site, <span class="g">by the numbers</span></h1>
+    <p class="lede">Counted from the source when the site is built, plus a few live numbers. Nothing here is typed in by hand.</p>
+  </header>
+
+  <article class="prose fade">
+    <h2>Live</h2>
+    <div class="metrics" id="stats-live" aria-live="polite">
+      <div class="metric"><b id="st-visits">—</b><span id="st-visits-l">Visits</span></div>
+      <div class="metric"><b id="st-repos">—</b><span>Public GitHub repos</span></div>
+      <div class="metric"><b id="st-lc">—</b><span>LeetCode problems solved</span></div>
+    </div>
+
+    <h2>Content</h2>
+    <div class="metrics">
+      <div class="metric"><b>{PROJECTS.length}</b><span>Projects</span></div>
+      <div class="metric"><b>{cases.length}</b><span>Case studies</span></div>
+      <div class="metric"><b>{demos}</b><span>Interactive demos</span></div>
+      <div class="metric"><b>{posts.length}</b><span>Blog posts</span></div>
+      <div class="metric"><b>{sources.length}</b><span>Sections the AI chat can cite</span></div>
+    </div>
+
+    <h2>Quality gates</h2>
+    <div class="metrics">
+      <div class="metric"><b>{tests}</b><span>Playwright end-to-end tests, each run on desktop and mobile on every push</span></div>
+      <div class="metric"><b>{questions.length}</b><span>AI eval questions, including prompt-injection attempts</span></div>
+    </div>
+    <p>Lighthouse runs in CI on every push against the built site. These are the minimum scores it enforces:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Category</th><th>Minimum score</th><th>If it drops below</th></tr></thead>
+      <tbody>{budgets.map((b) => <tr><td style="text-transform:capitalize">{b.name}</td><td>{b.min}</td><td>{b.blocking ? 'the build fails' : 'a warning'}</td></tr>)}</tbody>
+    </table></div>
+
+    <h2>Stack</h2>
+    <p>Astro {ver(pkg.dependencies.astro)} with TypeScript, deployed on Vercel. Three.js {ver(pkg.dependencies.three)} for the 3D hero, loaded only on capable devices. The AI chat runs on Claude through the Anthropic SDK and falls back to built-in answers when it's unavailable. Source on <a href={`${PROFILE.github}/portfolio`} target="_blank" rel="noopener noreferrer">GitHub ↗</a>.</p>
+  </article>
+
+  <script>
+    import '@/scripts/stats';
+  </script>
+</Page>

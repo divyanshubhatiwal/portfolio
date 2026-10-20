@@ -25,6 +25,7 @@ const d = entry.data;
     <p class="lede">{d.lede}</p>
     <div class="meta">{d.tags.map((t) => <span>{t}</span>)}</div>
     <div class="btns">
+      {d.demo && <a class="btn solid" href={d.demo.href}>{d.demo.label} →</a>}
       {d.links.map((l) => <a class="btn ghost" href={l.href} target="_blank" rel="noopener noreferrer">{l.label} ↗</a>)}
       <a class="btn solid" href="/#contact">Talk to me about it</a>
     </div>

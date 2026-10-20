@@ -27,6 +27,8 @@ const cases = defineCollection({
     /** display order on /case */
     order: z.number(),
     links: z.array(z.object({ href: z.url(), label: z.string() })).default([]),
+    // an interactive demo on this site, linked from the case study header
+    demo: z.object({ href: z.string().startsWith('/'), label: z.string() }).optional(),
     /** screenshot path under /public */
     img: z.string().optional(),
   }),

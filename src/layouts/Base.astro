@@ -6,6 +6,7 @@ import Nav from '@/components/Nav.astro';
 import Footer from '@/components/Footer.astro';
 import Overlays from '@/components/Overlays.astro';
 import { PROFILE } from '@/data/site';
+import { getLang, ui } from '@/i18n';
 
 interface Props {
   title?: string;
@@ -17,9 +18,11 @@ interface Props {
   type?: 'website' | 'article';
 }
 
+const lang = getLang(Astro.url);
+const T = ui(lang);
 const {
   title = `${PROFILE.name} | ${PROFILE.title}`,
-  description = 'B.Tech CSE (AI & ML) student and engineer building LLM agents, backend services, full-stack products and mobile apps.',
+  description = T.meta.description,
   image = '/og.png',
   home = false,
   type = 'website',
@@ -42,7 +45,7 @@ const person = {
 };
 ---
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang={lang} data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,8 +53,8 @@ const person = {
   <meta name="description" content={description} />
   <meta name="author" content={PROFILE.name} />
   <link rel="canonical" href={canonical} />
-  <meta name="theme-color" content="#07070d" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#f7f7fc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
@@ -70,11 +73,14 @@ const person = {
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
+  {home && <link rel="alternate" hreflang="en" href={new URL('/', site).href} />}
+  {home && <link rel="alternate" hreflang="hi" href={new URL('/hi/', site).href} />}
+  {home && <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />}
   {home && <script type="application/ld+json" set:html={JSON.stringify(person)} />}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href={`https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700${lang === 'hi' ? '&family=Noto+Sans+Devanagari:wght@400;500;600;700' : ''}&display=swap`} rel="stylesheet" />
 
   <!-- runs before first paint so the saved theme never flashes the wrong colours -->
   <script is:inline>
@@ -83,7 +89,7 @@ const person = {
   <slot name="head" />
 </head>
 <body class:list={{ 'is-home': home, loaded: !home }}>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">{T.meta.skip}</a>
   <IconSprite />
   <Nav home={home} />
   <main id="main">

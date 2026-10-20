@@ -1,0 +1,57 @@
+name: AI eval
+
+# Calls the paid Claude API (~30 requests per run), so it never runs on ordinary pushes:
+# only when you start it by hand, or when a pull request changes the AI code or the questions.
+# Needs the repository secret ANTHROPIC_API_KEY; without it the job is skipped.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'src/lib/ai.ts'
+      - 'src/pages/api/chat.ts'
+      - 'tests/ai-eval/**'
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+    steps:
+      - name: Skip without an API key
+        if: env.HAS_KEY != 'true'
+        run: echo "::notice::ANTHROPIC_API_KEY secret not set; skipping the AI eval."
+
+      - uses: actions/checkout@v7
+        if: env.HAS_KEY == 'true'
+
+      - uses: actions/setup-node@v7
+        if: env.HAS_KEY == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - if: env.HAS_KEY == 'true'
+        run: npm ci
+
+      - name: Start the site and run the eval
+        if: env.HAS_KEY == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+        run: |
+          export AI_EVAL_TOKEN="$(openssl rand -hex 16)"
+          npx astro dev --port 4322 > dev.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://localhost:4322/ > /dev/null && break; sleep 2; done
+          EVAL_BASE_URL=http://localhost:4322 node scripts/eval-chat.mjs
+
+      - name: Keep the eval report
+        if: always() && env.HAS_KEY == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: ai-eval
+          path: test-results/ai-eval.json
+          retention-days: 30

@@ -1,38 +1,41 @@
 ---
 import Icon from '../Icon.astro';
 import { PROFILE } from '@/data/site';
+import { getLang, ui } from '@/i18n';
+
+const T = ui(getLang(Astro.url)).contact;
+// the form sends the English subject, so the inbox stays consistent whichever page it came from
+const SUBJECTS = ['Project Inquiry', 'Job Opportunity', 'General Question'];
 ---
 <section class="block" id="contact">
   <div class="wrap">
-    <div class="eyebrow reveal">08 / Contact</div>
-    <h2 class="sec-title reveal">Let's work together.</h2>
-    <p class="sec-sub reveal">Open to internships, full-time roles and interesting freelance builds.</p>
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
     <div class="contact-grid">
       <div class="info reveal left">
-        <a href={`mailto:${PROFILE.email}`} data-hover><Icon id="i-mail" /><div><b>Email</b><span>{PROFILE.email}</span></div></a>
+        <a href={`mailto:${PROFILE.email}`} data-hover><Icon id="i-mail" /><div><b>{T.email}</b><span>{PROFILE.email}</span></div></a>
         <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" data-hover><Icon id="i-linkedin" /><div><b>LinkedIn</b><span>in/divyanshu-bhatiwal</span></div></a>
         <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" data-hover><Icon id="i-github" /><div><b>GitHub</b><span>github.com/{PROFILE.githubUser}</span></div></a>
-        <div class="item"><Icon id="i-pin" /><div><b>Location</b><span>{PROFILE.location}</span></div></div>
-        <button class="btn solid big-connect" data-connect data-hover>Open quick connect<Icon id="i-arrow" /></button>
+        <div class="item"><Icon id="i-pin" /><div><b>{T.location}</b><span>{PROFILE.location}</span></div></div>
+        <button class="btn solid big-connect" data-connect data-hover>{T.quick}<Icon id="i-arrow" /></button>
       </div>
       <form class="spot reveal right d1" id="contact-form" novalidate>
-        <h3>Send a Message</h3>
-        <p>Fill out the form and it'll land in my inbox.</p>
+        <h3>{T.formTitle}</h3>
+        <p>{T.formSub}</p>
         <div class="field-row">
-          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" required autocomplete="name" placeholder="Your name" /></div>
-          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" /></div>
+          <div class="field"><label for="f-name">{T.name}</label><input id="f-name" name="name" required autocomplete="name" placeholder={T.namePh} /></div>
+          <div class="field"><label for="f-email">{T.email}</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" /></div>
         </div>
         <div class="field">
-          <label for="f-subject">Subject</label>
+          <label for="f-subject">{T.subject}</label>
           <select id="f-subject" name="subject" required>
-            <option value="">Select a subject</option>
-            <option>Project Inquiry</option>
-            <option>Job Opportunity</option>
-            <option>General Question</option>
+            <option value="">{T.pick}</option>
+            {SUBJECTS.map((s, i) => <option value={s}>{T.subjects[i]}</option>)}
           </select>
         </div>
-        <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required placeholder="Tell me about it..."></textarea></div>
-        <button class="btn solid" type="submit" data-hover><Icon id="i-send" />Send Message</button>
+        <div class="field"><label for="f-msg">{T.message}</label><textarea id="f-msg" name="message" required placeholder={T.messagePh}></textarea></div>
+        <button class="btn solid" type="submit" data-hover><Icon id="i-send" />{T.send}</button>
         <input type="checkbox" name="botcheck" id="f-bot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px" />
         <div class="form-note" id="form-note" role="status" aria-live="polite"></div>
       </form>

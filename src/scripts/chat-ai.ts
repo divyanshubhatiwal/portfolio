@@ -5,6 +5,22 @@ import { localAnswer } from './chat-local';
 import type { Answerer } from './chat';
 
 interface Turn { role: 'user' | 'assistant'; content: string }
+interface Cited { n: number; title: string; url: string }
+
+/** Only same-site paths are allowed as citation links (they come from the server's source list). */
+const safePath = (u: string) => (/^\/[^\s"'<>]*$/.test(u) ? u : '/');
+
+/** Turn [n] markers into small links and append a numbered "Sources" list. */
+export function renderCited(answer: string, sources: Cited[]): string {
+  const byN = new Map(sources.map((s) => [s.n, s]));
+  const body = renderReply(answer).replace(/\[(\d+)\]/g, (_m, n: string) => {
+    const s = byN.get(Number(n));
+    return s ? `<a class="cite" href="${safePath(s.url)}" title="${esc(s.title)}">${n}</a>` : '';
+  });
+  if (!sources.length) return body;
+  return `${body}<div class="cites"><span>Sources</span><ol>${sources
+    .map((s) => `<li><a href="${safePath(s.url)}">${esc(s.title)}</a></li>`).join('')}</ol></div>`;
+}
 
 /**
  * Render the model's reply safely: escape everything first, then allow only **bold**, "- " lists
@@ -46,10 +62,11 @@ export function aiAnswerer(): Answerer {
           signal: AbortSignal.timeout(30_000),
         });
         if (r.ok) {
-          const { answer } = (await r.json()) as { answer?: string };
+          const { answer, sources = [] } = (await r.json()) as { answer?: string; sources?: Cited[] };
           if (answer) {
-            history.push({ role: 'user', content: question }, { role: 'assistant', content: answer });
-            reply = renderReply(answer);
+            // history keeps the plain text; citation markers would only confuse the next turn
+            history.push({ role: 'user', content: question }, { role: 'assistant', content: answer.replace(/\[\d+\]/g, '') });
+            reply = renderCited(answer, sources);
           }
         } else if (r.status === 503) {
           aiOff = true;

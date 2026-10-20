@@ -1,0 +1,66 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+import { CASE001 } from '@/data/forensic-case001';
+
+const s = CASE001.summary, inc = CASE001.incident;
+---
+<Page title={`Forensic mini-investigation | ${PROFILE.name}`} description="Investigate a slice of a log timeline yourself, then compare your answers with what my Forensic Agent found and the evidence it cited.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/case/forensic-agent">Forensic Agent</a> / Investigation</div>
+    <h1>Be the <span class="g">investigator</span></h1>
+    <p class="lede">Below is a slice of a merged timeline from five log sources. Answer three questions by clicking events, then see what my Forensic Agent concluded and the evidence it cited.</p>
+    <p class="t20-note"><b>Real output, synthetic case.</b> The events, flags and reasons are copied from the agent's report on <code>CASE_001</code>, a generated case with planted incidents. No real people or systems are involved.</p>
+  </header>
+
+  <section class="sim fade" id="fx" data-questions={JSON.stringify(CASE001.questions)}>
+    <div class="fx-quiz" aria-live="polite">
+      <p class="fx-step" id="fx-step">Question 1 of {CASE001.questions.length}</p>
+      <p class="fx-q" id="fx-q">{CASE001.questions[0]!.q}</p>
+      <p class="fx-feedback" id="fx-feedback"></p>
+      <div class="sim-actions">
+        <button type="button" class="btn ghost" id="fx-reveal">Show the agent's analysis</button>
+      </div>
+    </div>
+    <div class="table-wrap fx-wrap">
+      <table class="fx-table">
+        <thead><tr><th>Time (UTC)</th><th>Event</th><th>User</th><th>Detail</th><th class="fx-a">Agent</th></tr></thead>
+        <tbody>
+          {CASE001.events.map((e) => (
+            <tr data-id={e.id} data-sev={e.sev} data-inc={e.inc ? '1' : undefined} tabindex="0">
+              <td><code>{e.at}</code></td>
+              <td>{e.type}</td>
+              <td>{e.who}</td>
+              <td>{e.detail}</td>
+              <td class="fx-a">
+                <span class={`sev sev-${e.sev || 'none'}`}>{e.sev === 'h' ? 'high' : e.sev === 'm' ? 'medium' : e.sev === 'l' ? 'low' : 'normal'}</span>
+                <span class="stage">{e.stage}</span>
+                <small>{e.id}{e.basis && <>: {e.basis}</>}</small>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <article class="prose fade fx-result" id="fx-result" hidden>
+    <h2>What the agent concluded: {inc.id}</h2>
+    <div class="metrics">
+      <div class="metric"><b>{inc.score}</b><span>Correlation score</span></div>
+      <div class="metric"><b>{inc.confidence}</b><span>Confidence, discounted by timestamp certainty</span></div>
+      <div class="metric"><b>7 min</b><span>{inc.window}</span></div>
+      <div class="metric"><b>6 / 6</b><span>Stages: {inc.stages.join(' → ')}</span></div>
+    </div>
+    <p>Basis for linking the events into one chain, as written in the report:</p>
+    <ul>{inc.basis.map((b) => <li>{b}</li>)}</ul>
+    <p>Every claim in the report cites an event ID, and every link between events is a shared field (user, file, process or address) within 20 minutes, so an examiner can check each one by hand. The report also says what it can't do: it doesn't establish intent or who was at the keyboard.</p>
+    <h2>The whole case</h2>
+    <p>This slice is 26 of the case's {s.events} events. Across all of them the agent identified {s.entities} entities and {s.relations} relations, flagged {s.flagged} events ({s.high} high severity), linked {s.chains} incident chains, and corrected a {s.skew} clock skew in one source using {s.anchors} anchor events.</p>
+    <p>See how it works in the <a href="/case/forensic-agent">Forensic Agent case study</a>, including its weakest number.</p>
+  </article>
+
+  <script>
+    import '@/scripts/forensic';
+  </script>
+</Page>

@@ -1,14 +1,18 @@
 ---
 import Icon from '../Icon.astro';
-import { ACH_STATS, MILESTONES } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).ach;
+const { stats, milestones } = content(lang);
 ---
 <section class="block" id="achievements">
   <div class="wrap">
-    <div class="eyebrow reveal">07 / Milestones</div>
-    <h2 class="sec-title reveal">Achievements</h2>
-    <p class="sec-sub reveal">Numbers I'm proud of, and the milestones behind them.</p>
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
     <div class="ach-stats">
-      {ACH_STATS.map((s, i) => (
+      {stats.map((s, i) => (
         <div class="ach-stat spot reveal" style={`--d:${(i * 0.08).toFixed(2)}s`}>
           <b><span data-count={s.n} data-decimals={s.dec ?? 0} data-suffix={s.suffix ?? ''}>{s.n.toFixed(s.dec ?? 0)}{s.suffix ?? ''}</span>{s.small && <small>{s.small}</small>}</b>
           <span>{s.label}</span>
@@ -16,7 +20,7 @@ import { ACH_STATS, MILESTONES } from '@/data/site';
       ))}
     </div>
     <div class="ach-list">
-      {MILESTONES.map((m, i) => (
+      {milestones.map((m, i) => (
         <div class:list={['ach', 'spot', 'reveal', i % 2 ? 'right' : 'left']}>
           <div class="ico"><Icon id={m.icon} /></div>
           <div><span class="when">{m.when}</span><h3>{m.title}</h3><p>{m.text}</p></div>

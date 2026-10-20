@@ -1,13 +1,16 @@
 ---
 import { PROFILE } from '@/data/site';
+import { getLang, ui } from '@/i18n';
 
+const lang = getLang(Astro.url);
+const T = ui(lang).footer;
 const year = new Date().getFullYear();
 // build date = when the site was last deployed
-const updated = new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+const updated = new Date().toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-GB', { month: 'short', year: 'numeric' });
 ---
 <footer>
   <div class="wrap">
-    <div>© {year} {PROFILE.name} · <a href="/rss.xml">RSS</a> · Built with Astro</div>
-    <span class="pill">Last updated: {updated}</span>
+    <div>© {year} {PROFILE.name} · <a href="/now">Now</a> · <a href="/stats">Stats</a> · <a href="/rss.xml">RSS</a> · {T.built}</div>
+    <span class="pill">{T.updated} {updated}</span>
   </div>
 </footer>

@@ -4,6 +4,7 @@ cat: AI / ML · Research system
 lede: Can an LLM agent improve its experiment strategy by reasoning over its own failures, beyond what black-box hyperparameter search achieves on the same budget?
 tags: [Python, LLM agents, Optuna, scikit-learn, Experiment design]
 order: 1
+demo: { href: /demo/autosci, label: Replay a real study }
 ---
 
 ## The problem

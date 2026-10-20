@@ -1,43 +1,43 @@
 ---
 import Icon from '../Icon.astro';
 import { PROFILE, PROJECTS } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
+import type { IconId } from '@/data/site';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).about;
+const icons: IconId[] = ['i-bot', 'i-layers', 'i-gauge'];
 ---
 <section class="block" id="about">
   <div class="wrap about-grid">
     <div class="about-text">
-      <div class="eyebrow reveal">01 / About me</div>
-      <h2 class="sec-title reveal">Measure first, claim second.</h2>
-      <p class="reveal">I work where <strong>applied AI meets product engineering</strong>. I've built LLM agents that design and run their own experiments, a forensic pipeline that rebuilds incident timelines from raw logs, a quant trading platform, and consumer apps on web and mobile.</p>
-      <p class="reveal">Every project starts the same way: <strong>state the claim, build the baseline, then measure</strong>. If a system can't show where its answer came from, it isn't finished.</p>
-      <div class="focus reveal">&gt; current_focus: LLM agents, evidence-grounded RAG, and shipping production-grade full-stack apps.</div>
+      <div class="eyebrow reveal">{T.eyebrow}</div>
+      <h2 class="sec-title reveal">{T.title}</h2>
+      <p class="reveal" set:html={T.p1} />
+      <p class="reveal" set:html={T.p2} />
+      <div class="focus reveal">{T.focus}</div>
       <div class="stats reveal">
-        <div class="stat"><b data-count={PROJECTS.length}>{PROJECTS.length}</b><span>Projects shipped</span></div>
-        <div class="stat"><b data-count="3">3</b><span>Platforms</span></div>
-        <div class="stat"><b data-count="10" data-suffix="+">10+</b><span>Core technologies</span></div>
+        <div class="stat"><b data-count={PROJECTS.length}>{PROJECTS.length}</b><span>{T.statProjects}</span></div>
+        <div class="stat"><b data-count="3">3</b><span>{T.statPlatforms}</span></div>
+        <div class="stat"><b data-count="10" data-suffix="+">10+</b><span>{T.statTech}</span></div>
       </div>
     </div>
     <div class="highlights">
       <figure class="photo spot reveal right" style="margin:0">
         <div class="frame">
           <div class="pimg" data-parallax="-0.2">
-            <img class="bw" src="/profile.jpg" alt={`Portrait of ${PROFILE.name}`} width="738" height="975" loading="lazy" decoding="async" />
+            <img class="bw" src="/profile.jpg" alt={`${T.portrait} ${PROFILE.name}`} width="738" height="975" loading="lazy" decoding="async" />
             <img class="clr" src="/profile.jpg" alt="" aria-hidden="true" width="738" height="975" loading="lazy" decoding="async" />
           </div>
         </div>
-        <figcaption class="cap"><div><b>{PROFILE.name}</b><span>{PROFILE.title}</span></div><div class="live">Open to work</div></figcaption>
+        <figcaption class="cap"><div><b>{PROFILE.name}</b><span>{content(lang).roles[0]}</span></div><div class="live">{T.openToWork}</div></figcaption>
       </figure>
-      <div class="highlight spot reveal right d1">
-        <div class="ico"><Icon id="i-bot" /></div>
-        <div><h3>AI Agents &amp; LLMs</h3><p>Multi-agent systems, RAG and agent loops evaluated against real baselines like Optuna TPE.</p></div>
-      </div>
-      <div class="highlight spot reveal right d2">
-        <div class="ico"><Icon id="i-layers" /></div>
-        <div><h3>Full-Stack Builder</h3><p>React, Node.js, Express and MongoDB, from WebRTC voice chat to live trading terminals.</p></div>
-      </div>
-      <div class="highlight spot reveal right d3">
-        <div class="ico"><Icon id="i-gauge" /></div>
-        <div><h3>Production Mindset</h3><p>Deterministic risk gates, offline-first design, strict TypeScript and tests that ship with the code.</p></div>
-      </div>
+      {T.cards.map(([title, text], i) => (
+        <div class={`highlight spot reveal right d${i + 1}`}>
+          <div class="ico"><Icon id={icons[i]!} /></div>
+          <div><h3>{title}</h3><p>{text}</p></div>
+        </div>
+      ))}
     </div>
   </div>
 </section>

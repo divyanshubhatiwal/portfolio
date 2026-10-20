@@ -1,21 +1,25 @@
 ---
 import Icon from '../Icon.astro';
-import { CERTS } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).certs;
+const { certs } = content(lang);
 ---
 <section class="block" id="certifications" style="background: color-mix(in srgb, var(--muted) 30%, transparent)">
   <div class="wrap">
-    <div class="eyebrow reveal">06 / Credentials</div>
-    <h2 class="sec-title reveal">Certifications</h2>
-    <p class="sec-sub reveal">Courses and credentials that back up the work.</p>
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
     <div class="certs">
-      {CERTS.map((c, i) => (
+      {certs.map((c, i) => (
         <div class={`cert spot reveal d${i % 3}`}>
           <div class="ico"><Icon id="i-award" /></div>
-          <h3>{c.title}</h3>
+          <h3 lang="en">{c.title}</h3>
           <div class="issuer">{c.issuer}</div>
           <div class="date">{c.date}</div>
           <p>{c.desc}</p>
-          {c.url && <a class="btn ghost" href={c.url} target="_blank" rel="noopener noreferrer" data-hover>View Credential ↗</a>}
+          {c.url && <a class="btn ghost" href={c.url} target="_blank" rel="noopener noreferrer" data-hover>{T.view}</a>}
         </div>
       ))}
     </div>

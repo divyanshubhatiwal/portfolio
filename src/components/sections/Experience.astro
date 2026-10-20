@@ -1,14 +1,18 @@
 ---
-import { EXPERIENCE } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).experience;
+const { experience } = content(lang);
 ---
 <section class="block" id="experience">
   <div class="wrap">
-    <div class="eyebrow reveal">03 / Journey</div>
-    <h2 class="sec-title reveal">Experience</h2>
-    <p class="sec-sub reveal">Where I've been building and what I've shipped.</p>
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
     <div class="exp reveal">
-      <div class="exp-tabs" id="exp-tabs" role="tablist" aria-label="Experience">
-        {EXPERIENCE.map((x, i) => (
+      <div class="exp-tabs" id="exp-tabs" role="tablist" aria-label={T.title}>
+        {experience.map((x, i) => (
           <button class:list={['exp-tab', { active: i === 0 }]} role="tab" id={`exp-tab-${i}`} aria-selected={i === 0 ? 'true' : 'false'}
             aria-controls={`exp-panel-${i}`} tabindex={i === 0 ? 0 : -1} data-i={i} data-hover>
             <span class="badge">{x.badge}</span>
@@ -17,7 +21,7 @@ import { EXPERIENCE } from '@/data/site';
         ))}
       </div>
       <div>
-        {EXPERIENCE.map((x, i) => (
+        {experience.map((x, i) => (
           <div class="exp-panel spot" role="tabpanel" id={`exp-panel-${i}`} aria-labelledby={`exp-tab-${i}`} hidden={i !== 0}>
             <h3>{x.role} <span class="org">@ {x.org}</span></h3>
             <div class="meta"><span>{x.period}</span><span>{x.place}</span></div>

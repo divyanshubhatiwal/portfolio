@@ -8,3 +8,6 @@ dist/
 test-results/
 playwright-report/
 .lighthouseci/
+# visual baselines are Linux-only (made in CI); local ones are for your own comparisons
+tests/__screenshots__/*
+!tests/__screenshots__/linux/

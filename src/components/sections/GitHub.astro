@@ -1,18 +1,21 @@
 ---
 import { PROFILE } from '@/data/site';
+import { getLang, ui } from '@/i18n';
+
+const T = ui(getLang(Astro.url)).github;
 ---
 <section class="block" id="github">
   <div class="wrap">
-    <div class="eyebrow reveal">05 / Open source</div>
-    <h2 class="sec-title reveal">GitHub &amp; Coding Activity</h2>
-    <p class="sec-sub reveal">Live from my GitHub and LeetCode profiles: contributions, languages, problems solved and what I've pushed recently.</p>
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
     <div class="gh-top">
       <div class="gh-stats reveal left" id="gh-stats">
-        <div class="gh-stat"><b data-gh="repos">—</b><span>Public repos</span></div>
-        <div class="gh-stat"><b data-gh="followers">—</b><span>Followers</span></div>
-        <div class="gh-stat"><b data-gh="since">—</b><span>On GitHub since</span></div>
+        <div class="gh-stat"><b data-gh="repos">—</b><span>{T.repos}</span></div>
+        <div class="gh-stat"><b data-gh="followers">—</b><span>{T.followers}</span></div>
+        <div class="gh-stat"><b data-gh="since">—</b><span>{T.since}</span></div>
       </div>
-      <div class="gh-langs spot reveal right" id="gh-langs"><h3>Top languages</h3><div class="lang-bar" id="lang-bar"></div><ul id="lang-list"></ul></div>
+      <div class="gh-langs spot reveal right" id="gh-langs"><h3>{T.langs}</h3><div class="lang-bar" id="lang-bar"></div><ul id="lang-list"></ul></div>
     </div>
     <!-- filled by src/scripts/leetcode.ts from /api/leetcode -->
     <div class="lc spot reveal" id="leetcode" hidden>
@@ -21,22 +24,22 @@ import { PROFILE } from '@/data/site';
         <a href={`https://leetcode.com/u/${PROFILE.leetcodeUser}/`} target="_blank" rel="noopener noreferrer">@{PROFILE.leetcodeUser} ↗</a>
       </div>
       <div class="lc-body">
-        <div class="lc-ring" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="track"/><circle cx="60" cy="60" r="52" class="e" /><circle cx="60" cy="60" r="52" class="m" /><circle cx="60" cy="60" r="52" class="h" /></svg><div class="lc-total"><b data-lc="total">—</b><span>solved</span></div></div>
+        <div class="lc-ring" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="track"/><circle cx="60" cy="60" r="52" class="e" /><circle cx="60" cy="60" r="52" class="m" /><circle cx="60" cy="60" r="52" class="h" /></svg><div class="lc-total"><b data-lc="total">—</b><span>{T.solved}</span></div></div>
         <ul class="lc-split">
-          <li class="e"><span>Easy</span><b data-lc="easy">—</b></li>
-          <li class="m"><span>Medium</span><b data-lc="medium">—</b></li>
-          <li class="h"><span>Hard</span><b data-lc="hard">—</b></li>
+          <li class="e"><span>{T.easy}</span><b data-lc="easy">—</b></li>
+          <li class="m"><span>{T.medium}</span><b data-lc="medium">—</b></li>
+          <li class="h"><span>{T.hard}</span><b data-lc="hard">—</b></li>
         </ul>
         <ul class="lc-meta">
-          <li><span>Contest rating</span><b data-lc="rating">—</b></li>
-          <li><span>Contests</span><b data-lc="contests">—</b></li>
-          <li><span>Global ranking</span><b data-lc="ranking">—</b></li>
+          <li><span>{T.rating}</span><b data-lc="rating">—</b></li>
+          <li><span>{T.contests}</span><b data-lc="contests">—</b></li>
+          <li><span>{T.ranking}</span><b data-lc="ranking">—</b></li>
         </ul>
       </div>
     </div>
     <div class="gh-graph spot reveal">
-      <h3>Contributions in the last year</h3>
-      <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><img id="gh-chart" alt={`GitHub contribution graph for ${PROFILE.githubUser}`} loading="lazy" width="663" height="104" /></a>
+      <h3>{T.graph}</h3>
+      <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><img id="gh-chart" alt={`${T.graphAlt} ${PROFILE.githubUser}`} loading="lazy" width="663" height="104" /></a>
     </div>
     <div class="gh-repos" id="gh-repos"></div>
     <p class="gh-note" id="gh-note"></p>

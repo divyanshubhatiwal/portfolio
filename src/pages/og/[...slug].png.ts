@@ -46,26 +46,26 @@ const W = 1200, H = 630, PAD_X = 72, PAD_Y = 60, INNER = W - PAD_X * 2, INNER_H 
 
 function card({ label, title, summary }: CardData): SatoriNode {
   return h('div', {
-    width: W, height: H, display: 'flex', position: 'relative', backgroundColor: '#07070d', color: '#f4f4fb', fontFamily: 'Inter',
-    backgroundImage: 'radial-gradient(circle at 0% 0%, rgba(139,92,246,0.55) 0%, rgba(7,7,13,0) 45%), radial-gradient(circle at 100% 100%, rgba(34,211,238,0.35) 0%, rgba(7,7,13,0) 45%)',
+    width: W, height: H, display: 'flex', position: 'relative', backgroundColor: '#111418', color: '#e6e8ea', fontFamily: 'Inter',
+    backgroundImage: 'radial-gradient(circle at 0% 0%, rgba(20,184,166,0.22) 0%, rgba(17,20,24,0) 50%), radial-gradient(circle at 100% 100%, rgba(13,148,136,0.16) 0%, rgba(17,20,24,0) 50%)',
   }, h('div', {
     position: 'absolute', left: PAD_X, top: PAD_Y, width: INNER, height: INNER_H,
     display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
   }, [
     h('div', { display: 'flex', flexDirection: 'column', width: INNER }, [
-      h('div', { display: 'flex', width: INNER, fontFamily: 'Space Mono', fontSize: 22, color: '#22d3ee', letterSpacing: 2, textTransform: 'uppercase' }, clip(label, 60)),
+      h('div', { display: 'flex', width: INNER, fontFamily: 'Space Mono', fontSize: 22, color: '#2dd4bf', letterSpacing: 2, textTransform: 'uppercase' }, clip(label, 60)),
       h('div', { display: 'flex', width: INNER, fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: title.length > 40 ? 58 : 68, lineHeight: 1.08, marginTop: 24, letterSpacing: -1.5 }, clip(title, 80)),
-      h('div', { display: 'flex', width: INNER, fontSize: 28, lineHeight: 1.45, color: '#c9cbe0', marginTop: 24 }, clip(summary, 150)),
+      h('div', { display: 'flex', width: INNER, fontSize: 28, lineHeight: 1.45, color: '#b4bcc4', marginTop: 24 }, clip(summary, 150)),
     ]),
     h('div', { display: 'flex', width: INNER, alignItems: 'center', justifyContent: 'space-between' }, [
       h('div', { display: 'flex', alignItems: 'center' }, [
-        h('img', { width: 72, height: 72, borderRadius: 36, objectFit: 'cover', border: '3px solid #8b5cf6' }, undefined, { src: PHOTO, width: 72, height: 72 }),
+        h('img', { width: 72, height: 72, borderRadius: 36, objectFit: 'cover', border: '3px solid #14b8a6' }, undefined, { src: PHOTO, width: 72, height: 72 }),
         h('div', { display: 'flex', flexDirection: 'column', marginLeft: 20 }, [
           h('div', { display: 'flex', fontWeight: 600, fontSize: 26 }, PROFILE.name),
-          h('div', { display: 'flex', fontSize: 20, color: '#9ba1b8', marginTop: 4 }, PROFILE.title),
+          h('div', { display: 'flex', fontSize: 20, color: '#9aa3ad', marginTop: 4 }, PROFILE.title),
         ]),
       ]),
-      h('div', { display: 'flex', width: 180, height: 8, borderRadius: 4, backgroundImage: 'linear-gradient(90deg, #8b5cf6, #f472b6, #22d3ee)' }),
+      h('div', { display: 'flex', width: 180, height: 8, borderRadius: 4, backgroundColor: '#14b8a6' }),
     ]),
   ]));
 }

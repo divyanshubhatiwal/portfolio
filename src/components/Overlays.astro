@@ -24,15 +24,22 @@ const { home = true } = Astro.props;
   <div class="chat-head">
     <div class="av"><img src="/profile.jpg" alt="" width="38" height="38" loading="lazy" /></div>
     <div><b>Ask my portfolio</b><small id="chat-mode">AI answers from this site</small></div>
+    <button class="icon-btn" id="chat-speak" aria-label="Read answers aloud" aria-pressed="false" title="Read answers aloud" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+    </button>
     <button class="icon-btn" id="chat-close" aria-label="Close chat"><Icon id="i-x" /></button>
   </div>
   <div class="chat-log" id="chat-log" aria-live="polite" data-lenis-prevent></div>
   <div class="chips" id="chat-chips"></div>
   <form class="chat-form" id="chat-form">
     <input id="chat-input" placeholder="e.g. What have you built with FastAPI?" autocomplete="off" aria-label="Your question" maxlength="500" />
+    <button type="button" class="chat-mic" id="chat-mic" aria-label="Ask by voice" aria-pressed="false" title="Ask by voice" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>
+    </button>
     <button aria-label="Send"><Icon id="i-send" /></button>
   </form>
-  <div class="chat-foot">Answers come only from this portfolio's content.</div>
+  <p class="chat-note" id="chat-voice-note" hidden>Voice input is transcribed by your browser's speech service (Google in Chrome, Microsoft in Edge).</p>
+  <div class="chat-foot">Answers come only from this portfolio's content, with sources.</div>
 </section>
 
 <div id="term" role="dialog" aria-modal="true" aria-label="Terminal">

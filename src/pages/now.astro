@@ -1,0 +1,50 @@
+---
+import Page from '@/layouts/Page.astro';
+import { formatDate, getPosts } from '@/lib/content';
+import { PROFILE } from '@/data/site';
+
+const posts = (await getPosts()).slice(0, 3);
+const built = new Date().toISOString().slice(0, 10);
+---
+<Page title={`Now | ${PROFILE.name}`} description="What I'm working on right now, pulled live from my GitHub commits, my blog and LeetCode.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / Now</div>
+    <h1>What I'm doing <span class="g">now</span></h1>
+    <p class="lede">This page fills itself in from my latest commits, posts and practice, so it's never out of date.</p>
+  </header>
+
+  <section class="now fade">
+    <div class="now-block">
+      <h2>Recent commits</h2>
+      <ol class="now-commits" id="now-commits" aria-live="polite"><li class="idle">Loading from GitHub…</li></ol>
+      <a class="now-more" href={PROFILE.github} target="_blank" rel="noopener noreferrer">All activity on GitHub ↗</a>
+    </div>
+
+    <div class="now-side">
+      <div class="now-block">
+        <h2>Latest writing</h2>
+        <ul class="now-list">
+          {posts.map((p) => <li><a href={`/blog/${p.id}`}>{p.data.title}</a><small>{formatDate(p.data.date)}</small></li>)}
+        </ul>
+      </div>
+      <div class="now-block">
+        <h2>Practice</h2>
+        <p class="now-lc" id="now-lc">LeetCode: <a href={`https://leetcode.com/u/${PROFILE.leetcodeUser}/`} target="_blank" rel="noopener noreferrer">@{PROFILE.leetcodeUser} ↗</a></p>
+      </div>
+      <div class="now-block">
+        <h2>Try my work</h2>
+        <ul class="now-list">
+          <li><a href="/demo/autosci">AutoSci replay</a><small>search strategies, real ledger</small></li>
+          <li><a href="/demo/forensic">Forensic investigation</a><small>find the incident yourself</small></li>
+          <li><a href="/demo/risk-gate">Risk-gate simulator</a><small>try to break it</small></li>
+          <li><a href="/demo/t20">T20 Score Predictor</a><small>runs in your browser</small></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <p class="now-foot fade">Page built {built}. Commits and LeetCode load live when you open it.</p>
+
+  <script>
+    import '@/scripts/now';
+  </script>
+</Page>

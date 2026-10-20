@@ -2,6 +2,7 @@
 // Server only: never import this from client scripts. The API key is read from process.env at runtime.
 import Anthropic from '@anthropic-ai/sdk';
 import { getCollection } from 'astro:content';
+import GithubSlugger from 'github-slugger';
 import { CERTS, EXPERIENCE, PROFILE, PROJECTS, SKILLS } from '@/data/site';
 
 /** Default per the Claude API guidance. Set CLAUDE_MODEL (e.g. claude-haiku-5-5) in Vercel to trade quality for cost. */
@@ -20,31 +21,69 @@ export function getClient(): Anthropic | null {
 /** Strip HTML from the raw-HTML blocks inside case studies (diagrams, metrics) so only their text reaches the model. */
 const plain = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
 
-let contextPromise: Promise<string> | undefined;
+/** One citable piece of the portfolio: a project, a case-study section, a blog section, etc. */
+export interface Source { id: string; title: string; url: string; text: string }
+
+const kebab = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 /**
- * Everything the assistant may answer from, as one deterministic text block.
- * Deterministic (stable order, no dates or random values) so the prompt cache keeps hitting.
+ * Split a Markdown page into its intro and "## " sections. Heading anchors are generated with
+ * github-slugger over every heading in order, exactly as Astro does, so citation links land on the right heading.
  */
-export function getContext(): Promise<string> {
-  contextPromise ??= (async () => {
+function sections(pageId: string, pageTitle: string, base: string, body: string, kind: string): Source[] {
+  const slugger = new GithubSlugger();
+  const out: Source[] = [];
+  let current: Source = { id: `${kind}:${pageId}`, title: pageTitle, url: base, text: '' };
+  for (const line of body.split('\n')) {
+    const h = /^(#{2,6})\s+(.+?)\s*$/.exec(line);
+    if (h) {
+      const slug = slugger.slug(h[2]!);
+      if (h[1] === '##') {
+        if (current.text.trim()) out.push(current);
+        current = { id: `${kind}:${pageId}#${slug}`, title: `${pageTitle}: ${h[2]}`, url: `${base}#${slug}`, text: '' };
+        continue;
+      }
+    }
+    current.text += `${line}\n`;
+  }
+  if (current.text.trim()) out.push(current);
+  return out.map((s) => ({ ...s, text: plain(s.text) }));
+}
+
+let sourcesPromise: Promise<Source[]> | undefined;
+/** Every citable source, in a fixed order (deterministic, so the prompt cache keeps hitting). */
+export function getSources(): Promise<Source[]> {
+  sourcesPromise ??= (async () => {
     const [cases, posts] = await Promise.all([getCollection('cases'), getCollection('blog', ({ data }) => !data.draft)]);
     cases.sort((a, b) => a.data.order - b.data.order);
     posts.sort((a, b) => a.id.localeCompare(b.id));
     const e = PROFILE.education;
     return [
-      `# Profile\nName: ${PROFILE.name}\nTitle: ${PROFILE.title}\nLocation: ${PROFILE.location}\nEmail: ${PROFILE.email}\nGitHub: ${PROFILE.github}\nLinkedIn: ${PROFILE.linkedin}\nLeetCode: https://leetcode.com/u/${PROFILE.leetcodeUser}/\nRésumé: /resume.pdf\nEducation: ${e.degree}, ${e.school}, ${e.years}, CGPA ${e.cgpa}/10; Class XII (CBSE) ${e.classXII}`,
-      `# Skills\n${Object.entries(SKILLS).map(([c, l]) => `${c}: ${l.map((s) => s[0]).join(', ')}`).join('\n')}`,
-      `# Projects\n${PROJECTS.map((p) => [
-        `## ${p.name} (${p.cat})`, p.desc, `Stack: ${p.tags.join(', ')}`,
-        p.live && `Live: ${p.live}`, p.code && `Source: ${p.code}`, p.slug && `Case study: /case/${p.slug}`,
-      ].filter(Boolean).join('\n')).join('\n\n')}`,
-      `# Experience and education\n${EXPERIENCE.map((x) => `## ${x.role}, ${x.org} (${x.period}, ${x.place})\n${x.points.map((p) => `- ${p}`).join('\n')}`).join('\n\n')}`,
-      `# Certifications\n${CERTS.map((c) => `- ${c.title}, ${c.issuer} (${c.date})${c.url ? `: ${c.url}` : ''}`).join('\n')}`,
-      `# Case studies (full text)\n${cases.map((c) => `## ${c.data.title} (/case/${c.id})\n${c.data.lede}\n${plain(c.body ?? '')}`).join('\n\n')}`,
-      `# Blog posts (full text)\n${posts.map((p) => `## ${p.data.title} (/blog/${p.id})\n${plain(p.body ?? '')}`).join('\n\n')}`,
-    ].join('\n\n');
+      { id: 'profile', title: 'About me', url: '/#about',
+        text: `Name: ${PROFILE.name}\nTitle: ${PROFILE.title}\nLocation: ${PROFILE.location}\nEmail: ${PROFILE.email}\nGitHub: ${PROFILE.github}\nLinkedIn: ${PROFILE.linkedin}\nLeetCode: https://leetcode.com/u/${PROFILE.leetcodeUser}/\nRésumé: /resume.pdf\nEducation: ${e.degree}, ${e.school}, ${e.years}, CGPA ${e.cgpa}/10; Class XII (CBSE) ${e.classXII}` },
+      { id: 'skills', title: 'Skills', url: '/#skills',
+        text: Object.entries(SKILLS).map(([c, l]) => `${c}: ${l.map((s) => s[0]).join(', ')}`).join('\n') },
+      ...PROJECTS.map((p) => ({
+        id: `project:${p.slug ?? kebab(p.name)}`, title: `Project: ${p.name}`, url: p.slug ? `/case/${p.slug}` : p.demo ?? '/#projects',
+        text: [`${p.name} (${p.cat})`, p.desc, `Stack: ${p.tags.join(', ')}`, p.live && `Live: ${p.live}`, p.code && `Source: ${p.code}`, p.demo && `Demo: ${p.demo}`].filter(Boolean).join('\n'),
+      })),
+      ...EXPERIENCE.map((x) => ({
+        id: `experience:${kebab(x.org)}`, title: `${x.role}, ${x.org}`, url: '/#experience',
+        text: `${x.role}, ${x.org} (${x.period}, ${x.place})\n${x.points.map((p) => `- ${p}`).join('\n')}`,
+      })),
+      { id: 'certifications', title: 'Certifications', url: '/#certifications',
+        text: CERTS.map((c) => `- ${c.title}, ${c.issuer} (${c.date})${c.url ? `: ${c.url}` : ''}`).join('\n') },
+      ...cases.flatMap((c) => sections(c.id, `${c.data.title} case study`, `/case/${c.id}`, `${c.data.lede}\n${c.body ?? ''}`, 'case')),
+      ...posts.flatMap((p) => sections(p.id, p.data.title, `/blog/${p.id}`, p.body ?? '', 'blog')),
+    ];
   })();
-  return contextPromise;
+  return sourcesPromise;
+}
+
+/** The sources as one text block for the system prompt, each wrapped with its id so answers can cite it. */
+export async function getContext(): Promise<string> {
+  const sources = await getSources();
+  return sources.map((s) => `<source id="${s.id}" title="${s.title}">\n${s.text}\n</source>`).join('\n\n');
 }
 
 // ---------- cost control: best-effort rate limits ----------

@@ -26,6 +26,28 @@
 }
 .tags button.more:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
 
+/* ---------- chat: citations and voice ---------- */
+.msg a.cite {
+  display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 4px; margin: 0 1px;
+  border-radius: 5px; font: 600 10px/1 var(--mono); vertical-align: super; text-decoration: none;
+  background: var(--accent-soft); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.msg a.cite:hover { background: var(--accent); color: var(--on-accent); }
+.msg .cites { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 12px; }
+.msg .cites > span { font: 600 10px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted-fg); }
+.msg .cites ol { margin: 4px 0 0; padding-left: 18px; }
+.msg .cites li { margin: 2px 0; }
+.chat-mic {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg); color: var(--fg);
+  cursor: pointer; display: grid; place-items: center; flex-shrink: 0;
+}
+.chat-mic svg { width: 17px; height: 17px; }
+.chat-mic.listening { background: #dc2626; border-color: #dc2626; color: #fff; animation: mic-pulse 1.2s ease-in-out infinite; }
+@keyframes mic-pulse { 50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, .25); } }
+#chat-speak svg { width: 18px; height: 18px; }
+#chat-speak[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-text); }
+.chat-note { margin: 0 12px 8px; padding: 8px 10px; border-radius: 8px; background: var(--muted); font-size: 11px; color: var(--muted-fg); }
+
 /* ---------- 3D hero canvas ---------- */
 .particles .hero3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .particles { transition: opacity .6s; }
@@ -57,3 +79,20 @@
   .lc-body { grid-template-columns: 1fr; justify-items: center; }
   .lc-split, .lc-meta { width: 100%; }
 }
+
+/* ---------- recruiter view (/?for=backend etc.) ---------- */
+.focus-banner { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin: 0 0 22px; padding: 10px 16px; border-radius: 10px;
+  background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); font-size: 15px; }
+.focus-banner a { color: var(--accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+/* ---------- Hindi (/hi/) ---------- */
+/* Inter and Space Grotesk have no Devanagari, so Noto Sans Devanagari fills in those characters */
+:root[lang="hi"] {
+  --sans: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+  --head: "Space Grotesk", "Noto Sans Devanagari", system-ui, sans-serif;
+}
+:root[lang="hi"] body { line-height: 1.75; }
+/* letter-spacing splits Devanagari conjuncts, and the monospace label font has no Devanagari */
+:root[lang="hi"] :is(.status, .eyebrow, .live, .when, .cap span, .badge, .scroll-hint, .filter) { letter-spacing: normal; font-family: var(--sans); }
+.lang-switch { font: 600 14px var(--sans); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--fg); }
+.lang-switch:hover { border-color: var(--accent); color: var(--accent-text); }
+@media (max-width: 900px) { .nav-right .lang-switch { display: none; } }

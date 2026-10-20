@@ -46,13 +46,20 @@ function startReveal(): void {
 function typewriter(): void {
   const el = $('#typed');
   if (!el) return;
-  if (reducedMotion()) { el.textContent = ROLES[0] ?? ''; return; }
+  // the page can supply translated roles (the Hindi home page does)
+  let roles: readonly string[] = ROLES;
+  try { const own = JSON.parse(el.dataset.roles ?? 'null') as string[] | null; if (own?.length) roles = own; } catch { /* keep English */ }
+  if (reducedMotion()) { el.textContent = roles[0] ?? ''; return; }
+  // type whole characters (grapheme clusters), so Devanagari vowel signs never appear on their own
+  const chars = (s: string): string[] =>
+    typeof Intl.Segmenter === 'function' ? [...new Intl.Segmenter().segment(s)].map((g) => g.segment) : Array.from(s);
+  const words = roles.map(chars);
   let r = 0, c = 0, del = false;
   const tick = (): void => {
-    const word = ROLES[r] ?? '';
-    el.textContent = word.slice(0, c);
+    const word = words[r] ?? [];
+    el.textContent = word.slice(0, c).join('');
     if (!del && c === word.length) { del = true; setTimeout(tick, 1600); return; }
-    if (del && c === 0) { del = false; r = (r + 1) % ROLES.length; }
+    if (del && c === 0) { del = false; r = (r + 1) % words.length; }
     c += del ? -1 : 1;
     setTimeout(tick, del ? 35 : 70);
   };

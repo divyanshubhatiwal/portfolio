@@ -1,0 +1,63 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+import study from '@/data/autosci-openml.json';
+
+const tasks = [...new Set(study.trials.map((t) => t.task))];
+const seeds = [...new Set(study.trials.map((t) => t.seed))].sort();
+// compact payload for the browser: per task/seed/arm, the steps it needs to draw
+const replay = study.trials.map((t) => ({
+  k: `${t.task}|${t.seed}|${t.arm}`, test: t.test,
+  steps: t.steps.map((s) => [s.score, s.inc, s.up ? 1 : 0, s.model, s.hyp ?? '', s.sig.join(', ')]),
+}));
+---
+<Page title={`AutoSci replay | ${PROFILE.name}`} description="Replay a real AutoSci study step by step: three search strategies, the same budget, and the honest result.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/case/autosci">AutoSci</a> / Replay</div>
+    <h1>AutoSci <span class="g">replay</span></h1>
+    <p class="lede">Watch three search strategies spend the same 12-experiment budget on the same task, one experiment at a time. Every number comes from the experiment ledger of a real run.</p>
+    <p class="t20-note"><b>Study <code>{study.study}</code>, {study.created.slice(0, 10)}.</b> {study.trials.length} trials on 5 OpenML tasks × 3 seeds. This is the baseline study: the LLM arms haven't been run at scale yet, so the arms here are random search, Optuna TPE ("bayes") and a rule engine that reads the same diagnostics an LLM would ("heuristic").</p>
+  </header>
+
+  <section class="sim fade" id="as" data-replay={JSON.stringify(replay)}>
+    <div class="sim-controls">
+      <label>Task<select id="as-task">{tasks.map((t) => <option value={t} selected={t === 'vehicle'}>{t}</option>)}</select></label>
+      <label>Seed<select id="as-seed">{seeds.map((s) => <option value={s}>{s}</option>)}</select></label>
+      <div class="sim-actions">
+        <button type="button" class="btn solid" id="as-play">Play</button>
+        <button type="button" class="btn ghost" id="as-step">Step</button>
+        <button type="button" class="btn ghost" id="as-all">Show all</button>
+      </div>
+      <p class="as-count" aria-live="polite"><span id="as-n">0</span> / 12 experiments</p>
+    </div>
+    <svg class="as-chart" id="as-chart" viewBox="0 0 640 260" role="img" aria-label="Best validation score so far, per arm"></svg>
+    <ul class="as-legend">
+      <li class="a-random">random</li><li class="a-bayes">bayes (Optuna TPE)</li><li class="a-heuristic">heuristic (diagnostics)</li>
+    </ul>
+    <div class="as-lanes" id="as-lanes"></div>
+  </section>
+
+  <article class="prose fade">
+    <h2>The result across all 45 trials</h2>
+    <p>Mean held-out test score (balanced accuracy) with a 95% interval, from the study report:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Arm</th><th>Test score</th><th>95% CI</th><th>Hypothesis precision</th><th>Novelty</th><th>Reached target</th></tr></thead>
+      <tbody>
+        <tr><td>bayes</td><td>0.7178</td><td>[0.662, 0.773]</td><td>0.194</td><td>0.783</td><td>47%</td></tr>
+        <tr><td>heuristic</td><td>0.7160</td><td>[0.658, 0.771]</td><td>0.230</td><td>0.297</td><td>27%</td></tr>
+        <tr><td>random</td><td>0.7074</td><td>[0.651, 0.765]</td><td>0.212</td><td>1.000</td><td>33%</td></tr>
+      </tbody>
+    </table></div>
+    <p>And the paired comparisons, matched by task and seed:</p>
+    <ul>
+      <li><b>Do diagnostics help a rule engine beat Optuna?</b> heuristic vs bayes: mean difference −0.0019, 95% CI [−0.0426, +0.0390], record 7W–8L. <b>Not supported.</b></li>
+      <li><b>Does Optuna beat blind sampling?</b> bayes vs random: +0.0104, 95% CI [−0.0370, +0.0610], record 7W–8L. <b>Not supported</b> either.</li>
+    </ul>
+    <p>On a 12-experiment budget, none of the three is distinguishable from the others. That's the useful finding: the bar an LLM agent has to clear is lower than "beat Optuna" sounds, and the measurement has to be tight enough to see a small difference. On the smaller local suite, the rule engine was clearly <em>worse</em> than Optuna (−0.0344, CI [−0.0644, −0.0107]), which shows the harness can detect a real gap when there is one.</p>
+    <p>The report's own warning applies: obfuscation was off for this run, so it can't rule out memorised solutions once LLM arms are added. Read the design in the <a href="/case/autosci">AutoSci case study</a>.</p>
+  </article>
+
+  <script>
+    import '@/scripts/autosci';
+  </script>
+</Page>

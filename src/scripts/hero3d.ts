@@ -81,8 +81,8 @@ export function mountHero3D(): boolean {
 
   const applyTheme = () => {
     const css = getComputedStyle(document.documentElement);
-    const a = new Color(css.getPropertyValue('--accent').trim() || '#8b5cf6');
-    const b = new Color(css.getPropertyValue('--accent-2').trim() || '#22d3ee');
+    const a = new Color(css.getPropertyValue('--accent').trim() || '#14b8a6');
+    const b = new Color(css.getPropertyValue('--accent-2').trim() || '#0d9488');
     paint(pGeo, a, b); paint(lGeo, a, b);
     const dark = document.documentElement.dataset.theme === 'dark';
     // additive glow looks great on dark backgrounds but washes out on light ones

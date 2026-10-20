@@ -133,3 +133,89 @@ test('T20 demo predicts from the trained model', async ({ page }) => {
 test('unknown pages return 404', async ({ request }) => {
   expect((await request.get('/this-page-does-not-exist')).status()).toBe(404);
 });
+
+test('chat shows citations as links, and only to pages on this site', async ({ page }) => {
+  // a stubbed AI reply, so this runs without an API key
+  await page.route('**/api/chat', (r) => r.fulfill({ json: {
+    answer: 'I built **RideCompare** with FastAPI [1]. More in my notes [2].',
+    sources: [{ n: 1, title: 'RideCompare case study', url: '/case/ridecompare' }, { n: 2, title: 'Bad link', url: 'javascript:alert(1)' }],
+  } }));
+  await page.goto('/');
+  await page.locator('#chat-btn').click();
+  await page.locator('#chat-input').fill('What have you built with FastAPI?');
+  await page.locator('#chat-input').press('Enter');
+  const reply = page.locator('#chat-log .msg.bot').last();
+  await expect(reply.locator('a.cite').first()).toHaveAttribute('href', '/case/ridecompare');
+  await expect(reply.locator('.cites li')).toHaveText(['RideCompare case study', 'Bad link']);
+  await expect(reply.locator('.cites li a').nth(1)).toHaveAttribute('href', '/'); // unsafe URL replaced
+  await expect(reply.locator('b')).toHaveText('RideCompare');
+});
+
+test('risk gate blocks bad orders and suppresses a retried order', async ({ page }) => {
+  await page.goto('/demo/risk-gate');
+  const verdict = page.locator('#rg-verdict');
+  await page.locator('#rg-submit').click();
+  await expect(verdict).toHaveText('order placed');
+  await page.locator('#rg-submit').click();
+  await expect(verdict).toHaveText('blocked: SYMBOL_EXPOSURE');
+  await page.locator('#rg-reset').click();
+  await page.locator('#rg-stop').fill('');
+  await page.locator('#rg-submit').click();
+  await expect(verdict).toHaveText('blocked: NO_STOP');
+  await page.locator('#rg-stop').fill('2450');
+  await page.locator('#rg-venue').check();
+  await page.locator('#rg-submit').click();
+  await expect(verdict).toHaveText('exchange timed out');
+  await page.locator('#rg-retry').click();
+  await expect(verdict).toHaveText('duplicate suppressed');
+});
+
+test('forensic investigation reveals the agent analysis after three answers', async ({ page }) => {
+  await page.goto('/demo/forensic');
+  await expect(page.locator('#fx-result')).toBeHidden();
+  for (const id of ['AUTH-00040', 'NETWORK-00113', 'FILE_EVENTS-00140']) await page.locator(`tr[data-id="${id}"]`).click();
+  await expect(page.locator('#fx-q')).toContainText('3 of 3');
+  await expect(page.locator('#fx-result')).toBeVisible();
+  await expect(page.locator('#fx-result')).toContainText('INC-01');
+});
+
+test('AutoSci replay steps through a real study', async ({ page }) => {
+  await page.goto('/demo/autosci');
+  await page.locator('#as-step').click();
+  await expect(page.locator('#as-n')).toHaveText('1');
+  await expect(page.locator('#as-chart polyline')).toHaveCount(3);
+  await page.locator('#as-all').click();
+  await expect(page.locator('#as-n')).toHaveText('12');
+  await expect(page.locator('.lane')).toHaveCount(3);
+  await expect(page.locator('.lane-best').first()).toContainText('held-out test');
+});
+
+test('recruiter view puts backend work first', async ({ page }) => {
+  await page.goto('/?for=backend');
+  await expect(page.locator('.focus-banner')).toContainText('backend');
+  await expect(page.locator('#project-grid .project').first()).toHaveAttribute('data-cat', 'Backend');
+  await expect(page.locator('#skills .skill-cat').first()).toHaveAttribute('data-group', 'Backend & Data');
+  await expect(page.locator('#project-grid .project')).toHaveCount(10); // reordered, nothing hidden
+});
+
+test('Hindi home page is translated and linked both ways', async ({ page }) => {
+  const errors = trackScriptErrors(page);
+  await page.goto('/hi/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
+  await expect(page.locator('#about .sec-title')).toHaveText('पहले मापो, फिर दावा करो।');
+  await expect(page.locator('.project')).toHaveCount(10);
+  await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', /\/$/);
+  await page.goto('/');
+  await expect(page.locator('link[hreflang="hi"]')).toHaveAttribute('href', /\/hi\/$/);
+  expect(errors).toEqual([]);
+});
+
+test('now and stats pages load', async ({ page }) => {
+  await page.goto('/now');
+  await expect(page.locator('main h1')).toContainText('now');
+  await expect(page.locator('.now-list').first().locator('li')).toHaveCount(3);
+  await page.goto('/stats');
+  await expect(page.locator('main h1')).toContainText('numbers');
+  // no storage in tests, so the counter explains itself instead of showing a number
+  await expect(page.locator('#st-visits-l')).toContainText('not switched on', { timeout: 10_000 });
+});

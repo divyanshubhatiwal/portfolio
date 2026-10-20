@@ -4,6 +4,7 @@ cat: AI / ML · Security
 lede: Rebuilds an incident timeline from messy, mixed-format logs while keeping every conclusion traceable to the records behind it.
 tags: [Python, FastAPI, Entity graphs, Anomaly detection, RAG]
 order: 3
+demo: { href: /demo/forensic, label: Investigate a case }
 ---
 
 ## The claim

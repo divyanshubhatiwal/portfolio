@@ -7,7 +7,8 @@
         "http://localhost/case/index.html",
         "http://localhost/case/venture-dao/index.html",
         "http://localhost/blog/index.html",
-        "http://localhost/demo/t20/index.html"
+        "http://localhost/demo/t20/index.html",
+        "http://localhost/demo/autosci/index.html"
       ],
       "numberOfRuns": 1,
       "settings": { "chromeFlags": "--no-sandbox" }

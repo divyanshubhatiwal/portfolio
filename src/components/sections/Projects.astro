@@ -1,32 +1,35 @@
 ---
-import { PROJECTS } from '@/data/site';
+import { content, getLang, ui } from '@/i18n';
 
-const cats = ['All', ...new Set(PROJECTS.map((p) => p.cat))];
-const count = (c: string) => (c === 'All' ? PROJECTS.length : PROJECTS.filter((p) => p.cat === c).length);
+const lang = getLang(Astro.url);
+const T = ui(lang).projects;
+const { projects, category } = content(lang);
+const cats = ['All', ...new Set(projects.map((p) => p.cat))];
+const count = (c: string) => (c === 'All' ? projects.length : projects.filter((p) => p.cat === c).length);
 const VISIBLE_TAGS = 3;
 ---
 <section class="block" id="projects">
   <div class="wrap">
-    <div class="eyebrow reveal">04 / Work</div>
-    <h2 class="sec-title reveal">Featured Projects</h2>
-    <p class="sec-sub reveal">Systems built to be measured, not just demoed.</p>
-    <div class="filters reveal" id="filters" role="group" aria-label="Filter projects by category">
+    <div class="eyebrow reveal">{T.eyebrow}</div>
+    <h2 class="sec-title reveal">{T.title}</h2>
+    <p class="sec-sub reveal">{T.sub}</p>
+    <div class="filters reveal" id="filters" role="group" aria-label={T.filterLabel}>
       {cats.map((c) => (
         <button class:list={['filter', { active: c === 'All' }]} data-f={c} aria-pressed={c === 'All' ? 'true' : 'false'} data-hover>
-          {c}<sup>{count(c)}</sup>
+          {c === 'All' ? T.all : category(c)}<sup>{count(c)}</sup>
         </button>
       ))}
     </div>
-    <div class="projects" id="project-grid">
-      {PROJECTS.map((p, i) => (
+    <div class="projects" id="project-grid" data-focus-shown={T.focusShown} data-focus-reset={T.focusReset}>
+      {projects.map((p, i) => (
         <article class:list={['project', 'spot', 'reveal', { featured: p.featured }]} data-cat={p.cat} data-name={p.name}>
           {p.img && (
             <div class="shot">
-              <img src={p.img} alt={`Screenshot of ${p.name}`} loading="lazy" decoding="async" width="900" height="562"
+              <img src={p.img} alt={`${T.shot} ${p.name}`} loading="lazy" decoding="async" width="900" height="562"
                 style={`object-position:${p.imgPos ?? 'center top'}`} />
             </div>
           )}
-          <div class="top"><span class="cat">{p.cat}</span><span class="num">/{String(i + 1).padStart(2, '0')}</span></div>
+          <div class="top"><span class="cat">{category(p.cat)}</span><span class="num">/{String(i + 1).padStart(2, '0')}</span></div>
           <h3>{p.name}</h3>
           <p>{p.desc}</p>
           <div class:list={['tags', { collapsed: p.tags.length > VISIBLE_TAGS }]}>
@@ -36,10 +39,10 @@ const VISIBLE_TAGS = 3;
             )}
           </div>
           <div class="links">
-            {p.slug && <a href={`/case/${p.slug}`} data-hover>Case study</a>}
-            {p.demo && <a href={p.demo} data-hover>Try it here</a>}
-            {p.code && <a href={p.code} target="_blank" rel="noopener noreferrer" data-hover>Source</a>}
-            {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" data-hover>Live Demo ↗</a>}
+            {p.slug && <a href={`/case/${p.slug}`} data-hover>{T.caseStudy}</a>}
+            {p.demo && <a href={p.demo} data-hover>{T.tryIt}</a>}
+            {p.code && <a href={p.code} target="_blank" rel="noopener noreferrer" data-hover>{T.source}</a>}
+            {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" data-hover>{T.live}</a>}
           </div>
         </article>
       ))}

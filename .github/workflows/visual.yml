@@ -1,0 +1,60 @@
+name: Visual regression
+
+# Compares screenshots of key pages (both themes) with the baselines in tests/__screenshots__/linux.
+# To create or accept new baselines: Actions -> Visual regression -> Run workflow, with "update" ticked.
+# That run commits the new screenshots to the branch it ran on.
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      update:
+        description: Accept the current screenshots as the new baselines and commit them
+        type: boolean
+        default: false
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write # only used by the "update" run, to commit baselines
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Compare with baselines
+        if: ${{ !inputs.update }}
+        run: |
+          if [ ! -d tests/__screenshots__/linux ]; then
+            echo "::notice::No baselines yet. Run this workflow by hand with 'update' ticked to create them."
+            exit 0
+          fi
+          npx playwright test --project=visual
+
+      - name: Update baselines
+        if: ${{ inputs.update }}
+        run: |
+          npx playwright test --project=visual --update-snapshots
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/__screenshots__/linux
+          git diff --cached --quiet || git commit -m "Update visual regression baselines"
+          git push
+
+      - name: Keep the diff report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-diff
+          path: playwright-report/
+          retention-days: 14

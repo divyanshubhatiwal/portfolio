@@ -1,0 +1,79 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+---
+<Page title={`Risk-gate simulator | ${PROFILE.name}`} description="Try to get a bad order past Venture DAO's risk gate. A browser port of the real preflight checks and duplicate-order protection.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/case/venture-dao">Venture DAO</a> / Risk gate</div>
+    <h1>Try to break the <span class="g">risk gate</span></h1>
+    <p class="lede">Every order my trading engine places has to pass these checks first. Change the order or the account below and try to sneak a bad trade through.</p>
+    <p class="t20-note"><b>An interactive model, not live trading.</b> The checks are a line-by-line TypeScript port of <code>preflight()</code> from Venture DAO's engine, in the same order with the same codes. The limits are example settings and no order leaves your browser.</p>
+  </header>
+
+  <section class="sim fade" id="rg">
+    <div class="sim-panel">
+      <h2>Order</h2>
+      <div class="t20-grid">
+        <label>Symbol<select id="rg-symbol"><option>ETH</option><option>BTC</option><option>SOL</option></select></label>
+        <label>Side<select id="rg-side"><option value="BUY">Buy (long)</option><option value="SELL">Sell (short)</option></select></label>
+        <label>Entry price<input id="rg-entry" type="number" step="any" value="2500" /></label>
+        <label>Quantity<input id="rg-qty" type="number" step="any" value="0.01" /></label>
+        <label>Stop-loss <small>(blank = none)</small><input id="rg-stop" type="number" step="any" value="2450" /></label>
+        <label>Target <small>(blank = none)</small><input id="rg-target" type="number" step="any" value="2600" /></label>
+      </div>
+      <h2>Account</h2>
+      <div class="t20-grid">
+        <label>Equity (USD)<input id="rg-equity" type="number" step="any" value="100" /></label>
+        <label>Market data age <output id="rg-age-v">5 s</output><input id="rg-age" type="range" min="0" max="180" value="5" /></label>
+        <label>Drawdown from peak <output id="rg-dd-v">0%</output><input id="rg-dd" type="range" min="0" max="10" step="0.5" value="0" /></label>
+        <label>Loss so far today <output id="rg-dl-v">0%</output><input id="rg-dl" type="range" min="0" max="5" step="0.25" value="0" /></label>
+        <label class="check"><input id="rg-kill" type="checkbox" /> Server kill switch engaged</label>
+        <label class="check"><input id="rg-venue" type="checkbox" /> Exchange times out on the next order</label>
+      </div>
+      <div class="sim-actions">
+        <button type="button" class="btn solid" id="rg-submit">Submit order</button>
+        <button type="button" class="btn ghost" id="rg-retry" title="Send the last order again within the same minute, like a network retry or a double-click">Retry same order</button>
+        <button type="button" class="btn ghost" id="rg-wait">Wait 1 minute</button>
+        <button type="button" class="btn ghost" id="rg-reset">Reset</button>
+      </div>
+    </div>
+
+    <div class="sim-panel" aria-live="polite">
+      <h2>Preflight <span class="sim-verdict" id="rg-verdict"></span></h2>
+      <ol class="gate" id="rg-checks"><li class="idle">Submit an order to run the checks.</li></ol>
+      <h2>Engine state</h2>
+      <div class="states" id="rg-states"></div>
+      <h2>Open positions</h2>
+      <p class="sim-pos" id="rg-positions">None</p>
+      <h2>Journal</h2>
+      <ol class="journal" id="rg-journal"></ol>
+    </div>
+  </section>
+
+  <article class="prose fade">
+    <h2>Things to try</h2>
+    <ul>
+      <li><b>Remove the stop-loss.</b> The engine refuses any entry without one.</li>
+      <li><b>Raise the quantity to 1.</b> The leverage cap stops a 2,500-dollar position on a 100-dollar account, even though the risk per trade still looks small.</li>
+      <li><b>Move the target to 2510.</b> The trade can't pay for its own fees and slippage, so it's blocked. This check exists because of my bot's "31 wins and still down 6%" result.</li>
+      <li><b>Open a long, then submit a short on the same symbol.</b> The engine won't hedge against itself.</li>
+      <li><b>Tick "Exchange times out", submit, then press Retry.</b> The order might already be live, so the key stays reserved and the retry is suppressed instead of becoming a second position.</li>
+    </ul>
+    <h2>Example limits used here</h2>
+    <div class="table-wrap"><table>
+      <tbody>
+        <tr><td>Maximum leverage</td><td>3×</td></tr>
+        <tr><td>Maximum position size</td><td>50% of equity</td></tr>
+        <tr><td>Maximum order notional</td><td>1,000 USD</td></tr>
+        <tr><td>Fees and slippage</td><td>5 bps + 2 bps per fill; target must pay 3× the round trip</td></tr>
+        <tr><td>Open positions / trades per day</td><td>2 / 6</td></tr>
+        <tr><td>Drawdown / daily loss limit</td><td>5% / 2% (the engine's defaults)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Read the full story in the <a href="/case/venture-dao">Venture DAO case study</a>, or the <a href="https://github.com/divyanshubhatiwal/venture-dao" target="_blank" rel="noopener noreferrer">source on GitHub ↗</a>.</p>
+  </article>
+
+  <script>
+    import '@/scripts/risk-gate';
+  </script>
+</Page>

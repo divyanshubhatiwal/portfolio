@@ -4,6 +4,7 @@ cat: Full-stack · Fintech
 lede: An autonomous trading and governance platform that refuses to hide its own losses.
 tags: [Node.js, Express 5, MongoDB, React 19, Docker, Jest]
 order: 2
+demo: { href: /demo/risk-gate, label: Try the risk gate }
 img: /img/venturedao.jpg
 links:
   - href: https://github.com/divyanshubhatiwal/venture-dao
