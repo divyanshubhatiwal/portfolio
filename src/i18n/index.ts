@@ -17,10 +17,17 @@ export const EN: Dict = {
   },
   nav: { about: 'About', skills: 'Skills', experience: 'Experience', projects: 'Projects', cases: 'Case studies', blog: 'Blog', contact: 'Contact', resume: 'Resume', downloadResume: 'Download Resume' },
   hero: {
-    status: 'Available for opportunities',
+    role: 'AI & Full-Stack Engineer',
     lede: 'I build software that shows its work: AI agents that learn from their own failed experiments, forensic pipelines that cite every claim, and apps people actually use.',
-    viewWork: 'View My Work', getInTouch: 'Get in Touch',
-    quote: '"A tool that only shows its good runs is a sales pitch, not a tool."', scroll: 'Scroll',
+    facts: ['B.Tech CSE (AI & ML), SRM IST', 'CGPA 8.83', `${PROJECTS.length} projects shipped`, 'India · open to remote'],
+    viewWork: 'View my work', resume: 'Download résumé', contact: 'Contact me',
+    workTitle: 'Selected work',
+    work: [
+      ['AutoSci', 'Tests whether an LLM agent can out-search Optuna on the same budget. 45-trial baseline study, replayable.', '/demo/autosci'],
+      ['Forensic Agent', 'Rebuilds incident timelines from raw logs. Found 22 of 22 planted anomalies, with every claim cited.', '/case/forensic-agent'],
+      ['Venture DAO', 'Trading engine with a risk gate no order can skip, and a landing page that publishes its own losses.', '/case/venture-dao'],
+    ],
+    allWork: 'All projects',
   },
   about: {
     eyebrow: '01 / About me', title: 'Measure first, claim second.',

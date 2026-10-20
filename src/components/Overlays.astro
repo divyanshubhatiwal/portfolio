@@ -2,16 +2,9 @@
 import Icon from './Icon.astro';
 import { PROFILE } from '@/data/site';
 
-// `home` = the full intro experience (loader, progress bar) only plays on the home page.
 interface Props { home?: boolean }
 const { home = true } = Astro.props;
 ---
-{home && (
-  <div id="loader" aria-hidden="true">
-    <div class="msg" id="loader-msg">Initializing Systems...</div>
-    <div class="bar"><i id="loader-bar"></i></div>
-  </div>
-)}
 <div id="progress" aria-hidden="true"></div>
 <div class="cursor" id="cursor" aria-hidden="true"></div><div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
 

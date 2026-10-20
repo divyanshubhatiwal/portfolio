@@ -1,5 +1,5 @@
 // Visual effects: cursor, spotlight, tilt, magnetic buttons, photo colour lens, parallax,
-// scroll progress, confetti and the 2D particle network (fallback when WebGL is unavailable).
+// scroll progress and confetti.
 import { $, $$, coarsePointer, finePointer, reducedMotion, scrollTop } from './dom';
 
 function cursor(): void {
@@ -127,74 +127,6 @@ function confetti(): void {
     }
     if (!running) { running = true; requestAnimationFrame(frame); }
   });
-}
-
-interface Node2D { x: number; y: number; vx: number; vy: number; r: number; hue: 0 | 1 }
-
-/** 2D particle network: drifting nodes that link up and lean toward the cursor. Used when WebGL isn't available. */
-export function particleNetwork(): void {
-  const cv = $<HTMLCanvasElement>('#net'), hero = $('#home');
-  const ctx = cv?.getContext('2d');
-  if (!cv || !hero || !ctx) return;
-  const still = reducedMotion();
-  let w = 0, h = 0, nodes: Node2D[] = [], visible = true;
-  const mouse = { x: -9999, y: -9999 };
-  const LINK = 130, MOUSE_R = 170;
-  const css = (n: string) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const hexA = (hex: string, a: number) => { const n = parseInt(hex.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
-
-  const resize = () => {
-    const r = hero.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
-    w = r.width; h = r.height;
-    cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    // the link check is O(n²), so use far fewer nodes on phones
-    const small = w < 760 || coarsePointer();
-    const count = Math.min(small ? 28 : 80, Math.round((w * h) / (small ? 20000 : 14000)));
-    nodes = Array.from({ length: count }, () => ({
-      x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-      r: 1 + Math.random() * 1.8, hue: Math.random() < 0.5 ? 0 : 1,
-    }));
-  };
-
-  const draw = () => {
-    const c1 = css('--accent'), c2 = css('--accent-2');
-    ctx.clearRect(0, 0, w, h);
-    for (const n of nodes) {
-      const dx = mouse.x - n.x, dy = mouse.y - n.y, d = Math.hypot(dx, dy);
-      if (d < MOUSE_R && d > 1) { n.vx += (dx / d) * 0.015; n.vy += (dy / d) * 0.015; }
-      n.vx *= 0.985; n.vy *= 0.985;
-      if (Math.hypot(n.vx, n.vy) < 0.12) { n.vx += (Math.random() - 0.5) * 0.04; n.vy += (Math.random() - 0.5) * 0.04; }
-      n.x += n.vx; n.y += n.vy;
-      if (n.x < 0 || n.x > w) n.vx *= -1;
-      if (n.y < 0 || n.y > h) n.vy *= -1;
-      n.x = Math.max(0, Math.min(w, n.x)); n.y = Math.max(0, Math.min(h, n.y));
-    }
-    for (let i = 0; i < nodes.length; i++) {
-      const a = nodes[i]!;
-      for (let j = i + 1; j < nodes.length; j++) {
-        const b = nodes[j]!, d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < LINK) {
-          ctx.strokeStyle = hexA(a.hue ? c2 : c1, (1 - d / LINK) * 0.35);
-          ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-        }
-      }
-      const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-      if (md < MOUSE_R) {
-        ctx.strokeStyle = hexA(c2, (1 - md / MOUSE_R) * 0.6);
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-      }
-      ctx.fillStyle = hexA(a.hue ? c2 : c1, 0.9);
-      ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
-    }
-  };
-  const loop = () => { if (visible) draw(); requestAnimationFrame(loop); };
-
-  hero.addEventListener('pointermove', (e) => { const r = hero.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
-  hero.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
-  new IntersectionObserver(([e]) => { visible = !!e?.isIntersecting; }).observe(hero);
-  addEventListener('resize', resize);
-  resize();
-  if (still) draw(); else requestAnimationFrame(loop);
 }
 
 export function initEffects(): void {

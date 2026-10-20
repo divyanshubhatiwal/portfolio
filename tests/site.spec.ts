@@ -219,3 +219,11 @@ test('now and stats pages load', async ({ page }) => {
   // no storage in tests, so the counter explains itself instead of showing a number
   await expect(page.locator('#st-visits-l')).toContainText('not switched on', { timeout: 10_000 });
 });
+test('refreshing the page starts at the top, even after jumping to a section', async ({ page }) => {
+  await page.goto('/#projects');
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(500);
+  await page.reload();
+  await page.waitForLoadState('load');
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  expect(new URL(page.url()).hash).toBe('');
+});

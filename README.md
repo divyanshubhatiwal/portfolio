@@ -2,7 +2,7 @@
 
 My personal site, built with [Astro](https://astro.build) 7 and TypeScript, deployed on Vercel.
 
-Highlights: a WebGL hero, case studies and a blog written in Markdown (with RSS and generated link-preview
+Highlights: case studies and a blog written in Markdown (with RSS and generated link-preview
 images), an AI "Ask my portfolio" chat and job-description matcher backed by Claude, live GitHub and LeetCode
 stats, a browser-run T20 score model, a terminal mode (press `~`) and a command palette (`Ctrl K`).
 The chat cites its sources and has voice input. Three project demos use real output from my repos: an AutoSci

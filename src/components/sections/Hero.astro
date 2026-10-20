@@ -1,32 +1,39 @@
 ---
+// Landing section: who I am, what I build, the proof, and two clear next steps. Deliberately calm:
+// no loader, typewriter or particle effects, so the content is the first thing a visitor reads.
 import Icon from '../Icon.astro';
 import { PROFILE } from '@/data/site';
-import { content, getLang, ui } from '@/i18n';
+import { getLang, ui } from '@/i18n';
 
-const lang = getLang(Astro.url);
-const T = ui(lang).hero;
+const T = ui(getLang(Astro.url)).hero;
 ---
 <section class="hero" id="home">
-  <div class="grid-bg" data-parallax="0.25"></div>
-  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
-  <!-- the 3D hero (src/scripts/hero3d.ts) renders here; the 2D particle canvas is the fallback -->
-  <div class="particles" id="particles" aria-hidden="true"><canvas id="net"></canvas></div>
-  <div class="wrap">
-    <div class="status hero-in">{T.status}</div>
-    <h1 class="hero-in" style="--d:.1s">Divyanshu <span class="grad-text">Bhatiwal</span></h1>
-    <h2 class="hero-in" style="--d:.25s"><span class="typed" id="typed" data-roles={JSON.stringify(content(lang).roles)}></span></h2>
-    <div class="divider hero-bar"></div>
-    <p class="lede hero-in" style="--d:.5s">{T.lede}</p>
-    <div class="ctas hero-in" style="--d:.6s">
-      <a class="btn solid" href="#projects" data-hover>{T.viewWork}</a>
-      <button class="btn ghost" data-connect data-hover>{T.getInTouch}</button>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-main">
+      <p class="hero-role">{T.role}</p>
+      <h1>{PROFILE.name}</h1>
+      <p class="lede">{T.lede}</p>
+      <ul class="hero-facts">{T.facts.map((f) => <li>{f}</li>)}</ul>
+      <div class="ctas">
+        <a class="btn solid" href="#projects">{T.viewWork}<Icon id="i-arrow" /></a>
+        <a class="btn ghost" href="/resume.pdf" download><Icon id="i-download" />{T.resume}</a>
+      </div>
+      <div class="socials">
+        <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Icon id="i-github" /></a>
+        <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Icon id="i-linkedin" /></a>
+        <a href={`mailto:${PROFILE.email}`} aria-label="Email"><Icon id="i-mail" /></a>
+        <a class="hero-contact" href="#contact">{T.contact}</a>
+      </div>
     </div>
-    <div class="socials hero-in" style="--d:.7s">
-      <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-hover><Icon id="i-github" /></a>
-      <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-hover><Icon id="i-linkedin" /></a>
-      <a href={`mailto:${PROFILE.email}`} aria-label="Email" data-hover><Icon id="i-mail" /></a>
-    </div>
+    <aside class="hero-work" aria-labelledby="hero-work-title">
+      <h2 id="hero-work-title">{T.workTitle}</h2>
+      <ol>
+        {T.work.map(([name, line, href]) => (
+          <li><a href={href}><b>{name}</b><span>{line}</span></a></li>
+        ))}
+      </ol>
+      <a class="hero-all" href="#projects">{T.allWork} →</a>
+    </aside>
   </div>
-  <blockquote class="quote hero-in side" style="--d:1.2s">{T.quote}</blockquote>
-  <a class="scroll-hint" href="#about">{T.scroll}<Icon id="i-down" size={20} /></a>
 </section>

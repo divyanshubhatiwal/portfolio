@@ -22,7 +22,7 @@ async function open(page: Page, path: string, theme: 'dark' | 'light') {
   await page.route(/^https?:\/\/(?!localhost)/, (r) => r.abort()); // GitHub, LeetCode, fonts: never in screenshots
   await page.route('**/api/**', (r) => r.fulfill({ status: 503, body: '{}' }));
   await page.addInitScript((t) => {
-    try { localStorage.setItem('theme', t); sessionStorage.setItem('intro-seen', '1'); } catch { /* ignore */ }
+    try { localStorage.setItem('theme', t); } catch { /* ignore */ }
   }, theme);
   await page.goto(`${BUILT}${path}`);
   await page.waitForLoadState('networkidle');
@@ -43,7 +43,7 @@ for (const theme of ['dark', 'light'] as const) {
       await open(page, path, theme);
       await expect(page).toHaveScreenshot(`${name}-${theme}.png`, {
         // small things that legitimately change between runs
-        mask: [page.locator('#typed, footer .pill, #st-visits, #st-repos, #st-lc')],
+        mask: [page.locator('footer .pill, #st-visits, #st-repos, #st-lc')],
       });
     });
   }

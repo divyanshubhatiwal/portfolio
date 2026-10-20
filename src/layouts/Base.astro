@@ -88,7 +88,7 @@ const person = {
   </script>
   <slot name="head" />
 </head>
-<body class:list={{ 'is-home': home, loaded: !home }}>
+<body class:list={{ 'is-home': home }}>
   <a class="skip-link" href="#main">{T.meta.skip}</a>
   <IconSprite />
   <Nav home={home} />

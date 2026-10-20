@@ -48,10 +48,6 @@
 #chat-speak[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-text); }
 .chat-note { margin: 0 12px 8px; padding: 8px 10px; border-radius: 8px; background: var(--muted); font-size: 11px; color: var(--muted-fg); }
 
-/* ---------- 3D hero canvas ---------- */
-.particles .hero3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.particles { transition: opacity .6s; }
-
 /* ---------- LeetCode card ---------- */
 .lc { padding: 22px 24px; margin-bottom: 20px; }
 .lc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; }
@@ -92,7 +88,7 @@
 }
 :root[lang="hi"] body { line-height: 1.75; }
 /* letter-spacing splits Devanagari conjuncts, and the monospace label font has no Devanagari */
-:root[lang="hi"] :is(.status, .eyebrow, .live, .when, .cap span, .badge, .scroll-hint, .filter) { letter-spacing: normal; font-family: var(--sans); }
+:root[lang="hi"] :is(.eyebrow, .live, .when, .cap span, .badge, .filter) { letter-spacing: normal; font-family: var(--sans); }
 .lang-switch { font: 600 14px var(--sans); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--fg); }
 .lang-switch:hover { border-color: var(--accent); color: var(--accent-text); }
 @media (max-width: 900px) { .nav-right .lang-switch { display: none; } }

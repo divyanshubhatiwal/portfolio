@@ -2,7 +2,7 @@
 // elements exist, so sub-pages (case studies, blog) simply skip the home-only features.
 import { isTyping, storageGet, storageSet } from './dom';
 import { initIntro } from './intro';
-import { initEffects, particleNetwork } from './effects';
+import { initEffects } from './effects';
 import { initUI } from './ui';
 import { initGitHub } from './github';
 import { initLeetCode } from './leetcode';
@@ -15,7 +15,17 @@ import { initPalette } from './palette';
 import { initSmoothScroll } from './smooth';
 import { initArticle } from './article';
 import { initRecruiterView } from './recruiter';
-import { canRun3D, whenIdle } from './capability';
+
+// A refresh always starts at the top of the page. Without this the browser restores the old scroll
+// position, and a #section left in the address bar by a nav click jumps back to that section.
+// Opening a link to a section, and back/forward, still land where they should.
+const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+if (nav?.type === 'reload') {
+  history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+  scrollTo(0, 0);
+  addEventListener('load', () => scrollTo(0, 0), { once: true }); // after late images and fonts change the layout
+}
 
 initSmoothScroll();
 initRecruiterView(); // before initUI, so reveal and filter code sees the final order
@@ -25,18 +35,6 @@ initEffects();
 initArticle();
 initContact();
 
-// hero background: the 3D sphere on capable devices (loaded once the page is idle), the 2D network elsewhere
-if (document.getElementById('particles')) {
-  if (canRun3D()) {
-    whenIdle(() => {
-      import('./hero3d')
-        .then((m) => { if (!m.mountHero3D()) particleNetwork(); })
-        .catch(() => particleNetwork());
-    });
-  } else {
-    particleNetwork();
-  }
-}
 void initGitHub();
 void initLeetCode();
 

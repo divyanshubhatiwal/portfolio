@@ -4,7 +4,10 @@ type S = string;
 export interface Dict {
   meta: { description: S; skip: S; switchLabel: S; switchTitle: S };
   nav: { about: S; skills: S; experience: S; projects: S; cases: S; blog: S; contact: S; resume: S; downloadResume: S };
-  hero: { status: S; lede: S; viewWork: S; getInTouch: S; quote: S; scroll: S };
+  hero: {
+    role: S; lede: S; facts: S[]; viewWork: S; resume: S; contact: S;
+    workTitle: S; work: [name: S, line: S, href: S][]; allWork: S;
+  };
   about: {
     eyebrow: S; title: S; p1: S; p2: S; focus: S; statProjects: S; statPlatforms: S; statTech: S; portrait: S; openToWork: S;
     cards: [title: S, text: S][];
