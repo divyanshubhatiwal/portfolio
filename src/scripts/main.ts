@@ -23,8 +23,15 @@ const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigati
 if (nav?.type === 'reload') {
   history.scrollRestoration = 'manual';
   if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
-  scrollTo(0, 0);
-  addEventListener('load', () => scrollTo(0, 0), { once: true }); // after late images and fonts change the layout
+  // 'instant', because html { scroll-behavior: smooth } would otherwise animate it and let a late jump win
+  // never fights the visitor: once they wheel, touch or press a key, the later resets are skipped
+  let userMoved = false;
+  for (const ev of ['wheel', 'touchstart', 'keydown', 'pointerdown']) addEventListener(ev, () => { userMoved = true; }, { once: true, passive: true });
+  const top = () => { if (!userMoved) scrollTo({ top: 0, left: 0, behavior: 'instant' }); };
+  top();
+  // again once late images and fonts have changed the layout (the browser may also retry the old #section)
+  addEventListener('load', () => { top(); requestAnimationFrame(() => requestAnimationFrame(top)); }, { once: true });
+  void document.fonts?.ready.then(top);
 }
 
 initSmoothScroll();
