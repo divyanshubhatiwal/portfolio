@@ -1,0 +1,55 @@
+---
+// A code tour: real excerpts from a public repo, pinned to one commit, with notes on why they're written that way.
+// Data comes from src/data/github.json (scripts/sync-github.mjs).
+import { Code } from 'astro:components';
+import Page from '@/layouts/Page.astro';
+import { PROFILE, PROJECTS } from '@/data/site';
+import github from '@/data/github.json';
+
+export function getStaticPaths() {
+  return github.tours.map((tour) => ({ params: { slug: tour.slug }, props: { tour } }));
+}
+
+const { tour } = Astro.props;
+const repo = github.repos[tour.repo as keyof typeof github.repos];
+const project = PROJECTS.find((p) => p.name === tour.project);
+const lang = (file: string) => (file.endsWith('.py') ? 'python' : file.endsWith('.ts') ? 'ts' : 'js');
+const others = github.tours.filter((t) => t.slug !== tour.slug);
+---
+<Page title={`${tour.title}: code tour | ${PROFILE.name}`} description={tour.summary}>
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/tour">Code tours</a> / {tour.project}</div>
+    <h1>{tour.title}</h1>
+    <p class="lede">{tour.summary}</p>
+    <p class="tour-meta">
+      <a href={repo.url} target="_blank" rel="noopener noreferrer">{tour.repo} ↗</a>
+      <span>commit <code>{tour.sha.slice(0, 7)}</code></span>
+      <span>{tour.steps.length} stops</span>
+      {project?.slug && <a href={`/case/${project.slug}`}>Case study</a>}
+    </p>
+  </header>
+
+  <div class="tour fade">
+    <nav class="tour-nav" aria-label="Stops on this tour">
+      <ol>{tour.steps.map((s, i) => <li><a href={`#stop-${i + 1}`}><span>{i + 1}</span>{s.title}</a></li>)}</ol>
+    </nav>
+    <div class="tour-steps">
+      {tour.steps.map((s, i) => (
+        <section class="tour-step" id={`stop-${i + 1}`}>
+          <h2><span>{i + 1}</span>{s.title}</h2>
+          <p>{s.note}</p>
+          <div class="tour-code" style={`counter-reset: line ${s.start - 1}`}>
+            <div class="tour-file"><code>{s.file}</code><a href={s.url} target="_blank" rel="noopener noreferrer">lines {s.start}–{s.end} on GitHub ↗</a></div>
+            <Code code={s.code} lang={lang(s.file)} themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+          </div>
+        </section>
+      ))}
+      {others.length > 0 && (
+        <aside class="tour-more">
+          <h2>More tours</h2>
+          <ul>{others.map((t) => <li><a href={`/tour/${t.slug}`}><b>{t.title}</b><span>{t.project}</span></a></li>)}</ul>
+        </aside>
+      )}
+    </div>
+  </div>
+</Page>

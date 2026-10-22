@@ -17,7 +17,7 @@ type RecognitionCtor = new () => Recognition;
 function speakable(html: string): string {
   const div = document.createElement('div');
   div.innerHTML = html;
-  div.querySelectorAll('.cites, .cite').forEach((el) => el.remove());
+  div.querySelectorAll('.cites, .cite, .followups').forEach((el) => el.remove());
   return (div.textContent ?? '').replace(/\s+/g, ' ').trim();
 }
 

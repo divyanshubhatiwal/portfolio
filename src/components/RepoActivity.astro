@@ -1,0 +1,58 @@
+---
+// Commit activity for a project's public repo: bars from the first commit to the latest,
+// plus the most recent commits. Data from src/data/github.json (scripts/sync-github.mjs).
+import github from '@/data/github.json';
+
+interface Props { project: string }
+const repo = Object.entries(github.repos).find(([, r]) => r.project === Astro.props.project);
+const tours = github.tours.filter((t) => t.project === Astro.props.project);
+
+const DAY = 86_400_000;
+// UTC throughout, so the bars (grouped by UTC day) and the dates beside them agree
+const fmt = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+// one bar per day for short histories, per week for longer ones
+let bars: { at: string; n: number }[] = [];
+let unit: 'day' | 'week' = 'day';
+if (repo) {
+  const tl = repo[1].timeline;
+  const span = tl.first && tl.last ? (Date.parse(tl.last) - Date.parse(tl.first)) / DAY : 0;
+  unit = span > 90 ? 'week' : 'day';
+  const counts = (unit === 'week' ? tl.weeks : tl.days) as Record<string, number>;
+  const keys = Object.keys(counts).sort();
+  if (keys.length) {
+    for (let t = Date.parse(keys[0]!); t <= Date.parse(keys.at(-1)!); t += (unit === 'week' ? 7 : 1) * DAY) {
+      const k = new Date(t).toISOString().slice(0, 10);
+      bars.push({ at: k, n: counts[k] ?? 0 });
+    }
+  }
+}
+const max = Math.max(1, ...bars.map((b) => b.n));
+const BW = 10, GAP = 3, H = 44;
+---
+{repo && (
+  <aside class="repo-act fade" aria-label="Development activity">
+    <div class="repo-act-head">
+      <b>Public repository</b>
+      <span>{repo[1].timeline.total} commit{repo[1].timeline.total === 1 ? '' : 's'}
+        {repo[1].timeline.first && repo[1].timeline.first !== repo[1].timeline.last
+          ? <> from {fmt(repo[1].timeline.first)} to {fmt(repo[1].timeline.last!)}</>
+          : repo[1].timeline.first && <>, published {fmt(repo[1].timeline.first)}</>}
+      </span>
+      <a href={repo[1].url} target="_blank" rel="noopener noreferrer">{repo[0]} on GitHub ↗</a>
+      {tours.map((t) => <a href={`/tour/${t.slug}`}>Code tour: {t.title}</a>)}
+    </div>
+    {bars.length > 1 && (
+      <svg class="repo-bars" viewBox={`0 0 ${bars.length * (BW + GAP)} ${H}`} style={`width: min(100%, ${bars.length * (BW + GAP) * 1.6}px)`} preserveAspectRatio="none" role="img"
+        aria-label={`Commits per ${unit} over ${bars.length} ${unit}s, up to ${max} in a ${unit}`}>
+        {bars.map((b, i) => (
+          <rect x={i * (BW + GAP)} y={H - Math.max(2, (b.n / max) * H)} width={BW} height={Math.max(2, (b.n / max) * H)} rx="2" class:list={{ zero: !b.n }}>
+            <title>{unit === 'week' ? 'Week of ' : ''}{fmt(b.at)}: {b.n} commit{b.n === 1 ? '' : 's'}</title>
+          </rect>
+        ))}
+      </svg>
+    )}
+    <ul class="repo-recent">
+      {repo[1].timeline.recent.slice(0, 3).map((c) => <li><span>{c.at ? fmt(c.at) : ''}</span>{c.msg}</li>)}
+    </ul>
+  </aside>
+)}

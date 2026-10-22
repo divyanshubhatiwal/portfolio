@@ -1,5 +1,6 @@
 ---
 import { content, getLang, ui } from '@/i18n';
+import github from '@/data/github.json';
 
 const lang = getLang(Astro.url);
 const T = ui(lang).projects;
@@ -7,6 +8,8 @@ const { projects, category } = content(lang);
 const cats = ['All', ...new Set(projects.map((p) => p.cat))];
 const count = (c: string) => (c === 'All' ? projects.length : projects.filter((p) => p.cat === c).length);
 const VISIBLE_TAGS = 3;
+// first code tour for each project, if it has one
+const tourOf = new Map([...github.tours].reverse().map((t) => [t.project, t.slug]));
 ---
 <section class="block" id="projects">
   <div class="wrap">
@@ -20,7 +23,7 @@ const VISIBLE_TAGS = 3;
         </button>
       ))}
     </div>
-    <div class="projects" id="project-grid" data-focus-shown={T.focusShown} data-focus-reset={T.focusReset}>
+    <div class="projects" id="project-grid" data-focus-shown={T.focusShown} data-focus-reset={T.focusReset} data-focus-cv={T.focusCv} data-status-up={T.up} data-status-down={T.down}>
       {projects.map((p, i) => (
         <article class:list={['project', 'spot', 'reveal', { featured: p.featured }]} data-cat={p.cat} data-name={p.name}>
           {p.img && (
@@ -41,6 +44,7 @@ const VISIBLE_TAGS = 3;
           <div class="links">
             {p.slug && <a href={`/case/${p.slug}`} data-hover>{T.caseStudy}</a>}
             {p.demo && <a href={p.demo} data-hover>{T.tryIt}</a>}
+            {tourOf.has(p.name) && <a href={`/tour/${tourOf.get(p.name)}`} data-hover>{T.tour}</a>}
             {p.code && <a href={p.code} target="_blank" rel="noopener noreferrer" data-hover>{T.source}</a>}
             {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" data-hover>{T.live}</a>}
           </div>

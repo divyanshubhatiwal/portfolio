@@ -227,3 +227,70 @@ test('refreshing the page starts at the top, even after jumping to a section', a
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
   expect(new URL(page.url()).hash).toBe('');
 });
+test('chat offers follow-up questions and a share link, and shared links ask the question', async ({ page }) => {
+  await page.route('**/api/chat', (r) => r.fulfill({ json: {
+    answer: 'I built RideCompare with FastAPI [1].',
+    sources: [{ n: 1, title: 'RideCompare case study', url: '/case/ridecompare' }],
+    followups: ['How did you test it?', '<b>not shown</b>'],
+  } }));
+  await page.goto('/?ask=What%20have%20you%20built%20with%20FastAPI%3F');
+  await expect(page.locator('#chat')).toHaveClass(/open/);
+  expect(new URL(page.url()).search).toBe(''); // the question leaves the address bar
+  const reply = page.locator('#chat-log .msg.bot').last();
+  await expect(reply.locator('.followups button')).toHaveText(['How did you test it?']); // unsafe text dropped
+  await expect(reply.locator('.chat-share')).toHaveAttribute('data-share', 'What have you built with FastAPI?');
+  await reply.locator('.followups button').click();
+  await expect(page.locator('#chat-log .msg.me').last()).toHaveText('How did you test it?');
+});
+
+test('skill evidence links each skill to code on GitHub at a pinned commit', async ({ page }) => {
+  await page.goto('/evidence#skill=MongoDB');
+  const panel = page.locator('#ev-panel');
+  await expect(panel.locator('h3')).toHaveText('MongoDB');
+  const link = panel.locator('li', { hasText: 'Venture DAO' }).locator('a');
+  await expect(link).toHaveAttribute('href', /^https:\/\/github\.com\/divyanshubhatiwal\/venture-dao\/blob\/[0-9a-f]{40}\/backend\/package\.json#L\d+$/);
+  await expect(panel.locator('li.weak', { hasText: 'Lumina' })).toBeVisible(); // described, not public code
+});
+
+test('code tours show real excerpts with their true line numbers', async ({ page }) => {
+  await page.goto('/tour/venture-dao-one-order');
+  await expect(page.locator('.tour-step')).toHaveCount(3);
+  const first = page.locator('#stop-1');
+  await expect(first.locator('.tour-file a')).toHaveAttribute('href', /\/blob\/[0-9a-f]{40}\/backend\/trading\/botEngine\.js#L\d+-L\d+$/);
+  await expect(first.locator('pre')).toContainText('export function executionKey');
+  await page.goto('/tour');
+  await expect(page.locator('.card')).toHaveCount(4);
+});
+
+test('tailored résumé puts relevant projects first and prints on one page', async ({ page }) => {
+  await page.goto('/resume?for=backend');
+  await expect(page.locator('#cv-role')).toHaveValue('backend');
+  await expect(page.locator('#cv-projects .cv-item').first().locator('h3')).toHaveText('SafeSignal AI');
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('#cv-projects .cv-item.cut').first()).toBeHidden();
+  await expect(page.locator('#cv-projects .cv-item:not(.cut)')).toHaveCount(5);
+});
+
+test('live status badges appear on deployed projects', async ({ page }) => {
+  await page.route('**/api/status', (r) => r.fulfill({ json: { checked: new Date().toISOString(), results: [
+    { name: 'Friends Talk', url: 'https://friendstalk.fun/', ok: true, status: 200, ms: 120 },
+    { name: 'FlowBoard', url: 'https://flowboard-teal.vercel.app/', ok: false, status: 503, ms: 80 },
+  ] } }));
+  await page.goto('/');
+  await expect(page.locator('.project[data-name="Friends Talk"] .status-badge')).toHaveText('Live · 120 ms');
+  await expect(page.locator('.project[data-name="FlowBoard"] .status-badge')).toHaveText('Not responding');
+});
+
+test('status endpoint only checks the site\'s own live projects', async ({ request }) => {
+  const r = await request.get('/api/status?url=https://example.com');
+  expect(r.ok()).toBeTruthy();
+  const { results } = await r.json() as { results: { name: string; url: string; ok: boolean }[] };
+  expect(results.map((x) => x.name).sort()).toEqual(['FlowBoard', 'Friends Talk', 'T20 Score Predictor']);
+  expect(results.every((x) => typeof x.ok === 'boolean' && !x.url.includes('example.com'))).toBeTruthy();
+});
+
+test('case studies show the public repository history', async ({ page }) => {
+  await page.goto('/case/venture-dao');
+  await expect(page.locator('.repo-act')).toContainText(/\d+ commits/);
+  await expect(page.locator('.repo-act a', { hasText: 'Code tour' })).toHaveCount(2);
+});

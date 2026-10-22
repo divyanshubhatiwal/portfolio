@@ -9,13 +9,15 @@ import { PROFILE } from '@/data/site';
 
 export const prerender = false;
 
-const MAX_QUESTION = 500, MAX_TURNS = 6, MAX_TURN_CHARS = 1200, MAX_SOURCES = 5;
+const MAX_QUESTION = 500, MAX_TURNS = 6, MAX_TURN_CHARS = 1200, MAX_SOURCES = 5, MAX_FOLLOWUPS = 3, MAX_FOLLOWUP_CHARS = 90;
 
 const RULES = `You are the "Ask my portfolio" assistant on ${PROFILE.name}'s portfolio website. You answer as ${PROFILE.name}, in the first person ("I built…"), for recruiters and other visitors.
 
 Answer only from the sources below. If the answer isn't there, say you don't have that detail on the site and suggest emailing ${PROFILE.email}. Never invent projects, employers, dates, grades or numbers.
 
 Cite your sources: put a marker like [1] after each claim, numbered in the order the sources appear in your "sources" list, and list the ids of the sources you used. Cite only sources whose text supports the claim. Greetings and "I don't have that detail" answers need no sources.
+
+Suggest up to three short follow-up questions a recruiter might ask next, answerable from the sources (for example "How did you test it?"). Write them as the visitor would ask them.
 
 Keep answers short: two to five sentences, or a brief list. Write plain text; **bold** is allowed. Don't write raw URLs; the citations link to the pages.
 
@@ -30,6 +32,7 @@ interface Body { question?: unknown; history?: unknown }
 const buildSchema = (ids: [string, ...string[]]) => z.object({
   answer: z.string().describe('The reply, with [n] citation markers'),
   sources: z.array(z.enum(ids)).describe('Ids of the cited sources, in [n] order; empty if none'),
+  followups: z.array(z.string()).describe('Up to three short follow-up questions the visitor could ask next'),
 });
 let schemaPromise: Promise<ReturnType<typeof buildSchema>> | undefined;
 function getSchema() {
@@ -77,7 +80,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
 
     if (response.stop_reason === 'refusal') {
-      return json({ answer: `I can only help with questions about my work. Try asking about a project, or email me at ${PROFILE.email}.`, sources: [] });
+      return json({ answer: `I can only help with questions about my work. Try asking about a project, or email me at ${PROFILE.email}.`, sources: [], followups: [] });
     }
     const out = response.parsed_output;
     if (!out?.answer.trim()) return json({ error: 'empty' }, 502);
@@ -87,7 +90,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const sources = [...new Set(out.sources)].slice(0, MAX_SOURCES)
       .map((id, i) => ({ n: i + 1, title: byId.get(id)!.title, url: byId.get(id)!.url }));
     const answer = out.answer.replace(/\[(\d+)\]/g, (m, n: string) => (Number(n) >= 1 && Number(n) <= sources.length ? m : ''));
-    return json({ answer, sources });
+    // short, single-line follow-ups only; anything odd is dropped rather than shown
+    const followups = [...new Set(out.followups.map((f) => f.replace(/\s+/g, ' ').trim()))]
+      .filter((f) => f.length > 3 && f.length <= MAX_FOLLOWUP_CHARS && !/[<>]/.test(f))
+      .slice(0, MAX_FOLLOWUPS);
+    return json({ answer, sources, followups });
   } catch (err) {
     return errorResponse(err);
   }

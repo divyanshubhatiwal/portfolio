@@ -2,7 +2,7 @@
 title: Venture DAO
 cat: Full-stack · Fintech
 lede: An autonomous trading and governance platform that refuses to hide its own losses.
-tags: [Node.js, Express 5, MongoDB, React 19, Docker, Jest]
+tags: [Node.js, Express 5, MongoDB, React 19, Docker, Vitest]
 order: 2
 demo: { href: /demo/risk-gate, label: Try the risk gate }
 img: /img/venturedao.jpg
@@ -49,7 +49,7 @@ Money-moving software has one failure that matters more than any other: doing so
 - HMAC-signed exchange calls, rate limiting and CORS.
 - Live trading needs **both** `DELTA_ENV=live` and `DELTA_ALLOW_LIVE=true`, so a single typo can't start moving real money.
 - Nothing holding a secret may use the `VITE_` prefix, which would compile it into the browser bundle.
-- 20+ Jest suites cover the engine, auth, vault and venue adapters, run before every Docker deploy.
+- 20+ Vitest suites cover the engine, auth, vault and venue adapters, run before every Docker deploy.
 
 ## Honest results
 

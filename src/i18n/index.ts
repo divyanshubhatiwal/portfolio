@@ -42,12 +42,12 @@ export const EN: Dict = {
       ['Production Mindset', 'Deterministic risk gates, offline-first design, strict TypeScript and tests that ship with the code.'],
     ],
   },
-  skills: { eyebrow: '02 / Toolbox', title: 'Skills & Technologies', sub: 'The stack I reach for when an idea needs to become a working system.' },
+  skills: { eyebrow: '02 / Toolbox', title: 'Skills & Technologies', sub: 'The stack I reach for when an idea needs to become a working system.', evidence: 'See the code behind each skill' },
   experience: { eyebrow: '03 / Journey', title: 'Experience', sub: 'Where I\'ve been building and what I\'ve shipped.' },
   projects: {
     eyebrow: '04 / Work', title: 'Featured Projects', sub: 'Systems built to be measured, not just demoed.', filterLabel: 'Filter projects by category',
-    all: 'All', caseStudy: 'Case study', tryIt: 'Try it here', source: 'Source', live: 'Live Demo ↗', shot: 'Screenshot of',
-    focusShown: 'Showing my <b></b> work first.', focusReset: 'Show the usual order',
+    all: 'All', caseStudy: 'Case study', tryIt: 'Try it here', source: 'Source', live: 'Live Demo ↗', tour: 'Code tour', shot: 'Screenshot of',
+    focusShown: 'Showing my <b></b> work first.', focusReset: 'Show the usual order', focusCv: 'Get a résumé for this role', up: 'Live', down: 'Not responding',
   },
   github: {
     eyebrow: '05 / Open source', title: 'GitHub & Coding Activity',

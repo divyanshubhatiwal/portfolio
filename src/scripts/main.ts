@@ -7,7 +7,7 @@ import { initUI } from './ui';
 import { initGitHub } from './github';
 import { initLeetCode } from './leetcode';
 import { initContact } from './contact';
-import { initChat } from './chat';
+import { initChat, MAX_SHARED_QUESTION } from './chat';
 import { aiAnswerer } from './chat-ai';
 import { initVoice } from './voice';
 import { initTerminal } from './terminal';
@@ -15,6 +15,7 @@ import { initPalette } from './palette';
 import { initSmoothScroll } from './smooth';
 import { initArticle } from './article';
 import { initRecruiterView } from './recruiter';
+import { initStatus } from './status';
 
 // A refresh always starts at the top of the page. Without this the browser restores the old scroll
 // position, and a #section left in the address bar by a nav click jumps back to that section.
@@ -44,11 +45,22 @@ initContact();
 
 void initGitHub();
 void initLeetCode();
+void initStatus();
 
 const voice = initVoice();
 const chat = initChat(aiAnswerer(), { onReply: (html) => voice.readAloud(html) });
 const term = initTerminal();
 const palette = initPalette(term, chat);
+
+// a shared question link (/?ask=…) opens the chat and asks it; the question then leaves the address bar
+const shared = new URLSearchParams(location.search).get('ask')?.trim().slice(0, MAX_SHARED_QUESTION);
+if (shared && chat) {
+  const url = new URL(location.href);
+  url.searchParams.delete('ask');
+  history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+  chat.open(true);
+  chat.ask(shared);
+}
 
 // visitor counter for /stats: one count per browser session; the endpoint ignores it until storage is set up
 if (import.meta.env.PROD && !storageGet('visit-counted')) {

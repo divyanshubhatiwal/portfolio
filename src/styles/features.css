@@ -92,3 +92,21 @@
 .lang-switch { font: 600 14px var(--sans); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--fg); }
 .lang-switch:hover { border-color: var(--accent); color: var(--accent-text); }
 @media (max-width: 900px) { .nav-right .lang-switch { display: none; } }
+/* ---------- chat: follow-up questions and share link ---------- */
+.msg .followups { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.msg .followups button { font: 500 12.5px var(--sans); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); cursor: pointer; text-align: left; }
+.msg .followups button:hover { border-color: var(--accent); color: var(--accent-text); }
+.msg .chat-share { display: block; margin-top: 8px; padding: 0; border: 0; background: none; font: 12px var(--sans); color: var(--muted-fg); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.msg .chat-share:hover { color: var(--accent-text); }
+/* ---------- link from Skills to /evidence ---------- */
+.skills-more { margin: 28px 0 0; }
+.skills-more a { font-weight: 600; color: var(--accent-text); }
+.skills-more a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- live status badge on project cards ---------- */
+.project .top { gap: 8px; }
+.status-badge { margin-left: auto; font: 600 11.5px var(--sans); padding: 3px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+.status-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status-badge.up { color: var(--accent-text); background: var(--accent-soft); }
+.status-badge.down { color: #b45309; background: rgba(245, 158, 11, .14); }
+.focus-banner .cv-link { margin-left: auto; }

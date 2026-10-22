@@ -1,0 +1,92 @@
+---
+// One-page résumé built from src/data/site.ts, so it can never disagree with the site.
+// ?for=backend (ai, frontend, fullstack, mobile) puts the most relevant projects and skills first.
+import Page from '@/layouts/Page.astro';
+import { CERTS, EXPERIENCE, PROFILE, PROJECTS, SKILLS } from '@/data/site';
+import { FOCUS } from '@/lib/focus';
+import { EN } from '@/i18n';
+
+const site = (Astro.site ?? new URL('https://divyanshu-portfolio.vercel.app')).href.replace(/\/$/, '');
+const host = site.replace(/^https?:\/\//, '');
+const e = PROFILE.education;
+const projectLink = (p: (typeof PROJECTS)[number]) => (p.slug ? `${site}/case/${p.slug}` : p.code ?? p.live ?? `${site}/#projects`);
+const shortLink = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const SHOWN = 5; // projects that fit on one page
+---
+<Page title={`Résumé | ${PROFILE.name}`} description={`One-page résumé of ${PROFILE.name}, ${PROFILE.title}. Tailor it to a role and save it as a PDF.`}>
+  <div class="cv-bar fade">
+    <label>Tailor to a role
+      <select id="cv-role">
+        <option value="">General</option>
+        {Object.entries(FOCUS).map(([k, f]) => <option value={k}>{f.label.replace(/^./, (c) => c.toUpperCase())}</option>)}
+      </select>
+    </label>
+    <button type="button" class="btn solid" id="cv-print">Save as PDF</button>
+    <a class="btn ghost" href="/resume.pdf" download>Original PDF</a>
+    <p>Built from the same data as this site, so it never contradicts it. "Save as PDF" uses your browser's print dialog.</p>
+  </div>
+
+  <article class="cv fade" id="cv" data-shown={SHOWN}>
+    <header class="cv-head">
+      <div>
+        <h1>{PROFILE.name}</h1>
+        <p class="cv-title">{PROFILE.title}</p>
+      </div>
+      <ul class="cv-contact">
+        <li><a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a></li>
+        <li><a href={PROFILE.github}>{shortLink(PROFILE.github)}</a></li>
+        <li><a href={PROFILE.linkedin}>linkedin.com/in/divyanshu-bhatiwal</a></li>
+        <li><a href={site}>{host}</a></li>
+        <li>{PROFILE.location}</li>
+      </ul>
+    </header>
+
+    <p class="cv-summary">{EN.hero.lede}</p>
+
+    <section>
+      <h2>Projects</h2>
+      <div class="cv-projects" id="cv-projects">
+        {PROJECTS.map((p, i) => (
+          <div class:list={['cv-item', { cut: i >= SHOWN }]} data-cat={p.cat} data-tags={p.tags.join('|')}>
+            <div class="cv-row"><h3>{p.name}</h3><a href={projectLink(p)}>{shortLink(projectLink(p))}</a></div>
+            <p>{p.desc}</p>
+            <p class="cv-tags">{p.tags.join(' · ')}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+      {EXPERIENCE.filter((x) => x.badge !== 'SRM').map((x) => (
+        <div class="cv-item">
+          <div class="cv-row"><h3>{x.role}, {x.org}</h3><span>{x.period} · {x.place}</span></div>
+          <ul>{x.points.map((pt) => <li>{pt}</li>)}</ul>
+        </div>
+      ))}
+    </section>
+
+    <div class="cv-cols">
+      <section>
+        <h2>Skills</h2>
+        <dl class="cv-skills" id="cv-skills">
+          {Object.entries(SKILLS).map(([g, list]) => <div data-group={g}><dt>{g}</dt><dd>{list.map(([n]) => n).join(', ')}</dd></div>)}
+        </dl>
+      </section>
+      <section>
+        <h2>Education</h2>
+        <div class="cv-item">
+          <h3>{e.degree}</h3>
+          <p>{e.school}, {e.years}</p>
+          <p>CGPA {e.cgpa} / 10 · Class XII {e.classXII}</p>
+        </div>
+        <h2>Certifications</h2>
+        <ul class="cv-certs">{CERTS.map((c) => <li>{c.title} <span>({c.issuer}, {c.date})</span></li>)}</ul>
+      </section>
+    </div>
+  </article>
+
+  <script>
+    import '@/scripts/resume';
+  </script>
+</Page>

@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import Page from '@/layouts/Page.astro';
+import RepoActivity from '@/components/RepoActivity.astro';
 import { getCases, type Case } from '@/lib/content';
 import { PROFILE } from '@/data/site';
 
@@ -30,6 +31,7 @@ const d = entry.data;
       <a class="btn solid" href="/#contact">Talk to me about it</a>
     </div>
   </header>
+  <RepoActivity project={d.title} />
   {d.img && <div class="shot fade"><img src={d.img} alt={`Screenshot of ${d.title}`} width="900" height="562" /></div>}
   <article class="prose fade"><Content /></article>
   <nav class="pager" aria-label="More case studies">

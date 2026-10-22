@@ -12,9 +12,9 @@ export interface Dict {
     eyebrow: S; title: S; p1: S; p2: S; focus: S; statProjects: S; statPlatforms: S; statTech: S; portrait: S; openToWork: S;
     cards: [title: S, text: S][];
   };
-  skills: { eyebrow: S; title: S; sub: S };
+  skills: { eyebrow: S; title: S; sub: S; evidence: S };
   experience: { eyebrow: S; title: S; sub: S };
-  projects: { eyebrow: S; title: S; sub: S; filterLabel: S; all: S; caseStudy: S; tryIt: S; source: S; live: S; shot: S; focusShown: S; focusReset: S };
+  projects: { eyebrow: S; title: S; sub: S; filterLabel: S; all: S; caseStudy: S; tryIt: S; source: S; live: S; tour: S; shot: S; focusShown: S; focusReset: S; focusCv: S; up: S; down: S };
   github: {
     eyebrow: S; title: S; sub: S; repos: S; followers: S; since: S; langs: S; solved: S;
     easy: S; medium: S; hard: S; rating: S; contests: S; ranking: S; graph: S; graphAlt: S;

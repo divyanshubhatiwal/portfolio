@@ -1,0 +1,74 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+import { buildEvidence } from '@/lib/evidence';
+
+const { skills, projects, synced } = buildEvidence();
+const codeCount = skills.filter((s) => s.proofs.some((p) => p.kind !== 'described')).length;
+
+// two-column graph: skills on the left, projects on the right, one line per proof
+const ROW = 26, TOP = 14, W = 760, LX = 210, RX = 560;
+const H = TOP * 2 + Math.max(skills.length, projects.length) * ROW;
+const sy = (i: number) => TOP + i * ROW + ROW / 2;
+const pGap = (H - TOP * 2) / projects.length;
+const py = (i: number) => TOP + i * pGap + pGap / 2;
+const pIndex = new Map(projects.map((p, i) => [p.name, i]));
+const edges = skills.flatMap((s, i) => s.proofs.filter((p) => pIndex.has(p.project))
+  .map((p) => ({ s: i, p: pIndex.get(p.project)!, code: p.kind !== 'described' })));
+const groups = [...new Set(skills.map((s) => s.group))];
+---
+<Page title={`Skills, with evidence | ${PROFILE.name}`} description="Every skill I list, linked to the projects that use it and the exact file or line on GitHub that proves it.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/#skills">Skills</a> / Evidence</div>
+    <h1>Skills, with <span class="g">evidence</span></h1>
+    <p class="lede">Pick a skill to see where I've used it. A solid line means you can check it in the code on GitHub, down to the line; a dashed line means the project uses it but its code isn't public.</p>
+    <p class="t20-note"><b>{codeCount} of {skills.length} skills</b> are backed by public code. Links point at exact commits, synced {new Date(synced).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}, so the line numbers stay right.</p>
+  </header>
+
+  <section class="ev fade" id="ev" data-skills={JSON.stringify(skills)} data-projects={JSON.stringify(projects)}>
+    <div class="ev-graph">
+      <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Skills linked to projects">
+        <g class="ev-edges">
+          {edges.map((e) => (
+            <path class:list={['ev-edge', { code: e.code }]} data-s={e.s} data-p={e.p}
+              d={`M${LX + 8},${sy(e.s)} C${(LX + RX) / 2},${sy(e.s)} ${(LX + RX) / 2},${py(e.p)} ${RX - 8},${py(e.p)}`} />
+          ))}
+        </g>
+        {skills.map((s, i) => (
+          <g class="ev-node ev-skill" data-s={i} tabindex="0" role="button" aria-label={`${s.name}: ${s.proofs.length} projects`}>
+            <rect x="0" y={sy(i) - 11} width={LX + 8} height="22" rx="6" />
+            <text x={LX - 4} y={sy(i) + 4} text-anchor="end">{s.name}</text>
+            <circle cx={LX + 8} cy={sy(i)} r="4" />
+          </g>
+        ))}
+        {projects.map((p, i) => (
+          <g class="ev-node ev-project" data-p={i} tabindex="0" role="button" aria-label={`${p.name}`}>
+            <rect x={RX - 8} y={py(i) - 11} width={W - RX + 8} height="22" rx="6" />
+            <circle cx={RX - 8} cy={py(i)} r="4" />
+            <text x={RX + 6} y={py(i) + 4}>{p.name}</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+
+    <div class="ev-side">
+      <div class="ev-list" role="group" aria-label="Skills">
+        {groups.map((g) => (
+          <div class="ev-group">
+            <h2>{g}</h2>
+            <div>{skills.map((s, i) => s.group === g && (
+              <button type="button" data-s={i} class:list={{ weak: !s.proofs.some((p) => p.kind !== 'described') }}>{s.name}</button>
+            ))}</div>
+          </div>
+        ))}
+      </div>
+      <div class="ev-panel" id="ev-panel" aria-live="polite">
+        <p class="ev-hint">Pick a skill or a project.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import '@/scripts/evidence';
+  </script>
+</Page>

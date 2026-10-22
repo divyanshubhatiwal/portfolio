@@ -3,7 +3,7 @@
 import { expect, test } from '@playwright/test';
 
 const BUILT = 'http://localhost:4323';
-const PAGES = ['/', '/case/venture-dao/', '/blog/', '/demo/t20/', '/demo/risk-gate/', '/demo/forensic/', '/demo/autosci/', '/now/', '/stats/'];
+const PAGES = ['/', '/case/venture-dao/', '/blog/', '/demo/t20/', '/demo/risk-gate/', '/demo/forensic/', '/demo/autosci/', '/now/', '/stats/', '/evidence/', '/tour/', '/tour/venture-dao-one-order/', '/resume/'];
 
 test.beforeEach(async ({ request }) => {
   const r = await request.get(`${BUILT}/`);

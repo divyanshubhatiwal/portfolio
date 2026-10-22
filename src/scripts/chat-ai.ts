@@ -10,6 +10,12 @@ interface Cited { n: number; title: string; url: string }
 /** Only same-site paths are allowed as citation links (they come from the server's source list). */
 const safePath = (u: string) => (/^\/[^\s"'<>]*$/.test(u) ? u : '/');
 
+/** Follow-up questions as buttons; the chat window asks whichever is clicked. */
+export function renderFollowups(followups: unknown): string {
+  const list = (Array.isArray(followups) ? followups : []).filter((f): f is string => typeof f === 'string' && f.length <= 120 && !/[<>]/.test(f)) // same rule as the server.slice(0, 3);
+  return list.length ? `<div class="followups">${list.map((q) => `<button type="button" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>` : '';
+}
+
 /** Turn [n] markers into small links and append a numbered "Sources" list. */
 export function renderCited(answer: string, sources: Cited[]): string {
   const byN = new Map(sources.map((s) => [s.n, s]));
@@ -62,11 +68,11 @@ export function aiAnswerer(): Answerer {
           signal: AbortSignal.timeout(30_000),
         });
         if (r.ok) {
-          const { answer, sources = [] } = (await r.json()) as { answer?: string; sources?: Cited[] };
+          const { answer, sources = [], followups } = (await r.json()) as { answer?: string; sources?: Cited[]; followups?: unknown };
           if (answer) {
             // history keeps the plain text; citation markers would only confuse the next turn
             history.push({ role: 'user', content: question }, { role: 'assistant', content: answer.replace(/\[\d+\]/g, '') });
-            reply = renderCited(answer, sources);
+            reply = renderCited(answer, sources) + renderFollowups(followups);
           }
         } else if (r.status === 503) {
           aiOff = true;

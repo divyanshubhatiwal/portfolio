@@ -8,6 +8,9 @@ stats, a browser-run T20 score model, a terminal mode (press `~`) and a command 
 The chat cites its sources and has voice input. Three project demos use real output from my repos: an AutoSci
 replay, a Forensic Agent investigation and a Venture DAO risk-gate simulator. There's also a `/now` page, a `/stats`
 page, a recruiter view (`/?for=backend`, `ai`, `frontend`, `fullstack` or `mobile`) and a Hindi home page at `/hi/`.
+Also: `/evidence` links every skill to the exact file or line on GitHub that uses it, `/tour` walks through real
+code with notes, `/resume` prints a one-page résumé tailored to a role, project cards show whether live sites are up,
+case studies show their public commit history, and chat answers suggest follow-up questions and can be shared as links.
 It works offline once visited, and falls back gracefully whenever an API isn't available.
 
 ## Run it
@@ -45,6 +48,7 @@ Turn on **Analytics** in the Vercel project to activate visitor stats.
 | Case studies | `src/content/cases/*.md` |
 | Blog posts | `src/content/blog/*.md` (set `draft: true` to hide one) |
 | Hindi home page text | `src/i18n/hi.ts` (machine-assisted; needs a native speaker's review) |
+| Skill evidence, code tours, repo history | `scripts/github-config.mjs`, then `node scripts/sync-github.mjs` and commit `src/data/github.json` |
 | PWA icons (after changing `public/favicon.svg`) | `node scripts/generate-icons.mjs` |
 
 ## Notes

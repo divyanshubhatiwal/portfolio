@@ -1,0 +1,692 @@
+{
+ "synced": "2026-10-22T06:50:31.887Z",
+ "owner": "divyanshubhatiwal",
+ "repos": {
+  "venture-dao": {
+   "project": "Venture DAO",
+   "sha": "1c2abee13a44b2daf9a1328c27050c2eb94bef32",
+   "branch": "main",
+   "url": "https://github.com/divyanshubhatiwal/venture-dao",
+   "homepage": "https://venturedao.vercel.app",
+   "description": "Autonomous quant trading platform: idempotent order execution, mandatory risk gates, walk-forward ML signals and DAO governance. Reports its losses honestly.",
+   "languages": {
+    "JavaScript": 1116303,
+    "CSS": 16192,
+    "Python": 4842,
+    "HTML": 993,
+    "Dockerfile": 320
+   },
+   "timeline": {
+    "total": 24,
+    "first": "2026-08-15T12:25:38Z",
+    "last": "2026-08-17T21:33:14Z",
+    "weeks": {
+     "2026-08-09": 3,
+     "2026-08-16": 21
+    },
+    "days": {
+     "2026-08-15": 3,
+     "2026-08-17": 21
+    },
+    "recent": [
+     {
+      "at": "2026-08-17T21:33:14Z",
+      "msg": "docs: improve README with mermaid architecture diagrams and clean structure"
+     },
+     {
+      "at": "2026-08-17T17:23:43Z",
+      "msg": "refactor(nav): consolidate right-side controls into unified action blocks"
+     },
+     {
+      "at": "2026-08-17T17:14:04Z",
+      "msg": "feat(nav): polish navbar into centered segmented pill with icons and balanced glass layout"
+     },
+     {
+      "at": "2026-08-17T17:11:01Z",
+      "msg": "feat(nav): convert sidebar to top horizontal navbar with dropdown menus and polish hero page"
+     },
+     {
+      "at": "2026-08-17T17:03:37Z",
+      "msg": "feat(ui): modernize typography with Plus Jakarta Sans & Outfit and upgrade institutional sidebar"
+     }
+    ]
+   }
+  },
+  "friends-talk": {
+   "project": "Friends Talk",
+   "sha": "3b84bdbdf4e1b68bd221bb87f16900080d05a9ad",
+   "branch": "master",
+   "url": "https://github.com/divyanshubhatiwal/friends-talk",
+   "homepage": "https://friendstalk.fun/",
+   "description": "Anonymous voice-first random chat: one tap matches you with a stranger by voice, with no camera or account. WebRTC, Node.js and MongoDB.",
+   "languages": {
+    "JavaScript": 298663,
+    "CSS": 89628,
+    "HTML": 76158,
+    "Swift": 4134,
+    "Ruby": 379
+   },
+   "timeline": {
+    "total": 22,
+    "first": "2026-08-18T17:49:00Z",
+    "last": "2026-10-20T16:41:24Z",
+    "weeks": {
+     "2026-08-16": 1,
+     "2026-08-23": 18,
+     "2026-10-18": 3
+    },
+    "days": {
+     "2026-08-18": 1,
+     "2026-08-23": 14,
+     "2026-08-24": 1,
+     "2026-08-27": 3,
+     "2026-10-20": 3
+    },
+    "recent": [
+     {
+      "at": "2026-10-20T16:41:24Z",
+      "msg": "Friendlier UI: idle welcome with mode chips, labelled call controls, phone bottom sheets, fix sideways scroll on phones"
+     },
+     {
+      "at": "2026-10-20T06:05:00Z",
+      "msg": "Add screen-share sound and a Play again button for every game"
+     },
+     {
+      "at": "2026-10-20T05:40:39Z",
+      "msg": "Fix stage scrolling, self-advancing games, and a warm colour theme"
+     },
+     {
+      "at": "2026-08-27T11:04:39Z",
+      "msg": "Cut the cost of the glass UI, and add keyboard shortcuts"
+     },
+     {
+      "at": "2026-08-27T10:10:45Z",
+      "msg": "Add push notifications"
+     }
+    ]
+   }
+  },
+  "ridecompare": {
+   "project": "RideCompare",
+   "sha": "b1d6ede42e3bd814247e919151e6e605f8dfe21d",
+   "branch": "master",
+   "url": "https://github.com/divyanshubhatiwal/ridecompare",
+   "homepage": "https://ridecompare-kappa.vercel.app",
+   "description": "Compare ride fares and ETAs across Uber, Ola, Rapido and Namma Yatri side by side. Flutter app with a FastAPI, PostgreSQL, Redis and Celery backend.",
+   "languages": {
+    "JavaScript": 366831,
+    "Dart": 145726,
+    "Python": 135560,
+    "CSS": 9618,
+    "HTML": 1391,
+    "Mako": 469,
+    "Dockerfile": 330,
+    "Batchfile": 232
+   },
+   "timeline": {
+    "total": 1,
+    "first": "2026-06-22T04:22:40Z",
+    "last": "2026-06-22T04:22:40Z",
+    "weeks": {
+     "2026-06-21": 1
+    },
+    "days": {
+     "2026-06-22": 1
+    },
+    "recent": [
+     {
+      "at": "2026-06-22T04:22:40Z",
+      "msg": "Initial commit — RideCompare full-stack app"
+     }
+    ]
+   }
+  },
+  "t20-score-predictor": {
+   "project": "T20 Score Predictor",
+   "sha": "fde8a0fef613644a1bdd860e72dc2a39a7ea5188",
+   "branch": "main",
+   "url": "https://github.com/divyanshubhatiwal/t20-score-predictor",
+   "homepage": "https://t20-score-predictor-wal.streamlit.app/",
+   "description": "Predicts T20 cricket match scores from in-match ball-by-ball features, comparing Linear Regression and Random Forest. Served as a Streamlit app.",
+   "languages": {
+    "Python": 14460,
+    "Jupyter Notebook": 12488
+   },
+   "timeline": {
+    "total": 1,
+    "first": "2026-05-20T17:04:59Z",
+    "last": "2026-05-20T17:04:59Z",
+    "weeks": {
+     "2026-05-17": 1
+    },
+    "days": {
+     "2026-05-20": 1
+    },
+    "recent": [
+     {
+      "at": "2026-05-20T17:04:59Z",
+      "msg": "Initial commit: T20 Score Predictor ML project"
+     }
+    ]
+   }
+  },
+  "portfolio": {
+   "project": "This portfolio",
+   "sha": "026cee7663dbe8f8ed3759ca3ac1035ab23c472c",
+   "branch": "main",
+   "url": "https://github.com/divyanshubhatiwal/portfolio",
+   "homepage": null,
+   "description": "Personal portfolio: Astro 7 + TypeScript, AI chat and job matcher, case studies, blog",
+   "languages": {
+    "TypeScript": 192235,
+    "CSS": 76134,
+    "Astro": 68438,
+    "JavaScript": 14714
+   },
+   "timeline": {
+    "total": 8,
+    "first": "2026-10-19T14:24:58Z",
+    "last": "2026-10-20T15:28:05Z",
+    "weeks": {
+     "2026-10-18": 8
+    },
+    "days": {
+     "2026-10-19": 2,
+     "2026-10-20": 6
+    },
+    "recent": [
+     {
+      "at": "2026-10-20T15:28:05Z",
+      "msg": "Update visual regression baselines"
+     },
+     {
+      "at": "2026-10-20T15:15:49Z",
+      "msg": "Make the scroll-to-top on refresh reliable"
+     },
+     {
+      "at": "2026-10-20T15:06:22Z",
+      "msg": "Professional landing page; refreshing always starts at the top"
+     },
+     {
+      "at": "2026-10-20T14:48:00Z",
+      "msg": "Update visual regression baselines"
+     },
+     {
+      "at": "2026-10-20T13:22:04Z",
+      "msg": "Fix CSP on the T20 demo; run visual tests only in their own workflow"
+     }
+    ]
+   }
+  }
+ },
+ "evidence": {
+  "TypeScript": [
+   {
+    "repo": "portfolio",
+    "project": "This portfolio",
+    "kind": "dependency",
+    "label": "typescript in package.json",
+    "url": "https://github.com/divyanshubhatiwal/portfolio/blob/026cee7663dbe8f8ed3759ca3ac1035ab23c472c/package.json#L35"
+   }
+  ],
+  "Python": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "files",
+    "label": "research/freqtrade/user_data/strategies/DonchianTrend.py",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/research/freqtrade/user_data/strategies/DonchianTrend.py"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "files",
+    "label": "54 files, e.g. backend/alembic/__init__.py",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/alembic/__init__.py"
+   },
+   {
+    "repo": "t20-score-predictor",
+    "project": "T20 Score Predictor",
+    "kind": "files",
+    "label": "3 files, e.g. app.py",
+    "url": "https://github.com/divyanshubhatiwal/t20-score-predictor/blob/fde8a0fef613644a1bdd860e72dc2a39a7ea5188/app.py"
+   }
+  ],
+  "JavaScript": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "files",
+    "label": "156 files, e.g. backend/__tests__/auth.test.js",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/__tests__/auth.test.js"
+   },
+   {
+    "repo": "friends-talk",
+    "project": "Friends Talk",
+    "kind": "files",
+    "label": "18 files, e.g. public/js/app.js",
+    "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/public/js/app.js"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "files",
+    "label": "46 files, e.g. web/postcss.config.js",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/web/postcss.config.js"
+   },
+   {
+    "repo": "portfolio",
+    "project": "This portfolio",
+    "kind": "files",
+    "label": "6 files, e.g. astro.config.mjs",
+    "url": "https://github.com/divyanshubhatiwal/portfolio/blob/026cee7663dbe8f8ed3759ca3ac1035ab23c472c/astro.config.mjs"
+   }
+  ],
+  "SQL": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "sqlalchemy in backend/requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/requirements.txt#L3"
+   }
+  ],
+  "React": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "react in frontend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/frontend/package.json#L16"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "react in web/package.json",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/web/package.json#L17"
+   }
+  ],
+  "React Native / Expo": [],
+  "Tailwind CSS": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "tailwindcss in frontend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/frontend/package.json#L25"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "tailwindcss in web/package.json",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/web/package.json#L30"
+   }
+  ],
+  "Vite": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "vite in frontend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/frontend/package.json#L7"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "vite in web/package.json",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/web/package.json#L31"
+   }
+  ],
+  "Node.js / Express": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "express in backend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/package.json#L20"
+   },
+   {
+    "repo": "friends-talk",
+    "project": "Friends Talk",
+    "kind": "dependency",
+    "label": "express in package.json",
+    "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/package.json#L21"
+   }
+  ],
+  "MongoDB": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "mongodb in backend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/package.json#L21"
+   },
+   {
+    "repo": "friends-talk",
+    "project": "Friends Talk",
+    "kind": "dependency",
+    "label": "mongodb in package.json",
+    "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/package.json#L22"
+   }
+  ],
+  "WebRTC": [
+   {
+    "repo": "friends-talk",
+    "project": "Friends Talk",
+    "kind": "code",
+    "label": "RTCPeerConnection in public/js/app.js",
+    "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/public/js/app.js#L1645"
+   }
+  ],
+  "REST APIs": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "express in backend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/package.json#L20"
+   },
+   {
+    "repo": "friends-talk",
+    "project": "Friends Talk",
+    "kind": "dependency",
+    "label": "express in package.json",
+    "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/package.json#L21"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "fastapi in backend/requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/requirements.txt#L1"
+   }
+  ],
+  "FastAPI": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "fastapi in backend/requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/requirements.txt#L1"
+   }
+  ],
+  "PostgreSQL": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "psycopg2-binary in backend/requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/requirements.txt#L5"
+   }
+  ],
+  "Redis": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "redis in backend/requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/requirements.txt#L11"
+   }
+  ],
+  "Celery": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "dependency",
+    "label": "celery in backend/requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/requirements.txt#L12"
+   }
+  ],
+  "Docker": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "files",
+    "label": "2 files, e.g. backend/Dockerfile",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/Dockerfile"
+   },
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "files",
+    "label": "2 files, e.g. backend/Dockerfile",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/Dockerfile"
+   }
+  ],
+  "Jest": [],
+  "Vitest": [
+   {
+    "repo": "venture-dao",
+    "project": "Venture DAO",
+    "kind": "dependency",
+    "label": "vitest in backend/package.json",
+    "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/package.json#L25"
+   }
+  ],
+  "Astro": [
+   {
+    "repo": "portfolio",
+    "project": "This portfolio",
+    "kind": "dependency",
+    "label": "astro in package.json",
+    "url": "https://github.com/divyanshubhatiwal/portfolio/blob/026cee7663dbe8f8ed3759ca3ac1035ab23c472c/package.json#L18"
+   }
+  ],
+  "Playwright": [
+   {
+    "repo": "portfolio",
+    "project": "This portfolio",
+    "kind": "dependency",
+    "label": "@playwright/test in package.json",
+    "url": "https://github.com/divyanshubhatiwal/portfolio/blob/026cee7663dbe8f8ed3759ca3ac1035ab23c472c/package.json#L34"
+   }
+  ],
+  "Flutter": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "files",
+    "label": "mobile_app/pubspec.yaml",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/mobile_app/pubspec.yaml"
+   }
+  ],
+  "Nginx": [
+   {
+    "repo": "ridecompare",
+    "project": "RideCompare",
+    "kind": "files",
+    "label": "infra/nginx/nginx.conf",
+    "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/infra/nginx/nginx.conf"
+   }
+  ],
+  "Scikit-learn": [
+   {
+    "repo": "t20-score-predictor",
+    "project": "T20 Score Predictor",
+    "kind": "dependency",
+    "label": "scikit-learn in requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/t20-score-predictor/blob/fde8a0fef613644a1bdd860e72dc2a39a7ea5188/requirements.txt#L4"
+   }
+  ],
+  "Pandas": [
+   {
+    "repo": "t20-score-predictor",
+    "project": "T20 Score Predictor",
+    "kind": "dependency",
+    "label": "pandas in requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/t20-score-predictor/blob/fde8a0fef613644a1bdd860e72dc2a39a7ea5188/requirements.txt#L2"
+   }
+  ],
+  "Streamlit": [
+   {
+    "repo": "t20-score-predictor",
+    "project": "T20 Score Predictor",
+    "kind": "dependency",
+    "label": "streamlit in requirements.txt",
+    "url": "https://github.com/divyanshubhatiwal/t20-score-predictor/blob/fde8a0fef613644a1bdd860e72dc2a39a7ea5188/requirements.txt#L1"
+   }
+  ]
+ },
+ "tours": [
+  {
+   "slug": "venture-dao-one-order",
+   "repo": "venture-dao",
+   "project": "Venture DAO",
+   "sha": "1c2abee13a44b2daf9a1328c27050c2eb94bef32",
+   "title": "One signal, one order",
+   "summary": "How Venture DAO's trading engine makes sure a retried or duplicated signal can never open a second position, and refuses trades that can't pay for their own fees.",
+   "steps": [
+    {
+     "title": "Every trade gets a name",
+     "note": "An intended trade is identified by account, symbol, direction and the minute it happened. A restart, a double-click or two overlapping ticks all produce the same key, so the engine can recognise them as the same trade.",
+     "file": "backend/trading/botEngine.js",
+     "start": 46,
+     "end": 54,
+     "code": "/**\n * Identifies one intended trade. A restart, a double-click, or two overlapping\n * ticks all regenerate the same key, and the engine refuses to submit a key it\n * has already used — which is what stops one signal becoming two positions.\n * The time bucket lets a genuinely new setup on the same symbol through later.\n */\nexport function executionKey({ accountId, symbol, direction, at, bucketMs = 60_000 }) {\n  return `${accountId}:${symbol}:${direction}:${Math.floor(at / bucketMs)}`\n}",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/trading/botEngine.js#L46-L54"
+    },
+    {
+     "title": "Reserve the key before sending",
+     "note": "The key is reserved before the order goes out, not after it comes back. If the exchange call fails halfway, the order might already be live, so the key stays used and a retry is suppressed instead of becoming a second position.",
+     "file": "backend/trading/botEngine.js",
+     "start": 343,
+     "end": 352,
+     "code": "        const key = executionKey({ accountId, symbol, direction: decision.action, at: now() })\n        if (usedKeys.has(key)) {\n          record({ kind: 'duplicate-suppressed', symbol, key })\n          continue\n        }\n\n        setState(BOT_STATES.ORDER_APPROVED, symbol)\n        // Reserved before the await, not after: an exception mid-flight must\n        // not free the key, because the order may already be live.\n        usedKeys.add(key)",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/trading/botEngine.js#L343-L352"
+    },
+    {
+     "title": "Refuse trades that only pay fees",
+     "note": "This check exists because of my own result: 31 winning trades and the account still down 6%. The losses were fees and slippage, not direction, so a trade whose target is worth less than three round trips of costs is blocked.",
+     "file": "backend/trading/botEngine.js",
+     "start": 105,
+     "end": 129,
+     "code": "  /* The trade must be able to pay for itself.\n     A round trip costs two fills. If the whole distance to target is worth\n     less than a small multiple of that cost, the trade is a fee transfer with\n     a lottery ticket attached — it can only be profitable if it also gets\n     lucky on slippage. This is the check that a 31-winners-and-still-down\n     result is asking for: the losses were never directional, they were\n     frictional. */\n  if (config.feeBps != null && config.minRewardToCost != null && target != null) {\n    /* Slippage is part of the cost, not a rounding error.\n       This check used to count fees only. A fill that arrives a few basis\n       points adverse costs real money on both legs, and leaving it out\n       understated the true round trip by about a third — so trades that were\n       actually below cost were passing a gate whose whole job is to catch\n       them. On a short horizon, where cost is the binding constraint rather\n       than direction, that gap IS the 31-winners-and-still-down result. */\n    const costBps = (config.feeBps + (config.slippageBps ?? 0)) * 2\n    const roundTripCost = notional * (costBps / 10_000)\n    const rewardAtTarget = Math.abs(target - entry) * decision.quantity\n    if (rewardAtTarget < roundTripCost * config.minRewardToCost) {\n      return fail(\n        'EDGE_BELOW_COST',\n        `Target is worth ${rewardAtTarget.toFixed(2)} against ${roundTripCost.toFixed(2)} in fees and slippage (need ${config.minRewardToCost}×).`,\n      )\n    }\n  }",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/trading/botEngine.js#L105-L129"
+    }
+   ]
+  },
+  {
+   "slug": "venture-dao-vault",
+   "repo": "venture-dao",
+   "project": "Venture DAO",
+   "sha": "1c2abee13a44b2daf9a1328c27050c2eb94bef32",
+   "title": "Keeping exchange keys safe",
+   "summary": "Venture DAO stores users' exchange API secrets. This is the code that encrypts them, binds each one to its owner, and keeps them out of logs.",
+   "steps": [
+    {
+     "title": "Why this cipher",
+     "note": "GCM authenticates as well as encrypts: a tampered record fails to decrypt instead of quietly returning altered bytes. The IV is random every time and never taken from a caller, because reusing one breaks GCM completely.",
+     "file": "backend/identity/vault.js",
+     "start": 10,
+     "end": 19,
+     "code": " * AES-256-GCM rather than CBC: GCM authenticates the ciphertext, so a record\n * that has been tampered with fails to decrypt instead of silently yielding\n * altered bytes. A record's IV is random per encryption and stored alongside\n * it — reusing an IV under the same key is the one mistake that breaks GCM\n * completely, which is why nothing here ever accepts a caller-supplied IV.\n *\n * The key lives in the environment, never in the repo. This module refuses to\n * run without it rather than falling back to a default, because a hardcoded\n * fallback key is indistinguishable from no encryption at all.\n */",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/identity/vault.js#L10-L19"
+    },
+    {
+     "title": "Bind each secret to its row",
+     "note": "The additional authenticated data ties a secret to its user and account. Without it, someone with write access could move another user's encrypted key into their own row and it would decrypt fine.",
+     "file": "backend/identity/vault.js",
+     "start": 49,
+     "end": 73,
+     "code": "/**\n * Encrypt a secret into a self-describing envelope.\n *\n * `aad` binds the ciphertext to the row it belongs to — pass something stable\n * and unique like `${userId}:${accountId}`. Without it, an attacker with write\n * access to the store could move another user's encrypted credential into their\n * own row and trade with it, and the decryption would succeed because the\n * bytes are perfectly valid. With it, that swap fails authentication.\n */\nexport function encryptSecret(plaintext, { aad, env = process.env } = {}) {\n  if (typeof plaintext !== 'string' || plaintext.length === 0) {\n    throw new Error('Nothing to encrypt.')\n  }\n  if (!aad) throw new Error('An aad binding (e.g. \"userId:accountId\") is required.')\n\n  const key = loadKey(env)\n  const iv = crypto.randomBytes(IV_BYTES)\n  const cipher = crypto.createCipheriv(ALGORITHM, key, iv)\n  cipher.setAAD(Buffer.from(aad, 'utf8'))\n\n  const ciphertext = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()])\n  const tag = cipher.getAuthTag()\n\n  return [VERSION, iv.toString('base64'), tag.toString('base64'), ciphertext.toString('base64')].join('.')\n}",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/identity/vault.js#L49-L73"
+    },
+    {
+     "title": "Fail loudly",
+     "note": "A failed decryption is deliberately not caught. Turning it into an empty string would let an empty \"secret\" flow on into a signed request.",
+     "file": "backend/identity/vault.js",
+     "start": 89,
+     "end": 92,
+     "code": "  // Throws on a wrong key, a wrong aad, or any tampering. Deliberately not\n  // caught here: a failure to authenticate must reach the caller, never be\n  // downgraded into an empty string that then gets used as a secret.\n  return Buffer.concat([decipher.update(Buffer.from(dataB64, 'base64')), decipher.final()]).toString('utf8')",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/identity/vault.js#L89-L92"
+    },
+    {
+     "title": "Keep secrets out of logs",
+     "note": "Exchange error messages echo the request, so a key can hide inside an innocent-looking string. Embedded \"apiKey=…\" pairs are scrubbed, and long high-entropy values are redacted, while error codes like ip_not_whitelisted_for_api_key stay readable.",
+     "file": "backend/identity/vault.js",
+     "start": 134,
+     "end": 147,
+     "code": "const EMBEDDED = /((?:api[_-]?key|api[_-]?secret|secret|signature|authorization|token|password)\\s*[:=]\\s*)(\\S+)/gi\n\nfunction scrubText(value) {\n  return value.replace(EMBEDDED, (_m, label) => `${label}[redacted]`)\n}\n\nfunction looksSecret(value) {\n  if (value.length < 20) return false\n  if (IDENTIFIER.test(value)) return false\n  if (!/^[A-Za-z0-9_\\-+/=]+$/.test(value)) return false\n  const mixedCase = /[a-z]/.test(value) && /[A-Z]/.test(value)\n  const alphanumeric = /[a-zA-Z]/.test(value) && /[0-9]/.test(value)\n  return mixedCase || alphanumeric\n}",
+     "url": "https://github.com/divyanshubhatiwal/venture-dao/blob/1c2abee13a44b2daf9a1328c27050c2eb94bef32/backend/identity/vault.js#L134-L147"
+    }
+   ]
+  },
+  {
+   "slug": "friends-talk-matching",
+   "repo": "friends-talk",
+   "project": "Friends Talk",
+   "sha": "3b84bdbdf4e1b68bd221bb87f16900080d05a9ad",
+   "title": "Matching that never strands anyone",
+   "summary": "Friends Talk pairs strangers for a voice chat. The hard part isn't finding the best match; it's never leaving someone staring at a spinner.",
+   "steps": [
+    {
+     "title": "Preferences relax over time",
+     "note": "On a small server, a strict filter matches nobody, which looks exactly like a broken app. After 12 seconds the gender preference is dropped, after 25 the country filter, and the user is told. Blocks and mode are rules, so they never relax.",
+     "file": "src/matchmaker.js",
+     "start": 10,
+     "end": 25,
+     "code": "/**\n * Filters loosen the longer someone waits.\n *\n * A filter that matches nobody is indistinguishable, from the user's side,\n * from a broken app: you press call and stare at a spinner forever. On a small\n * server that is the normal case, not the edge case. So after a few seconds we\n * quietly drop the preferences the user is least likely to care about, in\n * order, and tell them we did it.\n *\n * Blocks and mode are never relaxed — those are rules, not preferences.\n */\nconst RELAXATION = [\n  { after: 0,     ignoreGender: false, ignoreCountry: false, label: null },\n  { after: 12000, ignoreGender: true,  ignoreCountry: false, label: 'gender preference' },\n  { after: 25000, ignoreGender: true,  ignoreCountry: true,  label: 'country filter' }\n];",
+     "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/src/matchmaker.js#L10-L25"
+    },
+    {
+     "title": "Forbidden is not the same as unlikely",
+     "note": "null means \"never pair these two\"; a negative score just means \"not ideal\". An earlier version treated any negative score as forbidden, so two people who had just talked could never be rematched, even when they were the only two online.",
+     "file": "src/matchmaker.js",
+     "start": 83,
+     "end": 118,
+     "code": "  /**\n   * Returns null for a forbidden pairing, otherwise a preference score that\n   * may legitimately be negative.\n   *\n   * Null and \"low score\" have to stay distinct. The anti-rematch penalty below\n   * is a preference, not a rule: when two people are the only ones waiting,\n   * pairing them again is far better than leaving them both in the queue\n   * forever, which is what treating any negative score as forbidden used to do.\n   */\n  score(a, b) {\n    if (a.mode !== b.mode) return null;\n    if (a.clientId === b.clientId) return null;\n    if (a.blocked.has(b.clientId) || b.blocked.has(a.clientId)) return null;\n    if (!this.countryAllows(a, b) || !this.countryAllows(b, a)) return null;\n    if (!this.genderAllows(a, b) || !this.genderAllows(b, a)) return null;\n\n    let score = 0;\n\n    const shared = a.interests.filter((tag) => b.interests.includes(tag));\n    score += shared.length * 40;\n\n    // Matching moods: people wanting the same energy pair faster.\n    if (a.mood && b.mood && a.mood === b.mood) score += 30;\n\n    // Both sides filtered on country and both are satisfied — reward it.\n    if (a.countries.length && b.countries.length) score += 10;\n\n    const waited = Date.now() - Math.min(a.joinedAt, b.joinedAt);\n    score += Math.min(Math.floor(waited / 1000), 60);\n\n    // Gently avoid rematching the last few people this client spoke to.\n    const seen = this.recent.get(a.clientId) || [];\n    if (seen.includes(b.clientId)) score -= 200;\n\n    return score;\n  }",
+     "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/src/matchmaker.js#L83-L118"
+    },
+    {
+     "title": "A sweep for people whose filters relaxed",
+     "note": "Matching normally runs when someone joins. Two people whose filters relax past each other would otherwise wait forever with nobody to trigger a retry, so the server sweeps the queue on a timer.",
+     "file": "src/matchmaker.js",
+     "start": 136,
+     "end": 155,
+     "code": "  /**\n   * Re-attempt matching for everyone already waiting.\n   *\n   * Matching otherwise only runs when someone joins the queue, so two people\n   * whose filters relax past each other would both sit there indefinitely with\n   * nobody to trigger a retry. The server runs this on a timer.\n   */\n  sweep() {\n    const pairs = [];\n    for (const peer of [...this.pool.values()]) {\n      if (!this.pool.has(peer.id)) continue; // already paired earlier in this sweep\n      const partner = this.findPartner(peer);\n      if (!partner) continue;\n      this.pool.delete(peer.id);\n      this.pool.delete(partner.id);\n      this.rememberPair(peer, partner);\n      pairs.push([peer, partner]);\n    }\n    return pairs;\n  }",
+     "url": "https://github.com/divyanshubhatiwal/friends-talk/blob/3b84bdbdf4e1b68bd221bb87f16900080d05a9ad/src/matchmaker.js#L136-L155"
+    }
+   ]
+  },
+  {
+   "slug": "ridecompare-fan-out",
+   "repo": "ridecompare",
+   "project": "RideCompare",
+   "sha": "b1d6ede42e3bd814247e919151e6e605f8dfe21d",
+   "title": "Asking four providers at once",
+   "summary": "RideCompare gets fares from four ride-hailing providers per search. This is the endpoint that asks them in parallel, survives the ones that fail, and caches the answer.",
+   "steps": [
+    {
+     "title": "A cache key that tolerates GPS jitter",
+     "note": "Coordinates are rounded to 4 decimal places, about 11 metres, so two searches from the same spot share a cached answer even when the phone reports slightly different positions.",
+     "file": "backend/app/api/v1/compare.py",
+     "start": 69,
+     "end": 73,
+     "code": "def _cache_key(req: CompareRequest) -> str:\n    return (\n        f\"compare:{req.pickup_lat:.4f}:{req.pickup_lng:.4f}\"\n        f\":{req.destination_lat:.4f}:{req.destination_lng:.4f}\"\n    )",
+     "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/app/api/v1/compare.py#L69-L73"
+    },
+    {
+     "title": "Fan out, and survive failures",
+     "note": "All providers are asked at once with asyncio.gather, so a search takes as long as the slowest provider, not the sum. return_exceptions=True means one provider being down removes its fares instead of failing the whole search. What I would change: failures are skipped silently, and they should be logged and shown as \"unavailable\".",
+     "file": "backend/app/api/v1/compare.py",
+     "start": 107,
+     "end": 116,
+     "code": "    providers = get_all_providers()\n    tasks = [p.get_estimates(route) for p in providers]\n\n    results_nested = await asyncio.gather(*tasks, return_exceptions=True)\n\n    all_estimates: List[RideEstimate] = []\n    for r in results_nested:\n        if isinstance(r, Exception):\n            continue\n        all_estimates.extend(r)",
+     "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/app/api/v1/compare.py#L107-L116"
+    },
+    {
+     "title": "Cache the combined answer",
+     "note": "The whole comparison is cached in Redis with a short expiry, because fares change quickly but a user often searches the same trip twice. A cache hit still records the search, so history stays complete.",
+     "file": "backend/app/api/v1/compare.py",
+     "start": 142,
+     "end": 143,
+     "code": "    redis_client.setex(cache_key, settings.PROVIDER_CACHE_TTL, response.model_dump_json())\n    return response",
+     "url": "https://github.com/divyanshubhatiwal/ridecompare/blob/b1d6ede42e3bd814247e919151e6e605f8dfe21d/backend/app/api/v1/compare.py#L142-L143"
+    }
+   ]
+  }
+ ]
+}

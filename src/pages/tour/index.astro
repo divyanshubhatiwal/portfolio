@@ -1,0 +1,22 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+import github from '@/data/github.json';
+---
+<Page title={`Code tours | ${PROFILE.name}`} description="Guided walks through real code from my public repos, with notes on why it's written the way it is.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / Code tours</div>
+    <h1>Code <span class="g">tours</span></h1>
+    <p class="lede">Short guided walks through real code from my public repos: the parts I'd want to talk about in an interview, with notes on the decisions behind them.</p>
+  </header>
+  <div class="cards">
+    {github.tours.map((t) => (
+      <a class="card" href={`/tour/${t.slug}`}>
+        <small>{t.project} · {t.steps.length} stops</small>
+        <h2>{t.title}</h2>
+        <p>{t.summary}</p>
+        <span class="more">Start the tour →</span>
+      </a>
+    ))}
+  </div>
+</Page>

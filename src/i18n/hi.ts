@@ -37,12 +37,12 @@ export const HI: Dict & { data: DataDict } = {
       ['प्रोडक्शन वाली सोच', 'तय नियमों वाले risk gate, offline-first डिज़ाइन, strict TypeScript और कोड के साथ आने वाले टेस्ट।'],
     ],
   },
-  skills: { eyebrow: '02 / टूलबॉक्स', title: 'कौशल और तकनीकें', sub: 'वह स्टैक जिसे मैं किसी आइडिया को चलते हुए सिस्टम में बदलने के लिए चुनता हूँ।' },
+  skills: { eyebrow: '02 / टूलबॉक्स', title: 'कौशल और तकनीकें', sub: 'वह स्टैक जिसे मैं किसी आइडिया को चलते हुए सिस्टम में बदलने के लिए चुनता हूँ।', evidence: 'हर कौशल के पीछे का कोड देखें' },
   experience: { eyebrow: '03 / सफ़र', title: 'अनुभव', sub: 'मैंने कहाँ काम किया और क्या बनाकर दिया।' },
   projects: {
     eyebrow: '04 / काम', title: 'मुख्य प्रोजेक्ट', sub: 'ऐसे सिस्टम जो सिर्फ़ डेमो के लिए नहीं, मापे जाने के लिए बने हैं।', filterLabel: 'श्रेणी के हिसाब से प्रोजेक्ट छाँटें',
-    all: 'सभी', caseStudy: 'केस स्टडी', tryIt: 'यहीं आज़माएँ', source: 'सोर्स कोड', live: 'लाइव डेमो ↗', shot: 'स्क्रीनशॉट:',
-    focusShown: 'मेरा <b></b> काम पहले दिखाया जा रहा है।', focusReset: 'सामान्य क्रम दिखाएँ',
+    all: 'सभी', caseStudy: 'केस स्टडी', tryIt: 'यहीं आज़माएँ', source: 'सोर्स कोड', live: 'लाइव डेमो ↗', tour: 'कोड टूर', shot: 'स्क्रीनशॉट:',
+    focusShown: 'मेरा <b></b> काम पहले दिखाया जा रहा है।', focusReset: 'सामान्य क्रम दिखाएँ', focusCv: 'इस भूमिका के लिए रिज़्यूमे', up: 'लाइव', down: 'जवाब नहीं दे रहा',
   },
   github: {
     eyebrow: '05 / ओपन सोर्स', title: 'GitHub और कोडिंग गतिविधि',
@@ -67,7 +67,7 @@ export const HI: Dict & { data: DataDict } = {
     categories: { 'AI / ML': 'AI / ML', 'Full-Stack': 'फ़ुल-स्टैक', 'Backend': 'बैकएंड', 'Mobile': 'मोबाइल' },
     projects: {
       'AutoSci': 'एक स्वचालित मल्टी-एजेंट रिसर्च सिस्टम। LLM एजेंट ML प्रयोगों की योजना बनाकर उन्हें चलाता है, फिर अपनी असफलताओं पर विचार करके तय करता है कि आगे क्या आज़माना है। इसे उसी बजट पर random search, Optuna TPE और सीमित LLM संस्करणों से तुलना करके परखा जाता है।',
-      'Venture DAO': 'स्वचालित ट्रेडिंग और गवर्नेंस प्लेटफ़ॉर्म। स्पष्ट state machine वाला इंजन, idempotent ऑर्डर डिस्पैच, ऐसा risk preflight जिसे कोई भी कोड रास्ता छोड़ नहीं सकता, AES-256-GCM क्रेडेंशियल वॉल्ट, TOTP 2FA और 20+ Jest टेस्ट सूट।',
+      'Venture DAO': 'स्वचालित ट्रेडिंग और गवर्नेंस प्लेटफ़ॉर्म। स्पष्ट state machine वाला इंजन, idempotent ऑर्डर डिस्पैच, ऐसा risk preflight जिसे कोई भी कोड रास्ता छोड़ नहीं सकता, AES-256-GCM क्रेडेंशियल वॉल्ट, TOTP 2FA और 20+ Vitest टेस्ट सूट।',
       'FlowBoard': 'AI वाला प्रोजेक्ट मैनेजमेंट ऐप, जिसमें 15+ व्यू (Kanban, Gantt, sprint, कैलेंडर, analytics) हैं और row-level security वाला रियल-टाइम Postgres बैकएंड है। LLM सादी भाषा से टास्क बनाता है, और उसके न चलने पर नियमों वाला विकल्प काम करता है।',
       'RideCompare': 'कई प्रोवाइडर का किराया एक जगह दिखाने वाली सर्विस। चार राइड-हेलिंग प्रोवाइडर से एक साथ किराया और ETA लेती है, उन्हें एक schema में बदलती है और ज़्यादा इस्तेमाल होने वाले रास्ते को Redis में cache करती है।',
       'SafeSignal AI': 'NLP वाला pharmacovigilance डेटा प्लेटफ़ॉर्म। दवा के दुष्प्रभाव की बिखरी रिपोर्टों को relational schema में बदलता है और ROR/PRR आँकड़ों से दवा-सुरक्षा के संकेत ढूँढता है, Elasticsearch सर्च और पूरे pytest सूट के साथ।',
@@ -110,7 +110,7 @@ export const HI: Dict & { data: DataDict } = {
       { when: 'अक्टूबर 2024', title: 'HackerRank Python और Java', text: 'Python और Java, दोनों में HackerRank कौशल सर्टिफ़िकेशन पास किए।' },
       { when: 'अप्रैल 2025', title: 'IBM: Introduction to AI', text: 'Coursera पर IBM का AI की बुनियाद वाला कोर्स पूरा किया।' },
       { when: '2025', title: 'Infosys Springboard के 4 कोर्स', text: 'Data Science, NLP, Pandas से Data Analysis और Data Mining।' },
-      { when: '2026', title: 'Venture DAO पर 20+ टेस्ट सूट', text: 'हर Docker डिप्लॉय से पहले इंजन, auth, vault और venue adapters Jest से जाँचे जाते हैं।' },
+      { when: '2026', title: 'Venture DAO पर 20+ टेस्ट सूट', text: 'हर Docker डिप्लॉय से पहले इंजन, auth, vault और venue adapters Vitest से जाँचे जाते हैं।' },
       { when: '2026', title: 'लाइव प्रोडक्ट लॉन्च किए', text: 'Friends Talk friendstalk.fun पर लाइव है, और T20 Score Predictor इसी साइट पर ब्राउज़र में चलता है।' },
       { when: '2023 — अब तक', title: `${PROJECTS.length} प्रोजेक्ट, शुरू से आख़िर तक`, text: 'ML पाइपलाइन से लेकर बैकएंड सर्विस और मोबाइल ऐप तक, हर एक अकेले बनाया और संभाला।' },
     ],
