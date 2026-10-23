@@ -12,7 +12,9 @@ import path from 'node:path';
 const root = path.resolve(import.meta.dirname, '..');
 const out = path.join(root, '.vercel/output');
 const configPath = path.join(out, 'config.json');
-if (!fs.existsSync(configPath)) {
+// read once up front (checking for the file first and reading it later would leave a gap for it to change)
+let configText;
+try { configText = fs.readFileSync(configPath, 'utf8'); } catch {
   console.error('security-headers: .vercel/output/config.json not found; run astro build first.');
   process.exit(1);
 }
@@ -30,7 +32,7 @@ for (const file of pages) {
     console.error(`security-headers: inline event handler in ${path.relative(out, file)}: ${handler[0].slice(0, 120)}\nUse addEventListener in a script instead.`);
     process.exit(1);
   }
-  for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+  for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\b[^>]*>/gi)) {
     const [, attrs, body] = m;
     if (/\bsrc\s*=/i.test(attrs) || !body.trim()) continue;
     const type = /\btype\s*=\s*["']?([^"'\s>]+)/i.exec(attrs)?.[1]?.toLowerCase();
@@ -83,7 +85,7 @@ const workerCsp = [
 ].join('; ');
 const overrides = [{ src: '/forensic/worker\\.js', headers: { 'Content-Security-Policy': workerCsp } }];
 
-const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+const config = JSON.parse(configText);
 // drop copies from an earlier run (the Build Output API rejects unknown keys, so match on the CSP header)
 config.routes = (config.routes ?? []).filter((r) => !r.headers?.['Content-Security-Policy']);
 // a later matching route's header replaces an earlier one's, so the overrides go right after the default

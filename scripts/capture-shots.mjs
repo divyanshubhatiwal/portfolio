@@ -71,7 +71,8 @@ for (const [name, s] of Object.entries(SHOTS)) {
 fs.mkdirSync(CLIPS, { recursive: true });
 // where the action starts in each clip (seconds), so players can skip the page loading at the start
 const startsPath = path.join(root, 'src/data/clips.json');
-const starts = fs.existsSync(startsPath) ? JSON.parse(fs.readFileSync(startsPath, 'utf8')) : {};
+let starts = {};
+try { starts = JSON.parse(fs.readFileSync(startsPath, 'utf8')); } catch { /* first run: no start times yet */ }
 for (const [name, c] of Object.entries(CLIP_SCRIPTS)) {
   if (only.size && !only.has(`clip:${name}`) && !only.has('clips')) continue;
   const dir = fs.mkdtempSync(path.join(root, 'test-results/clip-'));
