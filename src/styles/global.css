@@ -140,7 +140,8 @@
   .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: start; }
   .about-text p { font-size: 18px; color: var(--muted-fg); margin: 0 0 18px; }
   .about-text p strong { color: var(--fg); font-weight: 600; }
-  .focus { margin-top: 28px; padding: 16px 18px; border: 1px dashed var(--border); border-radius: 10px; font: 13px/1.6 var(--mono); }
+  .focus { margin-top: 28px; padding: 14px 16px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 15px; line-height: 1.55; display: flex; gap: 12px; align-items: baseline; }
+  .focus span { font: 600 12px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); white-space: nowrap; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
   .stat { padding: 18px; border: 1px solid var(--border); border-radius: 12px; }
   .stat b { display: block; font: 700 32px var(--head); }
@@ -330,7 +331,7 @@
   .ach-stat { padding: 26px 22px; text-align: center; }
   .ach-stat b { display: block; font: 700 46px/1 var(--head); background: var(--grad-3); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: flow 8s ease-in-out infinite; }
   .ach-stat small { font: 700 18px var(--head); color: var(--muted-fg); }
-  .ach-stat span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted-fg); }
+  .ach-stat > span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted-fg); }
   .ach-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .ach { display: flex; gap: 16px; padding: 20px 22px; align-items: flex-start; }
   .ach .ico { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
@@ -505,7 +506,7 @@
   .spot:hover { border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent), 0 18px 50px -18px var(--glow); }
   .highlight .ico, .cert .ico { background: var(--accent-soft); color: var(--accent); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
   .stat b { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .focus { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-soft); }
+  .focus { background: var(--accent-soft); }
   .skill-cat h3 .n, .project .num { color: var(--accent); }
   .project .cat { color: var(--accent-2); }
   .meter i { background: var(--grad); box-shadow: 0 0 10px var(--glow); }
@@ -531,7 +532,7 @@
   .cursor-dot { mix-blend-mode: normal; background: var(--accent); }
   .cursor.hover { background: var(--accent-soft); border-color: var(--accent-2); }
   /* small accent text needs a lighter/darker shade than --accent to pass WCAG AA contrast */
-  :root { --accent-text: #0f5f58; }
+  :root { --accent-text: #0c4f49; }
   :root[data-theme="dark"] { --accent-text: #5eead4; }
   footer .pill { background: var(--accent-soft); color: var(--accent-text); }
 

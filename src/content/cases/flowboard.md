@@ -4,9 +4,6 @@ cat: Full-stack · AI
 lede: An AI-powered project management app with real-time collaboration and 15+ productivity views.
 tags: [React 18, TypeScript, Supabase, PostgreSQL, Tailwind CSS, Claude AI]
 order: 4
-links:
-  - href: https://flowboard-teal.vercel.app/
-    label: Live app
 ---
 
 ## What it does

@@ -16,6 +16,8 @@ import { initSmoothScroll } from './smooth';
 import { initArticle } from './article';
 import { initRecruiterView } from './recruiter';
 import { initStatus } from './status';
+import { initClips } from './clips';
+import { initGuidedTour } from './guided';
 
 // A refresh always starts at the top of the page. Without this the browser restores the old scroll
 // position, and a #section left in the address bar by a nav click jumps back to that section.
@@ -46,6 +48,8 @@ initContact();
 void initGitHub();
 void initLeetCode();
 void initStatus();
+initClips();
+initGuidedTour();
 
 const voice = initVoice();
 const chat = initChat(aiAnswerer(), { onReply: (html) => voice.readAloud(html) });
@@ -82,5 +86,16 @@ addEventListener('keydown', (e) => {
   if ((e.key === '`' || e.key === '~') && !isTyping() && term) {
     e.preventDefault();
     term.open();
+    return;
   }
+  // single-key shortcuts: only when nothing is being typed and no modifier is held
+  if (isTyping() || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open], .open[role="dialog"]')) return;
+  if (e.key === '?' || (e.key === '/' && e.shiftKey)) { e.preventDefault(); keys?.showModal(); }
+  else if (e.key.toLowerCase() === 't') document.getElementById('theme-btn')?.click();
+  else if (e.key.toLowerCase() === 'c' && chat) { e.preventDefault(); chat.open(true); }
 });
+
+// keyboard shortcut list (?)
+const keys = document.querySelector<HTMLDialogElement>('#keys');
+document.getElementById('keys-close')?.addEventListener('click', () => keys?.close());
+keys?.addEventListener('click', (e) => { if (e.target === keys) keys.close(); }); // click outside the box closes it

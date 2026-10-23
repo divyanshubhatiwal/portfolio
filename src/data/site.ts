@@ -49,22 +49,27 @@ export interface Project {
   live?: string;
   /** interactive demo hosted on this site */
   demo?: string;
-  /** screenshot under /public */
+  /** screenshot under /public (a .webp with the same name is used where the browser supports it) */
   img?: string;
+  /** short silent clip in /public/clips (name only), played on hover on desktop */
+  clip?: string;
   imgPos?: string;
 }
 
 export const PROJECTS: readonly Project[] = [
   { name: 'AutoSci', slug: 'autosci', cat: 'AI / ML', featured: true,
     desc: 'An autonomous multi-agent research system. An LLM agent plans and runs ML experiments, then reasons over its own failures to choose what to try next. It is benchmarked against random search, Optuna TPE and ablated LLM variants on the same budget.',
-    tags: ['Python', 'LLM Agents', 'Optuna', 'Experiment Design'], demo: '/demo/autosci' },
+    tags: ['Python', 'LLM Agents', 'Optuna', 'Experiment Design'], demo: '/demo/autosci',
+    img: '/img/autosci.jpg', clip: 'autosci' },
   { name: 'Venture DAO', slug: 'venture-dao', cat: 'Full-Stack',
     desc: 'Autonomous trading and governance platform. An explicit state-machine engine with idempotent order dispatch, a risk preflight no code path can skip, AES-256-GCM credential vault, TOTP 2FA and 20+ Vitest suites.',
     tags: ['Node.js', 'Express 5', 'MongoDB', 'React 19', 'Docker', 'Vitest'], code: 'https://github.com/divyanshubhatiwal/venture-dao', demo: '/demo/risk-gate',
-    img: '/img/venturedao.jpg' },
+    img: '/img/venturedao.jpg', clip: 'risk-gate' },
+  // live demo hidden: flowboard-teal.vercel.app shows "Supabase is not configured" (VITE_SUPABASE_URL and
+  // VITE_SUPABASE_ANON_KEY are missing on Vercel), so nobody can sign in. Add live back once that's fixed.
   { name: 'FlowBoard', slug: 'flowboard', cat: 'Full-Stack',
     desc: 'AI-powered project management app with 15+ views (Kanban, Gantt, sprints, calendar, analytics) on a real-time Postgres backend with row-level security. An LLM creates tasks from plain language, with a rule-based fallback.',
-    tags: ['React 18', 'TypeScript', 'Supabase', 'PostgreSQL', 'Tailwind', 'Claude AI'], live: 'https://flowboard-teal.vercel.app/' },
+    tags: ['React 18', 'TypeScript', 'Supabase', 'PostgreSQL', 'Tailwind', 'Claude AI'] },
   { name: 'RideCompare', slug: 'ridecompare', cat: 'Backend',
     desc: 'Multi-provider fare aggregation service. Fans out concurrent fare and ETA lookups across four ride-hailing providers, normalises them into one schema and caches the hot path in Redis.',
     tags: ['FastAPI', 'PostgreSQL 16', 'Redis 7', 'Celery', 'Flutter', 'Nginx'], code: 'https://github.com/divyanshubhatiwal/ridecompare' },
@@ -73,15 +78,17 @@ export const PROJECTS: readonly Project[] = [
     tags: ['FastAPI', 'PostgreSQL', 'Redis', 'Elasticsearch', 'React', 'pytest'] },
   { name: 'Forensic Agent', slug: 'forensic-agent', cat: 'AI / ML',
     desc: 'Evidence-grounded incident investigation. It turns mixed logs into an entity graph, ranks anomalies, links them into incident chains and answers questions with a citation for every statement.',
-    tags: ['Python', 'Graphs', 'RAG', 'Anomaly Detection'], demo: '/demo/forensic' },
+    tags: ['Python', 'Graphs', 'RAG', 'Anomaly Detection'], demo: '/demo/forensic',
+    img: '/img/forensic.jpg', clip: 'forensic' },
   { name: 'T20 Score Predictor', cat: 'AI / ML',
     desc: 'ML pipeline on a simulated IPL-style dataset: generates innings data, engineers in-match features and compares Linear Regression with Random Forest. Runs live in the browser here, with an honest look at what the model actually learned.',
-    tags: ['Python', 'Scikit-learn', 'Pandas', 'Streamlit'], demo: '/demo/t20', live: 'https://t20-score-predictor-wal.streamlit.app/', code: 'https://github.com/divyanshubhatiwal/t20-score-predictor' },
-  { name: 'Friends Talk', cat: 'Full-Stack',
+    tags: ['Python', 'Scikit-learn', 'Pandas', 'Streamlit'], demo: '/demo/t20', live: 'https://t20-score-predictor-wal.streamlit.app/', code: 'https://github.com/divyanshubhatiwal/t20-score-predictor',
+    img: '/img/t20.jpg' },
+  { name: 'Friends Talk', slug: 'friends-talk', cat: 'Full-Stack',
     desc: 'Anonymous, voice-first random chat. One tap matches you by voice, with no camera or account. Includes self-hosted signalling, matchmaking and moderation.',
     tags: ['WebRTC', 'Node.js', 'MongoDB Atlas'], live: 'https://friendstalk.fun/', code: 'https://github.com/divyanshubhatiwal/friends-talk',
     img: '/img/friendstalk.jpg' },
-  { name: 'Breathe', cat: 'Mobile',
+  { name: 'Breathe', slug: 'breathe', cat: 'Mobile',
     desc: 'An offline-first breathing app with a 60 FPS animated guide, box and 4-7-8 patterns, ambient sound, haptics, streaks and reminders. No accounts and no network calls.',
     tags: ['Expo', 'React Native', 'TypeScript', 'Reanimated'],
     img: '/img/breathe.jpg', imgPos: 'center 40%' },
@@ -166,13 +173,14 @@ export const ACH_STATS: readonly AchStat[] = [
   { n: 88, suffix: '%', label: 'Class XII (CBSE)' },
 ];
 
-export interface Milestone { icon: IconId; when: string; title: string; text: string }
+/** cert: repeats a certification, so the home page leaves it out (the Certifications section covers it) */
+export interface Milestone { icon: IconId; when: string; title: string; text: string; cert?: boolean }
 
 // To add hackathons, contest ranks or other milestones, add another entry here.
 export const MILESTONES: readonly Milestone[] = [
-  { icon: 'i-award', when: 'Oct 2024', title: 'HackerRank Python & Java', text: 'Passed HackerRank skills certifications in both Python and Java.' },
-  { icon: 'i-sparkles', when: 'Apr 2025', title: 'IBM: Introduction to AI', text: "Completed IBM's AI foundations course on Coursera." },
-  { icon: 'i-layers', when: '2025', title: '4 Infosys Springboard courses', text: 'Data Science, NLP, Data Analysis with Pandas and Data Mining.' },
+  { icon: 'i-award', when: 'Oct 2024', title: 'HackerRank Python & Java', text: 'Passed HackerRank skills certifications in both Python and Java.', cert: true },
+  { icon: 'i-sparkles', when: 'Apr 2025', title: 'IBM: Introduction to AI', text: "Completed IBM's AI foundations course on Coursera.", cert: true },
+  { icon: 'i-layers', when: '2025', title: '4 Infosys Springboard courses', text: 'Data Science, NLP, Data Analysis with Pandas and Data Mining.', cert: true },
   { icon: 'i-gauge', when: '2026', title: '20+ test suites on Venture DAO', text: 'Engine, auth, vault and venue adapters covered by Vitest before every Docker deploy.' },
   { icon: 'i-bot', when: '2026', title: 'Shipped live products', text: 'Friends Talk is live at friendstalk.fun, and the T20 Score Predictor runs in the browser on this site.' },
   { icon: 'i-github', when: '2023 — now', title: `${PROJECTS.length} projects, end to end`, text: 'From ML pipelines to backend services and mobile apps, each one built and owned solo.' },

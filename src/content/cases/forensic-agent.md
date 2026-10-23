@@ -11,6 +11,8 @@ demo: { href: /demo/forensic, label: Investigate a case }
 
 Narrow and testable: *an automated pipeline can reconstruct an incident timeline from heterogeneous evidence while keeping every conclusion traceable to its supporting records.* A ground-truth generator and an evaluator exist to measure exactly that.
 
+**Try it yourself:** [run the real pipeline in your browser](/demo/forensic-live) on a sample case and question the evidence, or [take the 3-question quiz](/demo/forensic).
+
 ## Pipeline
 
 Six stages, from raw logs to cited answers. Click a stage to see what it does.

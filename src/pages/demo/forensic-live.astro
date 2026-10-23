@@ -1,0 +1,46 @@
+---
+import Page from '@/layouts/Page.astro';
+import { PROFILE } from '@/data/site';
+---
+<Page title={`Run the Forensic Agent | ${PROFILE.name}`} description="Run my Forensic Agent's real Python pipeline in your browser on a sample case, then question the evidence yourself.">
+  <header class="hero-page fade">
+    <div class="crumb"><a href="/">Portfolio</a> / <a href="/case/forensic-agent">Forensic Agent</a> / Run it</div>
+    <h1>Run the <span class="g">real agent</span></h1>
+    <p class="lede">This page runs the Forensic Agent's actual Python code in your browser: parsing five log formats, correcting clock skew, scoring anomalies, linking incidents and checking itself against the case's ground truth. Then you can question the evidence.</p>
+    <p class="t20-note"><b>Runs entirely on your device.</b> Python and its libraries (numpy, scikit-learn, networkx, pydantic) download once, about 30 MB, from jsDelivr, then everything happens locally. The cases are synthetic, made by the project's own generator. <a href="/demo/forensic">Prefer a quick quiz instead?</a></p>
+  </header>
+
+  <section class="sim fx-live fade" id="fl">
+    <div class="sim-controls">
+      <label>Case<select id="fl-case"><option value="CASE_001">CASE_001</option><option value="CASE_002">CASE_002</option></select></label>
+      <div class="sim-actions"><button type="button" class="btn solid" id="fl-run">Load Python and run (about 30 MB)</button></div>
+      <p class="fl-status" id="fl-status" aria-live="polite">Nothing has been downloaded yet.</p>
+    </div>
+    <div id="fl-out" hidden>
+      <div class="fl-metrics" id="fl-summary"></div>
+      <h2>Incidents it found</h2>
+      <div id="fl-incidents"></div>
+      <h2>Ask the evidence</h2>
+      <form class="fl-ask" id="fl-ask">
+        <input id="fl-q" maxlength="300" placeholder="e.g. Who read payroll_2026.xlsx?" aria-label="Question about the case" autocomplete="off" />
+        <button class="btn solid" type="submit">Ask</button>
+      </form>
+      <div class="fl-suggest" id="fl-suggest">
+        <button type="button">Who read payroll_2026.xlsx?</button>
+        <button type="button">What happened on wks-04?</button>
+        <button type="button">Was data sent to 203.0.113.140?</button>
+        <button type="button">What did sysops do?</button>
+      </div>
+      <div id="fl-answer" aria-live="polite"></div>
+      <h2>How it scored against the ground truth</h2>
+      <p class="fl-note">The case generator records which events it planted. The pipeline never sees that file; it's only used here to grade the result. Numbers can differ slightly from the project's saved report, because the browser uses a different scikit-learn version for the anomaly model.</p>
+      <div class="table-wrap"><table class="fl-eval"><thead><tr><th>Metric</th><th>Score</th><th>Detail</th></tr></thead><tbody id="fl-eval"></tbody></table></div>
+      <h2>Most anomalous events</h2>
+      <div class="table-wrap"><table class="fl-anom"><thead><tr><th>Event</th><th>Severity</th><th>Why it was flagged</th></tr></thead><tbody id="fl-anom"></tbody></table></div>
+    </div>
+  </section>
+
+  <script>
+    import '@/scripts/forensic-live';
+  </script>
+</Page>

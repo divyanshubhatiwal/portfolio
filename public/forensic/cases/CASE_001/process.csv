@@ -1,0 +1,111 @@
+timestamp,host,user,pid,ppid,image,cmdline,action
+20/09/2026 17:52:37,wks-07,kiran,24589,6585,/usr/bin/systemctl,/usr/bin/systemctl status,start
+20/09/2026 16:56:37,wks-07,kiran,18941,6585,/usr/bin/git,/usr/bin/git,start
+20/09/2026 17:20:37,wks-07,kiran,26651,6585,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 23:02:37,wks-07,kiran,29789,6585,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 16:29:37,wks-07,kiran,21981,6585,/usr/bin/node,/usr/bin/node,start
+20/09/2026 19:59:37,wks-07,kiran,29170,6585,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 21:40:37,wks-07,kiran,29418,6585,/usr/bin/code,/usr/bin/code,start
+20/09/2026 16:15:37,wks-07,kiran,26313,6585,/usr/bin/ssh,/usr/bin/ssh,start
+20/09/2026 16:40:37,wks-07,kiran,10168,6585,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 20:20:37,wks-04,anita,13447,6925,/usr/bin/systemctl,/usr/bin/systemctl status,start
+20/09/2026 17:36:37,wks-04,anita,14050,6925,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 18:42:37,wks-04,anita,29003,6925,/usr/bin/code,/usr/bin/code,start
+20/09/2026 18:10:37,wks-04,anita,15219,6925,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 17:24:37,wks-04,anita,29610,6925,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 20:46:37,wks-04,anita,21720,6925,/usr/bin/code,/usr/bin/code,start
+20/09/2026 23:34:37,wks-04,anita,28776,6925,/usr/bin/git,/usr/bin/git,start
+20/09/2026 16:43:37,wks-04,anita,10553,6925,/usr/bin/git,/usr/bin/git,start
+20/09/2026 16:56:37,wks-04,anita,10268,6925,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 20:25:37,wks-04,anita,16812,6925,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 22:21:37,wks-04,anita,21832,6925,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 18:14:37,wks-04,anita,28545,6925,/usr/bin/git,/usr/bin/git,start
+20/09/2026 20:14:37,wks-04,anita,26041,6925,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 16:32:37,wks-07,rahul,24445,8857,/usr/bin/tar,/usr/bin/tar status,start
+20/09/2026 17:14:37,wks-07,rahul,22565,8857,/usr/bin/ssh,/usr/bin/ssh,start
+20/09/2026 18:40:37,wks-07,rahul,26038,8857,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 19:37:37,wks-07,rahul,19334,8857,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 21:31:37,wks-07,rahul,29472,8857,/usr/bin/ssh,/usr/bin/ssh,start
+20/09/2026 19:16:37,wks-07,rahul,11447,8857,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 22:29:37,wks-07,rahul,18113,8857,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 22:51:37,wks-07,rahul,10359,8857,/usr/bin/node,/usr/bin/node,start
+20/09/2026 21:12:37,wks-07,rahul,18210,8857,/usr/bin/python3,/usr/bin/python3,start
+20/09/2026 20:17:37,wks-07,rahul,19126,8857,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 20:57:37,wks-07,rahul,27482,8857,/usr/bin/ssh,/usr/bin/ssh,start
+20/09/2026 16:42:37,srv-app01,meera,25849,2704,/usr/bin/systemctl,/usr/bin/systemctl status,start
+20/09/2026 17:29:37,srv-app01,meera,21491,2704,/usr/bin/tar,/usr/bin/tar status,start
+20/09/2026 17:43:37,srv-app01,meera,13625,2704,/usr/bin/ssh,/usr/bin/ssh,start
+20/09/2026 19:46:37,srv-app01,meera,17944,2704,/usr/bin/node,/usr/bin/node,start
+20/09/2026 20:01:37,srv-app01,meera,15585,2704,/usr/bin/git,/usr/bin/git,start
+20/09/2026 18:38:37,srv-app01,meera,12744,2704,/usr/bin/node,/usr/bin/node,start
+20/09/2026 19:25:37,srv-app01,meera,28832,2704,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 18:21:37,srv-app01,meera,26639,2704,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 15:30:37,srv-app01,meera,22126,2704,/usr/bin/node,/usr/bin/node,start
+20/09/2026 19:46:37,srv-app01,meera,27444,2704,/usr/bin/ssh,/usr/bin/ssh,start
+20/09/2026 16:10:37,srv-app01,meera,12054,2704,/usr/bin/git,/usr/bin/git,start
+20/09/2026 20:17:37,srv-app01,sysops,21119,8373,/usr/bin/systemctl,/usr/bin/systemctl status,start
+20/09/2026 19:23:37,srv-app01,sysops,22295,8373,/usr/bin/apt,/usr/bin/apt status,start
+20/09/2026 21:41:37,srv-app01,sysops,11311,8373,/usr/bin/code,/usr/bin/code,start
+20/09/2026 22:20:37,srv-app01,sysops,18885,8373,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 19:32:37,srv-app01,sysops,9347,8373,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 23:06:37,srv-app01,sysops,29929,8373,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 23:14:37,srv-app01,sysops,10624,8373,/usr/bin/node,/usr/bin/node,start
+20/09/2026 17:30:37,srv-app01,sysops,18793,8373,/usr/bin/chrome,/usr/bin/chrome,start
+20/09/2026 18:24:37,srv-app01,sysops,22308,8373,/usr/bin/code,/usr/bin/code,start
+20/09/2026 20:23:37,srv-app01,sysops,26467,8373,/usr/bin/code,/usr/bin/code,start
+20/09/2026 16:11:37,srv-app01,sysops,25865,8373,/usr/bin/git,/usr/bin/git,start
+21/09/2026 19:06:37,wks-07,kiran,26392,5627,/usr/bin/tar,/usr/bin/tar status,start
+21/09/2026 16:42:37,wks-07,kiran,13222,5627,/usr/bin/tar,/usr/bin/tar status,start
+21/09/2026 19:28:37,wks-07,kiran,25480,5627,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 22:59:37,wks-07,kiran,25624,5627,/usr/bin/chrome,/usr/bin/chrome,start
+21/09/2026 20:41:37,wks-07,kiran,20769,5627,/usr/bin/ssh,/usr/bin/ssh,start
+21/09/2026 17:42:37,wks-07,kiran,28982,5627,/usr/bin/chrome,/usr/bin/chrome,start
+21/09/2026 21:12:37,wks-07,kiran,27510,5627,/usr/bin/python3,/usr/bin/python3,start
+21/09/2026 21:19:37,wks-07,kiran,15226,5627,/usr/bin/node,/usr/bin/node,start
+21/09/2026 20:46:37,wks-07,kiran,16845,5627,/usr/bin/chrome,/usr/bin/chrome,start
+21/09/2026 16:59:37,wks-07,kiran,25454,5627,/usr/bin/code,/usr/bin/code,start
+21/09/2026 20:56:37,wks-07,kiran,10294,5627,/usr/bin/code,/usr/bin/code,start
+21/09/2026 20:20:37,wks-07,anita,11374,5230,/usr/bin/systemctl,/usr/bin/systemctl status,start
+21/09/2026 16:34:37,wks-07,anita,20441,5230,/usr/bin/tar,/usr/bin/tar status,start
+21/09/2026 22:53:37,wks-07,anita,11924,5230,/usr/bin/git,/usr/bin/git,start
+21/09/2026 23:35:37,wks-07,anita,26738,5230,/usr/bin/git,/usr/bin/git,start
+21/09/2026 21:28:37,wks-07,anita,26165,5230,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 19:06:37,wks-07,anita,9332,5230,/usr/bin/python3,/usr/bin/python3,start
+21/09/2026 22:51:37,wks-07,anita,22815,5230,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 19:36:37,wks-07,anita,17051,5230,/usr/bin/code,/usr/bin/code,start
+21/09/2026 17:02:37,wks-07,rahul,29656,5660,/usr/bin/systemctl,/usr/bin/systemctl status,start
+21/09/2026 17:17:37,wks-07,rahul,22181,5660,/usr/bin/code,/usr/bin/code,start
+21/09/2026 16:03:37,wks-07,rahul,24176,5660,/usr/bin/ssh,/usr/bin/ssh,start
+21/09/2026 20:48:37,wks-07,rahul,11952,5660,/usr/bin/python3,/usr/bin/python3,start
+21/09/2026 16:36:37,wks-07,rahul,10060,5660,/usr/bin/code,/usr/bin/code,start
+21/09/2026 17:05:37,wks-07,rahul,23215,5660,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 19:13:37,wks-07,rahul,11381,5660,/usr/bin/ssh,/usr/bin/ssh,start
+21/09/2026 18:39:37,wks-07,rahul,22992,5660,/usr/bin/ssh,/usr/bin/ssh,start
+21/09/2026 20:06:37,wks-07,rahul,15732,5660,/usr/bin/code,/usr/bin/code,start
+21/09/2026 16:51:37,wks-07,meera,26031,2270,/usr/bin/tar,/usr/bin/tar status,start
+21/09/2026 16:30:37,wks-07,meera,16999,2270,/usr/bin/tar,/usr/bin/tar status,start
+21/09/2026 15:40:37,wks-07,meera,10240,2270,/usr/bin/python3,/usr/bin/python3,start
+21/09/2026 21:22:37,wks-07,meera,13743,2270,/usr/bin/python3,/usr/bin/python3,start
+21/09/2026 18:39:37,wks-07,meera,28663,2270,/usr/bin/git,/usr/bin/git,start
+21/09/2026 16:05:37,wks-07,meera,20319,2270,/usr/bin/git,/usr/bin/git,start
+21/09/2026 18:43:37,wks-07,meera,27506,2270,/usr/bin/node,/usr/bin/node,start
+21/09/2026 21:41:37,wks-07,meera,18226,2270,/usr/bin/git,/usr/bin/git,start
+21/09/2026 19:21:37,wks-07,meera,22402,2270,/usr/bin/git,/usr/bin/git,start
+21/09/2026 22:15:37,wks-07,meera,12845,2270,/usr/bin/git,/usr/bin/git,start
+21/09/2026 20:02:37,wks-07,meera,26234,2270,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 18:02:37,wks-07,meera,26061,2270,/usr/bin/node,/usr/bin/node,start
+21/09/2026 18:54:37,wks-07,meera,9793,2270,/usr/bin/git,/usr/bin/git,start
+21/09/2026 17:48:37,wks-04,sysops,15210,6912,/usr/bin/tar,/usr/bin/tar status,start
+21/09/2026 17:45:37,wks-04,sysops,26960,6912,/usr/bin/chrome,/usr/bin/chrome,start
+21/09/2026 16:28:37,wks-04,sysops,13940,6912,/usr/bin/code,/usr/bin/code,start
+21/09/2026 23:53:37,wks-04,sysops,29378,6912,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 20:10:37,wks-04,sysops,28165,6912,/usr/bin/ssh,/usr/bin/ssh,start
+21/09/2026 19:30:37,wks-04,sysops,25380,6912,/usr/bin/bash,/usr/bin/bash,start
+21/09/2026 16:44:37,wks-04,sysops,11098,6912,/usr/bin/code,/usr/bin/code,start
+21/09/2026 20:58:37,wks-04,sysops,20784,6912,/usr/bin/ssh,/usr/bin/ssh,start
+21/09/2026 18:58:37,wks-04,sysops,24843,6912,/usr/bin/python3,/usr/bin/python3,start
+21/09/2026 22:54:37,wks-04,sysops,25932,6912,/usr/bin/bash,/usr/bin/bash,start
+20/09/2026 07:41:10,wks-04,meera,30773,30772,/usr/bin/python3,/usr/bin/python3 -c ...,start
+20/09/2026 07:44:04,wks-04,meera,30774,30773,/usr/bin/tar,/usr/bin/tar czf /tmp/.cache_7867.tar.gz /srv,start
+21/09/2026 07:45:10,wks-07,kiran,33947,33946,/usr/bin/python3,/usr/bin/python3 -c ...,start
+21/09/2026 07:47:59,wks-07,kiran,33948,33947,/usr/bin/tar,/usr/bin/tar czf /tmp/.cache_6893.tar.gz /srv,start

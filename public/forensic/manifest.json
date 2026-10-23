@@ -1,0 +1,46 @@
+{
+    "note":  "Forensic Agent analysis pipeline (forensics/ minus the dashboard, login and CLI), copied unchanged from the project. Sample cases are synthetic; the user \"divyanshu\" is renamed \"kiran\" in these copies.",
+    "python":  [
+                   "forensics/correlate.py",
+                   "forensics/detect.py",
+                   "forensics/entities.py",
+                   "forensics/evaluation.py",
+                   "forensics/graph.py",
+                   "forensics/investigate.py",
+                   "forensics/normalize.py",
+                   "forensics/pipeline.py",
+                   "forensics/report.py",
+                   "forensics/retrieve.py",
+                   "forensics/schema.py",
+                   "forensics/timeline.py",
+                   "forensics/timeutil.py",
+                   "forensics/__init__.py",
+                   "forensics/parsers/auth.py",
+                   "forensics/parsers/base.py",
+                   "forensics/parsers/browser.py",
+                   "forensics/parsers/filesystem.py",
+                   "forensics/parsers/network.py",
+                   "forensics/parsers/process.py",
+                   "forensics/parsers/__init__.py"
+               ],
+    "cases":  {
+                  "CASE_001":  [
+                                   "auth.log",
+                                   "browser_history.csv",
+                                   "case.json",
+                                   "file_events.jsonl",
+                                   "ground_truth.json",
+                                   "network.log",
+                                   "process.csv"
+                               ],
+                  "CASE_002":  [
+                                   "auth.log",
+                                   "browser_history.csv",
+                                   "case.json",
+                                   "file_events.jsonl",
+                                   "ground_truth.json",
+                                   "network.log",
+                                   "process.csv"
+                               ]
+              }
+}

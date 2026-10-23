@@ -29,11 +29,24 @@ export const EN: Dict = {
     ],
     allWork: 'All projects',
   },
+  tour: {
+    start: 'Take the 1-minute tour', next: 'Next', back: 'Back', done: 'Finish', skip: 'Skip tour', of: 'of',
+    stops: [
+      ['.hero-main', 'Who I am', 'AI and full-stack engineer, B.Tech CSE (AI & ML) at SRM. Everything on this site can be checked: demos, code and numbers.'],
+      ['.hero-work', 'Start with these three', 'My strongest work: an AI research system, a forensic pipeline and a trading engine. Each has a case study and something you can try.'],
+      ['#project-grid', 'Every project, with proof', 'Case studies, live demos, code tours and whether the live site is up right now. Hover a card with a demo to watch it run.'],
+      ['#skills', 'Skills you can verify', 'Each skill links to the exact file or line on GitHub that uses it, on the evidence page.'],
+      ['#experience', 'What I have shipped', 'Self-directed projects across AI, backend, web and mobile, plus my degree.'],
+      ['#contact', 'Get in touch', 'Email, LinkedIn or the form, which goes straight to my inbox.'],
+    ],
+    endTitle: 'Where to next?',
+    endLinks: [['Try the risk-gate demo', '/demo/risk-gate'], ['See the skill evidence', '/evidence'], ['Get a résumé for your role', '/resume']],
+  },
   about: {
     eyebrow: '01 / About me', title: 'Measure first, claim second.',
     p1: 'I work where <strong>applied AI meets product engineering</strong>. I\'ve built LLM agents that design and run their own experiments, a forensic pipeline that rebuilds incident timelines from raw logs, a quant trading platform, and consumer apps on web and mobile.',
     p2: 'Every project starts the same way: <strong>state the claim, build the baseline, then measure</strong>. If a system can\'t show where its answer came from, it isn\'t finished.',
-    focus: '> current_focus: LLM agents, evidence-grounded RAG, and shipping production-grade full-stack apps.',
+    focusLabel: 'Currently', focus: 'LLM agents, evidence-grounded RAG, and production-grade full-stack apps.',
     statProjects: 'Projects shipped', statPlatforms: 'Platforms', statTech: 'Core technologies',
     portrait: 'Portrait of', openToWork: 'Open to work',
     cards: [
@@ -42,7 +55,7 @@ export const EN: Dict = {
       ['Production Mindset', 'Deterministic risk gates, offline-first design, strict TypeScript and tests that ship with the code.'],
     ],
   },
-  skills: { eyebrow: '02 / Toolbox', title: 'Skills & Technologies', sub: 'The stack I reach for when an idea needs to become a working system.', evidence: 'See the code behind each skill' },
+  skills: { eyebrow: '02 / Toolbox', title: 'Skills & Technologies', sub: 'The stack I reach for when an idea needs to become a working system.', evidence: 'See the code behind each skill', projects: 'projects', project: 'project', inCode: 'in public code', described: 'described' },
   experience: { eyebrow: '03 / Journey', title: 'Experience', sub: 'Where I\'ve been building and what I\'ve shipped.' },
   projects: {
     eyebrow: '04 / Work', title: 'Featured Projects', sub: 'Systems built to be measured, not just demoed.', filterLabel: 'Filter projects by category',

@@ -11,6 +11,9 @@ page, a recruiter view (`/?for=backend`, `ai`, `frontend`, `fullstack` or `mobil
 Also: `/evidence` links every skill to the exact file or line on GitHub that uses it, `/tour` walks through real
 code with notes, `/resume` prints a one-page résumé tailored to a role, project cards show whether live sites are up,
 case studies show their public commit history, and chat answers suggest follow-up questions and can be shared as links.
+`/demo/forensic-live` runs the Forensic Agent's real Python pipeline in the browser (Pyodide, in a Web Worker),
+a 1-minute guided tour starts from the hero, and `?` lists the keyboard shortcuts. See [SECURITY.md](SECURITY.md) for the
+security measures and how to report a problem.
 It works offline once visited, and falls back gracefully whenever an API isn't available.
 
 ## Run it
@@ -62,4 +65,7 @@ Turn on **Analytics** in the Vercel project to activate visitor stats.
   AutoSci's experiment ledger (study `study_322258374f`), `src/data/forensic-case001.ts` is copied from the
   Forensic Agent's report on its synthetic `CASE_001`, and `src/lib/preflight.ts` ports Venture DAO's `preflight()`.
 - Security headers (CSP with hashes of the inline scripts, HSTS, frame and permissions policies) are written into
-  `.vercel/output/config.json` after each build, because the Vercel adapter ignores `headers` in `vercel.json`.
+  `.vercel/output/config.json` after each build, because the Vercel adapter ignores `headers` in `vercel.json`.- `public/forensic/` holds the Forensic Agent's analysis pipeline (copied unchanged from the project, minus its
+  dashboard, login and CLI) and two synthetic sample cases, in which the user "divyanshu" is renamed "kiran".
+  Pyodide is pinned to v0.27.7; only `/forensic/worker.js` may load it, through its own CSP.
+- `node scripts/capture-shots.mjs` re-captures the project screenshots and demo clips from the running dev server.

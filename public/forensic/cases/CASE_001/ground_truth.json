@@ -1,0 +1,85 @@
+{
+  "case_id": "CASE_001",
+  "incidents": [
+    {
+      "incident_id": "GT-01",
+      "type": "data_exfiltration",
+      "start": "AUTH-00040",
+      "user": "meera",
+      "host": "wks-04",
+      "external_ip": "203.0.113.140",
+      "archive": "/tmp/.cache_7867.tar.gz",
+      "event_ids": [
+        "AUTH-00040",
+        "AUTH-00041",
+        "PROCESS-00108",
+        "FILE_EVENTS-00136",
+        "FILE_EVENTS-00137",
+        "FILE_EVENTS-00138",
+        "PROCESS-00109",
+        "FILE_EVENTS-00139",
+        "NETWORK-00112",
+        "NETWORK-00113",
+        "FILE_EVENTS-00140"
+      ],
+      "stages": [
+        "access",
+        "escalation",
+        "execution",
+        "collection",
+        "collection",
+        "collection",
+        "execution",
+        "collection",
+        "exfiltration",
+        "exfiltration",
+        "cleanup"
+      ]
+    },
+    {
+      "incident_id": "GT-02",
+      "type": "data_exfiltration",
+      "start": "AUTH-00046",
+      "user": "kiran",
+      "host": "wks-07",
+      "external_ip": "203.0.113.16",
+      "archive": "/tmp/.cache_6893.tar.gz",
+      "event_ids": [
+        "AUTH-00046",
+        "AUTH-00047",
+        "PROCESS-00110",
+        "FILE_EVENTS-00141",
+        "FILE_EVENTS-00142",
+        "FILE_EVENTS-00143",
+        "PROCESS-00111",
+        "FILE_EVENTS-00144",
+        "NETWORK-00114",
+        "NETWORK-00115",
+        "FILE_EVENTS-00145"
+      ],
+      "stages": [
+        "access",
+        "escalation",
+        "execution",
+        "collection",
+        "collection",
+        "collection",
+        "execution",
+        "collection",
+        "exfiltration",
+        "exfiltration",
+        "cleanup"
+      ]
+    }
+  ],
+  "benign_users": [
+    "kiran",
+    "anita",
+    "rahul",
+    "meera",
+    "sysops"
+  ],
+  "clock_skew_s": {
+    "process.csv": 37
+  }
+}

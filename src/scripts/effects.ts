@@ -129,7 +129,27 @@ function confetti(): void {
   });
 }
 
+/** Hero background: a spotlight on the grid follows the cursor. Desktop pointers only; off for reduced motion. */
+function heroLight(): void {
+  const hero = $('#home');
+  if (!hero || !finePointer() || reducedMotion()) return;
+  let frame = 0, x = 0, y = 0;
+  hero.addEventListener('pointermove', (e) => {
+    const r = hero.getBoundingClientRect();
+    x = e.clientX - r.left; y = e.clientY - r.top;
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      hero.style.setProperty('--hx', `${x}px`);
+      hero.style.setProperty('--hy', `${y}px`);
+      hero.classList.add('lit');
+    });
+  });
+  hero.addEventListener('pointerleave', () => hero.classList.remove('lit'));
+}
+
 export function initEffects(): void {
+  heroLight();
   cursor();
   spotlight();
   tiltAndMagnet();

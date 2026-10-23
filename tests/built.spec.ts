@@ -20,6 +20,17 @@ test('security headers are sent', async ({ request }) => {
   expect(h['x-frame-options']).toBe('DENY');
   expect(h['referrer-policy']).toBeTruthy();
   expect(h['permissions-policy']).toContain('camera=()');
+  expect(h['cross-origin-resource-policy']).toBe('same-site');
+});
+
+test('only the Python worker may load code from the CDN', async ({ request }) => {
+  const page = (await request.get(`${BUILT}/demo/forensic-live/`)).headers()['content-security-policy'];
+  const worker = (await request.get(`${BUILT}/forensic/worker.js`)).headers()['content-security-policy'];
+  expect(page).not.toContain('cdn.jsdelivr.net');
+  expect(page).not.toContain('wasm-unsafe-eval');
+  expect(worker).toContain('https://cdn.jsdelivr.net/pyodide/v0.27.7/full/');
+  expect(worker).toContain("'wasm-unsafe-eval'");
+  expect(worker).not.toContain("'unsafe-eval'");
 });
 
 for (const path of PAGES) {

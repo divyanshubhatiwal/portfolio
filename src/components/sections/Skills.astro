@@ -1,10 +1,20 @@
 ---
+// Skills as evidence, not self-ratings: each technology shows how many projects use it and whether that
+// can be checked in public code. Counts come from the same data as /evidence.
 import { SKILLS } from '@/data/site';
 import { content, getLang, ui } from '@/i18n';
+import { buildEvidence } from '@/lib/evidence';
 
 const lang = getLang(Astro.url);
 const T = ui(lang).skills;
 const { skillGroup } = content(lang);
+const proof = new Map(buildEvidence().skills.map((s) => [s.name, s.proofs]));
+const ICONS: Record<string, string> = {
+  'Languages': 'M8 6 2 12l6 6M16 6l6 6-6 6',
+  'Frontend & Mobile': 'M3 4h18v12H3zM8 20h8M12 16v4',
+  'Backend & Data': 'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Zm0 0v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
+  'AI / ML': 'M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2M9 9h6v6H9z',
+};
 ---
 <section class="block" id="skills">
   <div class="wrap">
@@ -14,13 +24,25 @@ const { skillGroup } = content(lang);
     <div class="skills-grid">
       {Object.entries(SKILLS).map(([cat, list], i) => (
         <div class="skill-cat spot reveal" data-group={cat} style={`--d:${(i * 0.08).toFixed(2)}s`}>
-          <h3><span class="n">0{i + 1}</span>{skillGroup(cat)}</h3>
-          {list.map(([name, level]) => (
-            <div class="skill">
-              <div class="row"><span>{name}</span><span>{level}%</span></div>
-              <div class="meter" role="meter" aria-label={name} aria-valuemin="0" aria-valuemax="100" aria-valuenow={level}><i data-w={level}></i></div>
-            </div>
-          ))}
+          <h3>
+            <span class="skill-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={ICONS[cat] ?? ICONS['Languages']} /></svg></span>
+            <span class="n">0{i + 1}</span>{skillGroup(cat)}
+          </h3>
+          <ul class="skill-list">
+            {list.map(([name]) => {
+              const p = proof.get(name) ?? [];
+              const projects = new Set(p.map((x) => x.project)).size;
+              const coded = p.some((x) => x.kind !== 'described');
+              return (
+                <li>
+                  <a href={`/evidence#skill=${encodeURIComponent(name)}`}>
+                    <span class="skill-name">{name}</span>
+                    {projects > 0 && <span class="skill-proof">{projects} {projects === 1 ? T.project : T.projects}{coded ? <i class="coded" title={T.inCode}>{T.inCode}</i> : <i>{T.described}</i>}</span>}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       ))}
     </div>

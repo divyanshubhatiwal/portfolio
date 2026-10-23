@@ -5,10 +5,14 @@ import Icon from '../Icon.astro';
 import { PROFILE } from '@/data/site';
 import { getLang, ui } from '@/i18n';
 
-const T = ui(getLang(Astro.url)).hero;
+const D = ui(getLang(Astro.url));
+const T = D.hero;
 ---
-<section class="hero" id="home">
+<section class="hero" id="home" data-tour={JSON.stringify(D.tour)}>
+  <!-- background: slowly drifting light, a gently panning grid, and a spotlight that follows the cursor (desktop) -->
+  <div class="hero-glow" aria-hidden="true"><span></span><span></span></div>
   <div class="grid-bg" aria-hidden="true"></div>
+  <div class="grid-spot" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-main">
       <p class="hero-role">{T.role}</p>
@@ -24,6 +28,7 @@ const T = ui(getLang(Astro.url)).hero;
         <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Icon id="i-linkedin" /></a>
         <a href={`mailto:${PROFILE.email}`} aria-label="Email"><Icon id="i-mail" /></a>
         <a class="hero-contact" href="#contact">{T.contact}</a>
+        <button type="button" class="hero-tour" id="tour-start"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg>{D.tour.start}</button>
       </div>
     </div>
     <aside class="hero-work" aria-labelledby="hero-work-title">

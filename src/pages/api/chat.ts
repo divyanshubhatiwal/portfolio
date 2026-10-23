@@ -4,7 +4,8 @@ import type { APIRoute } from 'astro';
 import type Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
-import { MODEL, clientIp, errorResponse, getClient, getContext, getSources, json, rateLimit, underDailyCap } from '@/lib/ai';
+import { MODEL, errorResponse, getClient, getContext, getSources, json, rateLimit, underDailyCap } from '@/lib/ai';
+import { RequestError, assertSameOrigin, clientIp, readJson, safeEqual } from '@/lib/http';
 import { PROFILE } from '@/data/site';
 
 export const prerender = false;
@@ -41,9 +42,15 @@ function getSchema() {
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  // order: validate input, then rate-limit, then check configuration, then spend money
+  // order: check where it came from and validate input, then rate-limit, then check configuration, then spend money
   let body: Body;
-  try { body = (await request.json()) as Body; } catch { return json({ error: 'bad_request' }, 400); }
+  try {
+    assertSameOrigin(request);
+    body = await readJson<Body>(request, 16 * 1024); // a question plus six short turns of history
+  } catch (e) {
+    if (e instanceof RequestError) return json({ error: e.code }, e.status);
+    throw e;
+  }
   const question = typeof body.question === 'string' ? body.question.trim() : '';
   if (!question || question.length > MAX_QUESTION) return json({ error: 'bad_request' }, 400);
 
@@ -58,7 +65,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   // the evaluation suite (scripts/eval-chat.mjs) asks 30 questions in a row; it may skip the per-IP limit
   // with the secret AI_EVAL_TOKEN. Unset by default, so visitors are always rate-limited.
   const evalToken = process.env.AI_EVAL_TOKEN;
-  const isEval = !!evalToken && request.headers.get('x-eval-token') === evalToken;
+  const isEval = safeEqual(request.headers.get('x-eval-token'), evalToken);
   const wait = isEval ? 0 : rateLimit(`chat:${clientIp(request, clientAddress)}`, 20, 10 * 60_000);
   if (wait) return json({ error: 'rate_limited', retryAfter: wait }, 429, { 'Retry-After': String(wait) });
   const client = getClient();

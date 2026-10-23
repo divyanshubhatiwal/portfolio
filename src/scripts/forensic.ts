@@ -13,6 +13,11 @@ if (root) {
   const set = (id: string, text: string) => { const el = $(id); if (el) el.textContent = text; };
 
   const reveal = () => {
+    if (i < questions.length) { // revealed early, with the button
+      set('#fx-step', 'Analysis shown');
+      set('#fx-q', 'Here is what the agent flagged. Each row now shows its severity, stage and the reason it was flagged.');
+      set('#fx-feedback', '');
+    }
     root.classList.add('revealed');
     const res = $('#fx-result');
     if (res) res.hidden = false;

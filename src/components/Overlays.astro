@@ -10,6 +10,19 @@ const { home = true } = Astro.props;
 
 <div id="toast" role="status" aria-live="polite"></div>
 
+<dialog id="keys" aria-labelledby="keys-title">
+  <div class="keys-head"><h2 id="keys-title">Keyboard shortcuts</h2><button type="button" class="icon-btn" id="keys-close" aria-label="Close"><Icon id="i-x" /></button></div>
+  <dl>
+    <div><dt><kbd>Ctrl</kbd> <kbd>K</kbd></dt><dd>Search sections, projects and actions</dd></div>
+    <div><dt><kbd>~</kbd></dt><dd>Open the terminal</dd></div>
+    <div><dt><kbd>C</kbd></dt><dd>Ask my portfolio (chat)</dd></div>
+    <div><dt><kbd>T</kbd></dt><dd>Switch light and dark theme</dd></div>
+    <div><dt><kbd>Esc</kbd></dt><dd>Close whatever is open</dd></div>
+    <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
+  </dl>
+  <p>On a Mac, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>. Shortcuts are off while you're typing.</p>
+</dialog>
+
 <button id="chat-btn" aria-label="Ask my portfolio a question" aria-expanded="false" aria-controls="chat">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 </button>
@@ -51,7 +64,7 @@ const { home = true } = Astro.props;
       <kbd>Esc</kbd>
     </div>
     <div class="pal-list" id="pal-list" role="listbox" aria-label="Commands" data-lenis-prevent></div>
-    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>~</kbd> terminal</span></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>~</kbd> terminal</span><span><kbd>?</kbd> all shortcuts</span></div>
   </div>
 </div>
 

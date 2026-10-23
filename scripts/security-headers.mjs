@@ -65,14 +65,31 @@ const headers = {
   // the microphone is only for the chat's voice input, on this site only
   'Permissions-Policy': 'camera=(), microphone=(self), geolocation=(), payment=(), usb=()',
   'Cross-Origin-Opener-Policy': 'same-origin',
+  // other sites can't embed this site's files in their pages (link previews and crawlers are unaffected)
+  'Cross-Origin-Resource-Policy': 'same-site',
+  'X-Permitted-Cross-Domain-Policies': 'none',
 };
 
+// The Forensic Agent demo's Web Worker runs Python via Pyodide: it loads the runtime and packages from
+// jsDelivr (pinned version) and compiles WebAssembly. Only the worker script gets this policy; every page,
+// including the demo page itself, keeps the strict one above.
+const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
+const workerCsp = [
+  "default-src 'self'",
+  `script-src 'self' ${PYODIDE_CDN} 'wasm-unsafe-eval'`,
+  `connect-src 'self' ${PYODIDE_CDN}`,
+  "object-src 'none'",
+  "base-uri 'none'",
+].join('; ');
+const overrides = [{ src: '/forensic/worker\\.js', headers: { 'Content-Security-Policy': workerCsp } }];
+
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-// drop a copy from an earlier run (the Build Output API rejects unknown keys, so match on the CSP header)
+// drop copies from an earlier run (the Build Output API rejects unknown keys, so match on the CSP header)
 config.routes = (config.routes ?? []).filter((r) => !r.headers?.['Content-Security-Policy']);
-config.routes.unshift({ src: '/(.*)', headers, continue: true });
+// a later matching route's header replaces an earlier one's, so the overrides go right after the default
+config.routes.unshift({ src: '/(.*)', headers, continue: true }, ...overrides.map((o) => ({ ...o, continue: true })));
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
 // a copy outside the served files, used by the local preview server in the Playwright tests
-fs.writeFileSync(path.join(out, 'security-headers.json'), JSON.stringify(headers, null, 2));
+fs.writeFileSync(path.join(out, 'security-headers.json'), JSON.stringify({ headers, overrides }, null, 2));
 console.log(`security-headers: ${pages.length} pages, ${hashes.size} inline script hash(es), ${Object.keys(headers).length} headers written`);

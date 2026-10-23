@@ -19,8 +19,11 @@ http.createServer((req, res) => {
   // read on each request, so a rebuild is picked up without restarting
   // 200 so Playwright sees the server as up; tests read the header and skip
   if (!fs.existsSync(dir)) { res.writeHead(200, { 'Content-Type': 'text/plain', 'X-Not-Built': '1' }).end('not built: run npm run build'); return; }
-  const headers = fs.existsSync(headersFile) ? JSON.parse(fs.readFileSync(headersFile, 'utf8')) : {};
+  const conf = fs.existsSync(headersFile) ? JSON.parse(fs.readFileSync(headersFile, 'utf8')) : {};
   const url = decodeURIComponent(new URL(req.url ?? '/', 'http://x').pathname);
+  // same order as on Vercel: the default headers, then any per-path override
+  const headers = { ...conf.headers };
+  for (const o of conf.overrides ?? []) if (new RegExp(`^${o.src}$`).test(url)) Object.assign(headers, o.headers);
   let file = path.join(dir, url);
   if (!file.startsWith(dir)) { res.writeHead(400).end(); return; }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');

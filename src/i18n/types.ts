@@ -8,11 +8,13 @@ export interface Dict {
     role: S; lede: S; facts: S[]; viewWork: S; resume: S; contact: S;
     workTitle: S; work: [name: S, line: S, href: S][]; allWork: S;
   };
+  /** the guided 1-minute tour: [section selector, title, caption] per stop, then the closing links */
+  tour: { start: S; next: S; back: S; done: S; skip: S; of: S; stops: [sel: S, title: S, text: S][]; endTitle: S; endLinks: [label: S, href: S][] };
   about: {
-    eyebrow: S; title: S; p1: S; p2: S; focus: S; statProjects: S; statPlatforms: S; statTech: S; portrait: S; openToWork: S;
+    eyebrow: S; title: S; p1: S; p2: S; focusLabel: S; focus: S; statProjects: S; statPlatforms: S; statTech: S; portrait: S; openToWork: S;
     cards: [title: S, text: S][];
   };
-  skills: { eyebrow: S; title: S; sub: S; evidence: S };
+  skills: { eyebrow: S; title: S; sub: S; evidence: S; projects: S; project: S; inCode: S; described: S };
   experience: { eyebrow: S; title: S; sub: S };
   projects: { eyebrow: S; title: S; sub: S; filterLabel: S; all: S; caseStudy: S; tryIt: S; source: S; live: S; tour: S; shot: S; focusShown: S; focusReset: S; focusCv: S; up: S; down: S };
   github: {

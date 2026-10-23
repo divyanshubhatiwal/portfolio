@@ -1,0 +1,37 @@
+{
+  "case_id": "CASE_001",
+  "reference_date": "2026-09-22T00:00:00Z",
+  "sources": [
+    {
+      "file": "auth.log",
+      "kind": "auth",
+      "format": "syslog",
+      "tz": "+05:30"
+    },
+    {
+      "file": "process.csv",
+      "kind": "process",
+      "format": "dmy",
+      "tz": "+05:30",
+      "dayfirst": true
+    },
+    {
+      "file": "file_events.jsonl",
+      "kind": "file",
+      "format": "iso",
+      "tz": "UTC"
+    },
+    {
+      "file": "network.log",
+      "kind": "network",
+      "format": "epoch",
+      "tz": "UTC"
+    },
+    {
+      "file": "browser_history.csv",
+      "kind": "browser",
+      "format": "webkit",
+      "tz": "UTC"
+    }
+  ]
+}

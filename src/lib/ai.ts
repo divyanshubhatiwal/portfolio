@@ -110,10 +110,6 @@ export function underDailyCap(cap = Number(process.env.AI_DAILY_CAP) || 500): bo
   return ++daily.count <= cap;
 }
 
-export function clientIp(request: Request, fallback: string): string {
-  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || fallback || 'unknown';
-}
-
 export const json = (body: unknown, status = 200, extra: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...extra } });
 

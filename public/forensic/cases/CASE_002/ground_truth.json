@@ -1,0 +1,120 @@
+{
+  "case_id": "CASE_002",
+  "incidents": [
+    {
+      "incident_id": "GT-01",
+      "type": "data_exfiltration",
+      "start": "AUTH-00059",
+      "user": "sysops",
+      "host": "srv-app01",
+      "external_ip": "203.0.113.152",
+      "archive": "/tmp/.cache_4972.tar.gz",
+      "event_ids": [
+        "AUTH-00059",
+        "AUTH-00060",
+        "PROCESS-00162",
+        "FILE_EVENTS-00182",
+        "FILE_EVENTS-00183",
+        "FILE_EVENTS-00184",
+        "PROCESS-00163",
+        "FILE_EVENTS-00185",
+        "NETWORK-00154",
+        "NETWORK-00155",
+        "FILE_EVENTS-00186"
+      ],
+      "stages": [
+        "access",
+        "escalation",
+        "execution",
+        "collection",
+        "collection",
+        "collection",
+        "execution",
+        "collection",
+        "exfiltration",
+        "exfiltration",
+        "cleanup"
+      ]
+    },
+    {
+      "incident_id": "GT-02",
+      "type": "data_exfiltration",
+      "start": "AUTH-00065",
+      "user": "meera",
+      "host": "srv-app01",
+      "external_ip": "203.0.113.241",
+      "archive": "/tmp/.cache_8793.tar.gz",
+      "event_ids": [
+        "AUTH-00065",
+        "AUTH-00066",
+        "PROCESS-00164",
+        "FILE_EVENTS-00187",
+        "FILE_EVENTS-00188",
+        "FILE_EVENTS-00189",
+        "PROCESS-00165",
+        "FILE_EVENTS-00190",
+        "NETWORK-00156",
+        "NETWORK-00157",
+        "FILE_EVENTS-00191"
+      ],
+      "stages": [
+        "access",
+        "escalation",
+        "execution",
+        "collection",
+        "collection",
+        "collection",
+        "execution",
+        "collection",
+        "exfiltration",
+        "exfiltration",
+        "cleanup"
+      ]
+    },
+    {
+      "incident_id": "GT-03",
+      "type": "data_exfiltration",
+      "start": "AUTH-00071",
+      "user": "kiran",
+      "host": "wks-07",
+      "external_ip": "203.0.113.203",
+      "archive": "/tmp/.cache_4052.tar.gz",
+      "event_ids": [
+        "AUTH-00071",
+        "AUTH-00072",
+        "PROCESS-00166",
+        "FILE_EVENTS-00192",
+        "FILE_EVENTS-00193",
+        "FILE_EVENTS-00194",
+        "PROCESS-00167",
+        "FILE_EVENTS-00195",
+        "NETWORK-00158",
+        "NETWORK-00159",
+        "FILE_EVENTS-00196"
+      ],
+      "stages": [
+        "access",
+        "escalation",
+        "execution",
+        "collection",
+        "collection",
+        "collection",
+        "execution",
+        "collection",
+        "exfiltration",
+        "exfiltration",
+        "cleanup"
+      ]
+    }
+  ],
+  "benign_users": [
+    "kiran",
+    "anita",
+    "rahul",
+    "meera",
+    "sysops"
+  ],
+  "clock_skew_s": {
+    "process.csv": 37
+  }
+}

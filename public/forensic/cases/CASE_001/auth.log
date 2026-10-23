@@ -1,0 +1,47 @@
+Sep 20 15:58:00 wks-07 sshd[6585]: Accepted password for kiran from 10.0.1.7 port 59247 ssh2
+Sep 20 17:52:00 wks-07 sudo: kiran : TTY=pts/0 ; PWD=/home/kiran ; USER=root ; COMMAND=/usr/bin/systemctl status
+Sep 20 23:58:00 wks-07 sshd[6585]: Disconnected from user kiran 10.0.0.12
+Sep 20 15:53:00 wks-04 sshd[6925]: Accepted password for anita from 10.0.1.7 port 54850 ssh2
+Sep 20 20:20:00 wks-04 sudo: anita : TTY=pts/0 ; PWD=/home/anita ; USER=root ; COMMAND=/usr/bin/systemctl status
+Sep 20 21:53:00 wks-04 sshd[6925]: Disconnected from user anita 10.0.0.31
+Sep 20 15:15:00 wks-07 sshd[8857]: Accepted password for rahul from 10.0.0.12 port 49070 ssh2
+Sep 20 16:32:00 wks-07 sudo: rahul : TTY=pts/0 ; PWD=/home/rahul ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 20 22:15:00 wks-07 sshd[8857]: Disconnected from user rahul 10.0.1.7
+Sep 20 14:58:00 srv-app01 sshd[2704]: Accepted password for meera from 10.0.1.7 port 58309 ssh2
+Sep 20 16:42:00 srv-app01 sudo: meera : TTY=pts/0 ; PWD=/home/meera ; USER=root ; COMMAND=/usr/bin/systemctl status
+Sep 20 17:29:00 srv-app01 sudo: meera : TTY=pts/0 ; PWD=/home/meera ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 20 20:58:00 srv-app01 sshd[2704]: Disconnected from user meera 10.0.1.7
+Sep 20 15:22:00 srv-app01 sshd[8373]: Accepted password for sysops from 10.0.0.31 port 44365 ssh2
+Sep 20 20:17:00 srv-app01 sudo: sysops : TTY=pts/0 ; PWD=/home/sysops ; USER=root ; COMMAND=/usr/bin/systemctl status
+Sep 20 19:23:00 srv-app01 sudo: sysops : TTY=pts/0 ; PWD=/home/sysops ; USER=root ; COMMAND=/usr/bin/apt status
+Sep 20 21:22:00 srv-app01 sshd[8373]: Disconnected from user sysops 10.0.0.12
+Sep 21 15:12:00 wks-07 sshd[5627]: Accepted password for kiran from 10.0.0.31 port 54927 ssh2
+Sep 21 19:06:00 wks-07 sudo: kiran : TTY=pts/0 ; PWD=/home/kiran ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 21 16:42:00 wks-07 sudo: kiran : TTY=pts/0 ; PWD=/home/kiran ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 21 23:12:00 wks-07 sshd[5627]: Disconnected from user kiran 10.0.0.31
+Sep 21 15:51:00 wks-07 sshd[5230]: Accepted password for anita from 10.0.0.31 port 44479 ssh2
+Sep 21 20:20:00 wks-07 sudo: anita : TTY=pts/0 ; PWD=/home/anita ; USER=root ; COMMAND=/usr/bin/systemctl status
+Sep 21 16:34:00 wks-07 sudo: anita : TTY=pts/0 ; PWD=/home/anita ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 21 23:51:00 wks-07 sshd[5230]: Disconnected from user anita 10.0.1.7
+Sep 21 15:35:00 wks-07 sshd[5660]: Accepted password for rahul from 10.0.0.12 port 44614 ssh2
+Sep 21 17:02:00 wks-07 sudo: rahul : TTY=pts/0 ; PWD=/home/rahul ; USER=root ; COMMAND=/usr/bin/systemctl status
+Sep 21 21:35:00 wks-07 sshd[5660]: Disconnected from user rahul 10.0.0.31
+Sep 21 15:03:00 wks-07 sshd[2270]: Accepted password for meera from 10.0.0.31 port 43875 ssh2
+Sep 21 16:51:00 wks-07 sudo: meera : TTY=pts/0 ; PWD=/home/meera ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 21 16:30:00 wks-07 sudo: meera : TTY=pts/0 ; PWD=/home/meera ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 21 23:03:00 wks-07 sshd[2270]: Disconnected from user meera 10.0.0.12
+Sep 21 16:04:00 wks-04 sshd[6912]: Accepted password for sysops from 10.0.0.31 port 53875 ssh2
+Sep 21 17:48:00 wks-04 sudo: sysops : TTY=pts/0 ; PWD=/home/sysops ; USER=root ; COMMAND=/usr/bin/tar status
+Sep 22 00:04:00 wks-04 sshd[6912]: Disconnected from user sysops 10.0.1.7
+Sep 20 07:39:00 wks-04 sshd[30772]: Failed password for meera from 198.51.100.100 port 49060 ssh2
+Sep 20 07:39:11 wks-04 sshd[30772]: Failed password for meera from 198.51.100.100 port 51888 ssh2
+Sep 20 07:39:22 wks-04 sshd[30772]: Failed password for meera from 198.51.100.100 port 48995 ssh2
+Sep 20 07:39:33 wks-04 sshd[30772]: Failed password for meera from 198.51.100.100 port 40608 ssh2
+Sep 20 07:39:52 wks-04 sshd[30772]: Accepted password for meera from 198.51.100.100 port 57003 ssh2
+Sep 20 07:40:33 wks-04 sudo: meera : TTY=pts/0 ; PWD=/home/meera ; USER=root ; COMMAND=/usr/bin/python3
+Sep 21 07:43:00 wks-07 sshd[33946]: Failed password for kiran from 198.51.100.41 port 43907 ssh2
+Sep 21 07:43:11 wks-07 sshd[33946]: Failed password for kiran from 198.51.100.41 port 40668 ssh2
+Sep 21 07:43:22 wks-07 sshd[33946]: Failed password for kiran from 198.51.100.41 port 50554 ssh2
+Sep 21 07:43:33 wks-07 sshd[33946]: Failed password for kiran from 198.51.100.41 port 52596 ssh2
+Sep 21 07:43:52 wks-07 sshd[33946]: Accepted password for kiran from 198.51.100.41 port 54743 ssh2
+Sep 21 07:44:33 wks-07 sudo: kiran : TTY=pts/0 ; PWD=/home/kiran ; USER=root ; COMMAND=/usr/bin/python3

@@ -20,7 +20,7 @@ const { stats, milestones } = content(lang);
       ))}
     </div>
     <div class="ach-list">
-      {milestones.map((m, i) => (
+      {milestones.filter((m) => !m.cert).map((m, i) => (
         <div class:list={['ach', 'spot', 'reveal', i % 2 ? 'right' : 'left']}>
           <div class="ico"><Icon id={m.icon} /></div>
           <div><span class="when">{m.when}</span><h3>{m.title}</h3><p>{m.text}</p></div>

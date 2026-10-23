@@ -15,7 +15,7 @@ const icons: IconId[] = ['i-bot', 'i-layers', 'i-gauge'];
       <h2 class="sec-title reveal">{T.title}</h2>
       <p class="reveal" set:html={T.p1} />
       <p class="reveal" set:html={T.p2} />
-      <div class="focus reveal">{T.focus}</div>
+      <p class="focus reveal"><span>{T.focusLabel}</span>{T.focus}</p>
       <div class="stats reveal">
         <div class="stat"><b data-count={PROJECTS.length}>{PROJECTS.length}</b><span>{T.statProjects}</span></div>
         <div class="stat"><b data-count="3">3</b><span>{T.statPlatforms}</span></div>

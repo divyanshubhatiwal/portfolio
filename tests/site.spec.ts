@@ -97,12 +97,12 @@ test('case study diagram explains each stage', async ({ page }) => {
 
 test('blog lists posts and the RSS feed is valid', async ({ page, request }) => {
   await page.goto('/blog');
-  await expect(page.locator('.card')).toHaveCount(3);
+  await expect(page.locator('.card')).toHaveCount(5);
   const rss = await request.get('/rss.xml');
   expect(rss.ok()).toBeTruthy();
   const xml = await rss.text();
   expect(xml).toContain('<rss');
-  expect(xml.match(/<item>/g)?.length).toBe(3);
+  expect(xml.match(/<item>/g)?.length).toBe(5);
 });
 
 test('job matcher explains itself when AI is not configured', async ({ page }) => {
@@ -274,18 +274,18 @@ test('tailored résumé puts relevant projects first and prints on one page', as
 test('live status badges appear on deployed projects', async ({ page }) => {
   await page.route('**/api/status', (r) => r.fulfill({ json: { checked: new Date().toISOString(), results: [
     { name: 'Friends Talk', url: 'https://friendstalk.fun/', ok: true, status: 200, ms: 120 },
-    { name: 'FlowBoard', url: 'https://flowboard-teal.vercel.app/', ok: false, status: 503, ms: 80 },
+    { name: 'T20 Score Predictor', url: 'https://t20-score-predictor-wal.streamlit.app/', ok: false, status: 503, ms: 80 },
   ] } }));
   await page.goto('/');
   await expect(page.locator('.project[data-name="Friends Talk"] .status-badge')).toHaveText('Live · 120 ms');
-  await expect(page.locator('.project[data-name="FlowBoard"] .status-badge')).toHaveText('Not responding');
+  await expect(page.locator('.project[data-name="T20 Score Predictor"] .status-badge')).toHaveText('Not responding');
 });
 
 test('status endpoint only checks the site\'s own live projects', async ({ request }) => {
   const r = await request.get('/api/status?url=https://example.com');
   expect(r.ok()).toBeTruthy();
   const { results } = await r.json() as { results: { name: string; url: string; ok: boolean }[] };
-  expect(results.map((x) => x.name).sort()).toEqual(['FlowBoard', 'Friends Talk', 'T20 Score Predictor']);
+  expect(results.map((x) => x.name).sort()).toEqual(['Friends Talk', 'T20 Score Predictor']);
   expect(results.every((x) => typeof x.ok === 'boolean' && !x.url.includes('example.com'))).toBeTruthy();
 });
 
@@ -293,4 +293,77 @@ test('case studies show the public repository history', async ({ page }) => {
   await page.goto('/case/venture-dao');
   await expect(page.locator('.repo-act')).toContainText(/\d+ commits/);
   await expect(page.locator('.repo-act a', { hasText: 'Code tour' })).toHaveCount(2);
+});
+test('AI endpoints refuse other websites, non-JSON and oversized requests', async ({ request }) => {
+  const q = { question: 'What have you built with FastAPI?' };
+  // another website's page making a visitor's browser call the API
+  expect((await request.post('/api/chat', { data: q, headers: { Origin: 'https://evil.example', 'Sec-Fetch-Site': 'cross-site' } })).status()).toBe(403);
+  expect((await request.post('/api/match', { data: { jd: 'x'.repeat(200) }, headers: { Origin: 'https://evil.example' } })).status()).toBe(403);
+  // a form-style post, which would skip the browser's CORS preflight
+  expect((await request.post('/api/chat', { data: JSON.stringify(q), headers: { 'Content-Type': 'text/plain' } })).status()).toBe(415);
+  // far bigger than any real question
+  expect((await request.post('/api/chat', { data: { question: 'a', history: [{ role: 'user', content: 'x'.repeat(40_000) }] } })).status()).toBe(413);
+});
+
+test('security.txt tells researchers how to report problems', async ({ request }) => {
+  const r = await request.get('/.well-known/security.txt');
+  expect(r.ok()).toBeTruthy();
+  const body = await r.text();
+  expect(body).toMatch(/^Contact: mailto:/m);
+  const expires = /^Expires: (.+)$/m.exec(body)?.[1];
+  expect(Date.parse(expires ?? '') - Date.now()).toBeGreaterThan(30 * 86_400_000); // renew before it lapses
+});
+test.describe('keyboard shortcuts', () => {
+  test.skip(({ isMobile }) => isMobile, 'keyboard shortcuts are a desktop feature');
+  test('? lists the shortcuts and Esc closes the list', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('body').click({ position: { x: 5, y: 300 } });
+    await page.keyboard.press('?');
+    await expect(page.locator('#keys')).toBeVisible();
+    await expect(page.locator('#keys dt')).toHaveCount(6);
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#keys')).toBeHidden();
+  });
+});
+
+test('the 1-minute tour walks through the home page and can be left with Esc', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Take the 1-minute tour' }).click();
+  const box = page.locator('.gt-box');
+  await expect(box.locator('.gt-step')).toHaveText('1 of 6');
+  for (let i = 0; i < 6; i++) await box.locator('[data-gt="next"]').click();
+  await expect(box.locator('h3')).toHaveText('Where to next?');
+  await expect(box.locator('.gt-links a')).toHaveCount(3);
+  await page.keyboard.press('Escape');
+  await expect(box).toHaveCount(0);
+});
+
+test('skills show real evidence instead of self-ratings', async ({ page }) => {
+  await page.goto('/#skills');
+  await expect(page.locator('#skills .meter')).toHaveCount(0);
+  const mongo = page.locator('.skill-list a', { hasText: 'MongoDB' });
+  await expect(mongo).toHaveAttribute('href', '/evidence#skill=MongoDB');
+  await expect(mongo.locator('.skill-proof')).toContainText(/\d+ projects?/);
+});
+
+test('every project card has a picture or a designed header, and new case studies exist', async ({ page, request }) => {
+  await page.goto('/#projects');
+  const cards = page.locator('#project-grid .project');
+  await expect(cards).toHaveCount(10);
+  await expect(page.locator('#project-grid .project .shot')).toHaveCount(10);
+  await expect(page.locator('.project[data-name="Venture DAO"] video.clip')).toHaveAttribute('data-src', /\/clips\/risk-gate\.webm#t=/);
+  for (const slug of ['friends-talk', 'breathe']) expect((await request.get(`/case/${slug}`)).ok()).toBeTruthy();
+});
+
+test('the live Forensic Agent page asks before downloading anything', async ({ page }) => {
+  let pyodide = 0;
+  page.on('request', (r) => { if (r.url().includes('pyodide')) pyodide++; });
+  await page.goto('/demo/forensic-live');
+  await expect(page.locator('#fl-run')).toContainText('30 MB');
+  await expect(page.locator('#fl-status')).toHaveText('Nothing has been downloaded yet.');
+  expect(pyodide).toBe(0);
+  const manifest = await (await page.request.get('/forensic/manifest.json')).json() as { python: string[]; cases: Record<string, string[]> };
+  expect(manifest.python).not.toContain('forensics/api.py'); // dashboard and login code are not shipped
+  expect(manifest.python).not.toContain('forensics/auth.py');
+  expect(Object.keys(manifest.cases)).toEqual(['CASE_001', 'CASE_002']);
 });

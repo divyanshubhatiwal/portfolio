@@ -32,7 +32,7 @@ const d = entry.data;
     </div>
   </header>
   <RepoActivity project={d.title} />
-  {d.img && <div class="shot fade"><img src={d.img} alt={`Screenshot of ${d.title}`} width="900" height="562" /></div>}
+  {d.img && <div class="shot fade"><picture><source srcset={d.img.replace(/\.jpe?g$/, '.webp')} type="image/webp" /><img src={d.img} alt={`Screenshot of ${d.title}`} width="900" height="562" /></picture></div>}
   <article class="prose fade"><Content /></article>
   <nav class="pager" aria-label="More case studies">
     {prev && <a href={`/case/${prev.id}`}><small>← Previous</small><b>{prev.data.title}</b></a>}

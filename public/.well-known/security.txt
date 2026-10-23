@@ -1,0 +1,5 @@
+# How to report a security problem with this site (RFC 9116).
+Contact: mailto:divyanshubhatiwal99@gmail.com
+Expires: 2027-10-23T00:00:00.000Z
+Preferred-Languages: en, hi
+Policy: https://github.com/divyanshubhatiwal/portfolio/security/policy
