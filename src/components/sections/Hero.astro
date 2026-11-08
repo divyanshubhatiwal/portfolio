@@ -3,9 +3,11 @@
 // no loader, typewriter or particle effects, so the content is the first thing a visitor reads.
 import Icon from '../Icon.astro';
 import { PROFILE } from '@/data/site';
-import { getLang, ui } from '@/i18n';
+import { content, getLang, ui } from '@/i18n';
 
-const D = ui(getLang(Astro.url));
+const lang = getLang(Astro.url);
+const D = ui(lang);
+const roles = content(lang).roles;
 const T = D.hero;
 ---
 <section class="hero" id="home" data-tour={JSON.stringify(D.tour)}>
@@ -15,7 +17,8 @@ const T = D.hero;
   <div class="grid-spot" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-main">
-      <p class="hero-role">{T.role}</p>
+      <!-- the visible role line cycles through roles; screen readers get the main role once -->
+      <p class="hero-role"><span class="sr-only">{T.role}</span><span class="role-roll" aria-hidden="true" data-roles={JSON.stringify(roles)}><span>{roles[0]}</span></span></p>
       <h1>{PROFILE.name}</h1>
       <p class="lede">{T.lede}</p>
       <ul class="hero-facts">{T.facts.map((f) => <li>{f}</li>)}</ul>

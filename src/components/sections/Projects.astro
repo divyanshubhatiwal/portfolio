@@ -31,7 +31,7 @@ const clipSrc = (name: string) => `/clips/${name}.webm#t=${(starts as Record<str
     </div>
     <div class="projects" id="project-grid" data-focus-shown={T.focusShown} data-focus-reset={T.focusReset} data-focus-cv={T.focusCv} data-status-up={T.up} data-status-down={T.down}>
       {projects.map((p, i) => (
-        <article class:list={['project', 'spot', 'reveal', { featured: p.featured }]} data-cat={p.cat} data-name={p.name}>
+        <article class:list={['project', 'spot', 'reveal', { featured: p.featured }]} data-cat={p.cat} data-name={p.name} style={`--d:${((i % 3) * 0.09).toFixed(2)}s`}>
           {p.img && (
             <div class="shot">
               <picture>

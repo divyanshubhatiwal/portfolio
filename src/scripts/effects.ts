@@ -1,4 +1,4 @@
-// Visual effects: cursor, spotlight, tilt, magnetic buttons, photo colour lens, parallax,
+// Visual effects: cursor, spotlight, photo colour lens, parallax,
 // scroll progress and confetti.
 import { $, $$, coarsePointer, finePointer, reducedMotion, scrollTop } from './dom';
 
@@ -20,37 +20,6 @@ function spotlight(): void {
     card.style.setProperty('--x', `${e.clientX - r.left}px`);
     card.style.setProperty('--y', `${e.clientY - r.top}px`);
   });
-}
-
-/** 3D tilt with light glare on cards, plus buttons that lean toward the cursor. Mouse only. */
-function tiltAndMagnet(): void {
-  if (!finePointer() || reducedMotion()) return;
-  const MAX = 7;
-  for (const el of $$('.project, .cert, .skill-cat, .highlight, .photo, .exp-panel')) {
-    el.classList.add('tilt');
-    const glare = document.createElement('span');
-    glare.className = 'glare';
-    el.appendChild(glare);
-    el.addEventListener('pointermove', (e) => {
-      if (el.classList.contains('reveal') && !el.classList.contains('in')) return;
-      const r = el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-      el.classList.add('tilting');
-      el.style.transform = `perspective(900px) rotateX(${((0.5 - py) * MAX).toFixed(2)}deg) rotateY(${((px - 0.5) * MAX).toFixed(2)}deg) translateY(-4px)`;
-      el.style.setProperty('--gx', `${px * 100}%`);
-      el.style.setProperty('--gy', `${py * 100}%`);
-    });
-    el.addEventListener('pointerleave', () => { el.classList.remove('tilting'); el.style.transform = ''; });
-  }
-  for (const el of $$('.btn, .socials a, .icon-btn, #magic-btn, #top-btn')) {
-    el.classList.add('magnet');
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) * 0.3, y = (e.clientY - r.top - r.height / 2) * 0.3;
-      el.classList.add('pulling');
-      el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-    });
-    el.addEventListener('pointerleave', () => { el.classList.remove('pulling'); el.style.transform = ''; });
-  }
 }
 
 /** Black-and-white photo that shows colour only inside a circle around the cursor (or finger). */
@@ -152,7 +121,6 @@ export function initEffects(): void {
   heroLight();
   cursor();
   spotlight();
-  tiltAndMagnet();
   photoLens();
   parallax();
   progressAndTop();

@@ -13,19 +13,20 @@ const links: [string, string][] = [
   [h('#projects'), T.nav.projects], ['/case', T.nav.cases], ['/blog', T.nav.blog], [h('#contact'), T.nav.contact],
 ];
 const path = Astro.url.pathname.replace(/\/$/, '');
-// the language switch only exists on the home page, the one page with both languages
+// no language switch on English pages; the Hindi home page keeps an "English" link back
 const other = lang === 'hi' ? { href: '/', lang: 'en' } : { href: '/hi/', lang: 'hi' };
 ---
 <nav style="view-transition-name: site-nav">
   <div class="wrap">
     <a class="logo" href={home ? '#home' : homeHref(lang)} data-hover>DB<span>.</span></a>
     <div class="nav-links">
+      {home && <span class="nav-pill" aria-hidden="true"></span>}
       {links.map(([href, label]) => (
         <a href={href} data-hover aria-current={path !== '' && href !== '/' && path.startsWith(href) ? 'page' : undefined}>{label}</a>
       ))}
     </div>
     <div class="nav-right">
-      {home && <a class="lang-switch" href={other.href} hreflang={other.lang} lang={other.lang} title={T.meta.switchTitle} data-hover>{T.meta.switchLabel}</a>}
+      {home && lang === 'hi' && <a class="lang-switch" href={other.href} hreflang={other.lang} lang={other.lang} title={T.meta.switchTitle} data-hover>{T.meta.switchLabel}</a>}
       <a class="btn ghost resume" href="/resume.pdf" download data-hover style="padding:8px 16px;font-size:14px"><Icon id="i-download" />{T.nav.resume}</a>
       <button class="kbd-hint wide" id="pal-btn" data-hover><span class="sr-only">Search: </span>
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -40,6 +41,6 @@ const other = lang === 'hi' ? { href: '/', lang: 'en' } : { href: '/hi/', lang: 
   <div class="mobile-menu" id="mobile-menu">
     {links.map(([href, label]) => <a href={href}>{label}</a>)}
     <a href="/resume.pdf" download>{T.nav.downloadResume}</a>
-    {home && <a href={other.href} hreflang={other.lang} lang={other.lang}>{T.meta.switchLabel}</a>}
+    {home && lang === 'hi' && <a href={other.href} hreflang={other.lang} lang={other.lang}>{T.meta.switchLabel}</a>}
   </div>
 </nav>

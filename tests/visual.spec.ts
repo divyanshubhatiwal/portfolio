@@ -27,7 +27,7 @@ async function open(page: Page, path: string, theme: 'dark' | 'light') {
   await page.goto(`${BUILT}${path}`);
   await page.waitForLoadState('networkidle');
   // animated full-page backgrounds are hidden (masking them would cover the whole page)
-  await page.addStyleTag({ content: '.aurora, .aurora-lite, canvas, .grid-bg, .grid-spot, .hero-glow, video.clip { visibility: hidden !important; }' });
+  await page.addStyleTag({ content: '.aurora, .aurora-lite, canvas, .grid-bg, .grid-spot, .hero-glow, video.clip { visibility: hidden !important; } .eyebrow, .sec-title, .sec-sub, .shot picture, .hero-grid, .statement .sw { animation: none !important; }' });
   // fonts that did load must finish before the screenshot
   await page.evaluate(() => document.fonts.ready);
 }

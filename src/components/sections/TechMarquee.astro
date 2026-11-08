@@ -1,0 +1,23 @@
+---
+// A band of the technologies used across the projects, scrolling slowly in two directions.
+// Decorative (the Skills section lists the same things properly), so it's hidden from screen readers.
+import { PROJECTS, SKILLS } from '@/data/site';
+
+const names = [...new Set([
+  ...Object.values(SKILLS).flat().map(([n]) => n),
+  ...PROJECTS.flatMap((p) => p.tags),
+].map((n) => n.replace(/ \d+(\.\d+)?$/, '')))]; // "React 19" and "React 18" are both just React here
+const half = Math.ceil(names.length / 2);
+const rows = [names.slice(0, half), names.slice(half)];
+---
+<div class="marquee" aria-hidden="true">
+  {rows.map((row, r) => (
+    <div class:list={['marquee-row', { reverse: r === 1 }]}>
+      <div class="marquee-track">
+        {row.map((n) => <span>{n}</span>)}
+        {/* a second copy makes the loop seamless */}
+        {row.map((n) => <span class="dup">{n}</span>)}
+      </div>
+    </div>
+  ))}
+</div>

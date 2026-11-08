@@ -1,20 +1,5 @@
-// Scroll reveals, split-letter titles and count-up numbers.
-import { $$, esc, reducedMotion } from './dom';
-
-/** Wrap each section title's letters in spans so they can rise out of a blur one by one. */
-function splitTitles(): void {
-  for (const t of $$('.sec-title')) {
-    const text = t.textContent ?? '';
-    t.setAttribute('aria-label', text);
-    let i = 0;
-    t.innerHTML = text
-      .split(' ')
-      .map((w) => `<span class="w" aria-hidden="true">${[...w].map((ch) => `<span class="c" style="--i:${i++}">${esc(ch)}</span>`).join('')}</span>`)
-      .join(' ');
-    t.classList.remove('reveal');
-    t.classList.add('split');
-  }
-}
+// Scroll reveals and count-up numbers.
+import { $$, reducedMotion } from './dom';
 
 export function countUp(el: HTMLElement): void {
   const end = Number(el.dataset.count), suf = el.dataset.suffix ?? '', dec = Number(el.dataset.decimals ?? 0);
@@ -39,10 +24,9 @@ function startReveal(): void {
       io.unobserve(t);
     }
   }, { threshold: 0.12 });
-  for (const el of $$('.reveal, .split')) io.observe(el);
+  for (const el of $$('.reveal')) io.observe(el);
 }
 
 export function initIntro(): void {
-  splitTitles();
   startReveal();
 }

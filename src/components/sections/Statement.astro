@@ -1,0 +1,28 @@
+---
+// A large statement whose words light up one by one as it scrolls through the screen.
+// Each word's animation is tied to the section's scroll position (CSS scroll-driven animations),
+// with its own slice of that progress; browsers without support show the text fully lit.
+import { getLang, ui } from '@/i18n';
+
+const T = ui(getLang(Astro.url)).about;
+// p2 marks its key phrases with <strong>; those words keep the accent colour once lit
+const words: { w: string; strong: boolean }[] = [];
+for (const [i, part] of T.p2.split(/<\/?strong>/).entries()) {
+  for (const w of part.split(/\s+/).filter(Boolean)) {
+    // punctuation right after a bold phrase belongs to the word before it ("measure.", not "measure .")
+    if (/^[.,;:!?।]+$/.test(w) && words.length) words.at(-1)!.w += w;
+    else words.push({ w, strong: i % 2 === 1 });
+  }
+}
+const START = 18, SPAN = 42; // the words light up between 18% and 60% of the section's pass across the screen
+const step = SPAN / words.length;
+---
+<section class="statement" aria-label={T.p2.replace(/<[^>]+>/g, '')}>
+  <div class="wrap">
+    <p aria-hidden="true">
+      {words.map(({ w, strong }, i) => (
+        <span class:list={['sw', { strong }]} style={`--a:${(START + i * step).toFixed(2)}%;--b:${(START + (i + 1) * step).toFixed(2)}%`}>{w} </span>
+      ))}
+    </p>
+  </div>
+</section>

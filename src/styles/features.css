@@ -229,3 +229,86 @@
 /* achievements: three milestones in a row */
 .ach-list { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 1000px) { .ach-list { grid-template-columns: 1fr; } }
+/* ================= motion: a livelier page that still reads calmly ================= */
+
+/* hero entrance: each piece rises in, one after another */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.hero-main > *, .hero-work { animation: rise .7s var(--ease-out) both; }
+.hero-main > :nth-child(1) { animation-delay: .05s; }
+.hero-main > :nth-child(2) { animation-delay: .12s; }
+.hero-main > :nth-child(3) { animation-delay: .22s; }
+.hero-main > :nth-child(4) { animation-delay: .3s; }
+.hero-main > :nth-child(5) { animation-delay: .38s; }
+.hero-main > :nth-child(6) { animation-delay: .46s; }
+.hero-work { animation-delay: .35s; }
+.hero-work li { animation: rise .6s var(--ease-out) both; }
+.hero-work li:nth-child(1) { animation-delay: .5s; }
+.hero-work li:nth-child(2) { animation-delay: .6s; }
+.hero-work li:nth-child(3) { animation-delay: .7s; }
+.hero-work li a { transition: transform .25s var(--ease-out); }
+.hero-work li a:hover { transform: translateX(4px); }
+
+/* rotating role line */
+.role-roll { display: inline-grid; overflow: hidden; vertical-align: bottom; }
+.role-roll > span { grid-area: 1 / 1; white-space: nowrap; }
+.role-roll > span.in { animation: role-in .55s var(--ease-out) both; }
+.role-roll > span.out { animation: role-out .45s ease-in both; }
+@keyframes role-in { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes role-out { to { transform: translateY(-100%); opacity: 0; } }
+
+/* technology marquee under the hero */
+.marquee { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; display: grid; gap: 10px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee-row { overflow: hidden; }
+.marquee-track { display: flex; gap: 10px; width: max-content; animation: marquee 60s linear infinite; }
+.marquee-row.reverse .marquee-track { animation-direction: reverse; animation-duration: 70s; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-track span { flex: none; padding: 7px 14px; border: 1px solid var(--border); border-radius: 999px; font: 500 13.5px var(--sans); color: var(--muted-fg); background: var(--card); transition: color .2s, border-color .2s; }
+.marquee-track span:hover { color: var(--fg); border-color: var(--accent); }
+@keyframes marquee { to { transform: translateX(calc(-50% - 5px)); } }
+
+/* nav: a pill slides under the link for the section on screen */
+.nav-links { position: relative; }
+.nav-links a { position: relative; z-index: 1; }
+.nav-pill { position: absolute; left: 0; top: 50%; height: 32px; margin-top: -16px; width: 0; border-radius: 999px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); opacity: 0; transition: transform .45s var(--ease-out), width .45s var(--ease-out), opacity .3s; pointer-events: none; }
+.nav-links a[aria-current="location"] { color: var(--accent-text); }
+
+/* project cards: lift, and links that lean forward */
+.project { transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out), border-color .3s, opacity .7s var(--ease-out); }
+.project:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--accent) 60%, transparent); }
+.project .links a::after { display: inline-block; transition: transform .25s var(--ease-out); }
+.project .links a:hover::after { transform: translateX(3px); }
+.project .shot.ph .ph-ico { transition: transform .5s var(--ease-out); }
+.project:hover .shot.ph .ph-ico { transform: translateY(-4px) rotate(-6deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-main > *, .hero-work, .hero-work li { animation: none; }
+  .marquee-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+  .marquee-track .dup { display: none; }
+  .nav-pill { transition: none; }
+}
+/* ================= scroll-linked motion (Apple-style) ================= */
+/* The statement: large type, words light up in order as it scrolls through. */
+.statement { padding: 18vh 0; view-timeline-name: --stmt; }
+.statement p { margin: 0 auto; max-width: 980px; font: 700 clamp(30px, 4.6vw, 64px)/1.15 var(--head); letter-spacing: -.025em; text-align: center; }
+.statement .sw { color: var(--fg); }
+.statement .sw.strong { color: var(--accent-text); }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .statement .sw { color: color-mix(in srgb, var(--fg) 18%, transparent); animation: sw-light linear both; animation-timeline: --stmt; animation-range: cover var(--a) cover var(--b); }
+    .statement .sw.strong { animation-name: sw-light-strong; }
+
+    /* section headings rise and sharpen as they come into view */
+    .eyebrow, .sec-title, .sec-sub { animation: sd-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+    /* screenshots settle from a slight zoom as their card scrolls in */
+    .project .shot picture, .page .shot picture { display: block; animation: sd-settle linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
+    /* the hero eases back and fades as you scroll past it */
+    .hero-grid { animation: sd-hero-out linear both; animation-timeline: scroll(root); animation-range: 0 85vh; }
+  }
+}
+@keyframes sw-light { to { color: var(--fg); } }
+@keyframes sw-light-strong { to { color: var(--accent-text); } }
+@keyframes sd-rise { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
+@keyframes sd-settle { from { transform: scale(1.12); } to { transform: scale(1); } }
+@keyframes sd-hero-out { to { opacity: .15; transform: translateY(-6vh) scale(.94); } }
