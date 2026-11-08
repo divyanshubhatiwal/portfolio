@@ -400,3 +400,7 @@ html.loading .hero-main > *, html.loading .hero-work, html.loading .hero-work li
 .tech-filters .filter.active { box-shadow: none; }
 
 @media (prefers-reduced-motion: reduce) { .hp-orbit, .hp-badge { animation: none; } }
+/* ================= live starfield behind the site ================= */
+#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; display: block; }
+/* the stars replace the hero's grid (the teal glow stays) */
+.has-stars .hero .grid-bg, .has-stars .hero .grid-spot { display: none; }

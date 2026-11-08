@@ -21,6 +21,7 @@ import { initGuidedTour } from './guided';
 import { initRoleRoll } from './roles';
 import { initScrollSpy } from './scrollspy';
 import { initChapters } from './chapters';
+import { initStarfield } from './starfield';
 
 // A refresh always starts at the top of the page. Without this the browser restores the old scroll
 // position, and a #section left in the address bar by a nav click jumps back to that section.
@@ -73,6 +74,7 @@ initGuidedTour();
 initRoleRoll();
 initScrollSpy();
 initChapters();
+initStarfield();
 
 const voice = initVoice();
 const chat = initChat(aiAnswerer(), { onReply: (html) => voice.readAloud(html) });
