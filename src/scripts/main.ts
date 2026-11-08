@@ -20,6 +20,7 @@ import { initClips } from './clips';
 import { initGuidedTour } from './guided';
 import { initRoleRoll } from './roles';
 import { initScrollSpy } from './scrollspy';
+import { initChapters } from './chapters';
 
 // A refresh always starts at the top of the page. Without this the browser restores the old scroll
 // position, and a #section left in the address bar by a nav click jumps back to that section.
@@ -39,6 +40,23 @@ if (nav?.type === 'reload') {
   void document.fonts?.ready.then(top);
 }
 
+// loading screen: stays at least 0.9s so its short animation is seen, at most 1.5s so it never makes anyone wait
+{
+  const root = document.documentElement;
+  if (root.classList.contains('loading')) {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      root.classList.replace('loading', 'loaded-in');
+      storageSet('loaded-once', '1');
+      setTimeout(() => { document.getElementById('page-loader')?.remove(); root.classList.remove('loaded-in'); }, 800);
+    };
+    const ready = () => setTimeout(finish, Math.max(0, 900 - performance.now()));
+    if (document.readyState === 'complete') ready(); else addEventListener('load', ready, { once: true });
+    setTimeout(finish, Math.max(0, 1500 - performance.now()));
+  } else document.getElementById('page-loader')?.remove();
+}
 initSmoothScroll();
 initRecruiterView(); // before initUI, so reveal and filter code sees the final order
 initUI();
@@ -54,6 +72,7 @@ initClips();
 initGuidedTour();
 initRoleRoll();
 initScrollSpy();
+initChapters();
 
 const voice = initVoice();
 const chat = initChat(aiAnswerer(), { onReply: (html) => voice.readAloud(html) });

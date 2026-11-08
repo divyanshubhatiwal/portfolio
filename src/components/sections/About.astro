@@ -1,7 +1,7 @@
 ---
 import Icon from '../Icon.astro';
-import { PROFILE, PROJECTS } from '@/data/site';
-import { content, getLang, ui } from '@/i18n';
+import { PROJECTS } from '@/data/site';
+import { getLang, ui } from '@/i18n';
 import type { IconId } from '@/data/site';
 
 const lang = getLang(Astro.url);
@@ -22,15 +22,6 @@ const icons: IconId[] = ['i-bot', 'i-layers', 'i-gauge'];
       </div>
     </div>
     <div class="highlights">
-      <figure class="photo spot reveal right" style="margin:0">
-        <div class="frame">
-          <div class="pimg" data-parallax="-0.2">
-            <img class="bw" src="/profile.jpg" alt={`${T.portrait} ${PROFILE.name}`} width="738" height="975" loading="lazy" decoding="async" />
-            <img class="clr" src="/profile.jpg" alt="" aria-hidden="true" width="738" height="975" loading="lazy" decoding="async" />
-          </div>
-        </div>
-        <figcaption class="cap"><div><b>{PROFILE.name}</b><span>{content(lang).roles[0]}</span></div><div class="live">{T.openToWork}</div></figcaption>
-      </figure>
       {T.cards.map(([title, text], i) => (
         <div class={`highlight spot reveal right d${i + 1}`}>
           <div class="ico"><Icon id={icons[i]!} /></div>

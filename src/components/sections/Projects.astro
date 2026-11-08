@@ -11,6 +11,11 @@ const { projects, category } = content(lang);
 const cats = ['All', ...new Set(projects.map((p) => p.cat))];
 const count = (c: string) => (c === 'All' ? projects.length : projects.filter((p) => p.cat === c).length);
 const VISIBLE_TAGS = 3;
+// technology filter: tags without version numbers (React 19 -> React), offered when 2+ projects use them
+const tech = (t: string) => t.replace(/ \d+(\.\d+)?$/, '');
+const tagCount = new Map<string, number>();
+for (const p of projects) for (const t of new Set(p.tags.map(tech))) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+const techTags = [...tagCount].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([t]) => t);
 // first code tour for each project, if it has one
 const tourOf = new Map([...github.tours].reverse().map((t) => [t.project, t.slug]));
 const CAT_ICON: Record<string, IconId> = { 'AI / ML': 'i-sparkles', 'Full-Stack': 'i-layers', 'Backend': 'i-gauge', 'Mobile': 'i-bot' };
@@ -29,9 +34,12 @@ const clipSrc = (name: string) => `/clips/${name}.webm#t=${(starts as Record<str
         </button>
       ))}
     </div>
+    <div class="filters tech-filters reveal" id="tag-filters" role="group" aria-label={T.byTech}>
+      {techTags.map((t) => <button type="button" class="filter tag" data-tag={t} aria-pressed="false">{t}<sup>{tagCount.get(t)}</sup></button>)}
+    </div>
     <div class="projects" id="project-grid" data-focus-shown={T.focusShown} data-focus-reset={T.focusReset} data-focus-cv={T.focusCv} data-status-up={T.up} data-status-down={T.down}>
       {projects.map((p, i) => (
-        <article class:list={['project', 'spot', 'reveal', { featured: p.featured }]} data-cat={p.cat} data-name={p.name} style={`--d:${((i % 3) * 0.09).toFixed(2)}s`}>
+        <article class:list={['project', 'spot', 'reveal', { featured: p.featured, spotlight: p.featured }]} data-cat={p.cat} data-name={p.name} data-tags={[...new Set(p.tags.map(tech))].join('|')} style={`--d:${((i % 3) * 0.09).toFixed(2)}s`}>
           {p.img && (
             <div class="shot">
               <picture>
@@ -49,6 +57,7 @@ const clipSrc = (name: string) => `/clips/${name}.webm#t=${(starts as Record<str
               <span class="ph-tags">{p.tags.slice(0, 4).join(' · ')}</span>
             </div>
           )}
+          {p.featured && <span class="spot-label">{T.spotlight}</span>}
           <div class="top"><span class="cat">{category(p.cat)}</span><span class="num">/{String(i + 1).padStart(2, '0')}</span></div>
           <h3>{p.name}</h3>
           <p>{p.desc}</p>

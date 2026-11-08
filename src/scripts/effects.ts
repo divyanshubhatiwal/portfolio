@@ -1,6 +1,6 @@
-// Visual effects: cursor, spotlight, photo colour lens, parallax,
+// Visual effects: cursor, spotlight, parallax,
 // scroll progress and confetti.
-import { $, $$, coarsePointer, finePointer, reducedMotion, scrollTop } from './dom';
+import { $, $$, finePointer, reducedMotion, scrollTop } from './dom';
 
 function cursor(): void {
   const ring = $('#cursor'), dot = $('#cursor-dot');
@@ -20,23 +20,6 @@ function spotlight(): void {
     card.style.setProperty('--x', `${e.clientX - r.left}px`);
     card.style.setProperty('--y', `${e.clientY - r.top}px`);
   });
-}
-
-/** Black-and-white photo that shows colour only inside a circle around the cursor (or finger). */
-function photoLens(): void {
-  const frame = $('.photo .frame'), pimg = $('.photo .pimg');
-  if (!frame || !pimg) return;
-  const R = coarsePointer() ? '90px' : '120px';
-  const move = (e: PointerEvent) => {
-    const r = pimg.getBoundingClientRect(); // includes the parallax/zoom transform, so the circle lines up with the cursor
-    pimg.style.setProperty('--mx', `${(((e.clientX - r.left) / r.width) * 100).toFixed(2)}%`);
-    pimg.style.setProperty('--my', `${(((e.clientY - r.top) / r.height) * 100).toFixed(2)}%`);
-  };
-  frame.addEventListener('pointerenter', (e) => { move(e); pimg.style.setProperty('--lens', R); });
-  frame.addEventListener('pointermove', move);
-  frame.addEventListener('pointerleave', () => pimg.style.setProperty('--lens', '0px'));
-  frame.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { move(e); pimg.style.setProperty('--lens', R); } });
-  frame.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') pimg.style.setProperty('--lens', '0px'); });
 }
 
 function parallax(): void {
@@ -121,7 +104,6 @@ export function initEffects(): void {
   heroLight();
   cursor();
   spotlight();
-  photoLens();
   parallax();
   progressAndTop();
   confetti();

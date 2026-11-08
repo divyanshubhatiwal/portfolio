@@ -66,7 +66,7 @@ test.describe('keyboard features', () => {
 
   test('terminal opens with the backtick key and runs commands', async ({ page }) => {
     await page.goto('/');
-    await page.locator('body').click();
+    await page.locator('body').click({ position: { x: 5, y: 300 } }); // an empty margin, not a link
     await page.keyboard.press('Backquote');
     await expect(page.locator('#term')).toHaveClass(/open/);
     await page.keyboard.type('project ride');

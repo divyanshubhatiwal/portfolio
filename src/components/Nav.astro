@@ -8,9 +8,19 @@ const { home = true } = Astro.props;
 const lang = getLang(Astro.url);
 const T = ui(lang);
 const h = (hash: string) => (home ? hash : `${homeHref(lang)}${hash}`);
-const links: [string, string][] = [
-  [h('#about'), T.nav.about], [h('#skills'), T.nav.skills], [h('#experience'), T.nav.experience],
-  [h('#projects'), T.nav.projects], ['/case', T.nav.cases], ['/blog', T.nav.blog], [h('#contact'), T.nav.contact],
+// a small line icon for each link (24x24 paths)
+const ICON: Record<string, string> = {
+  about: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0',
+  skills: 'm8 7-5 5 5 5m8-10 5 5-5 5',
+  experience: 'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
+  projects: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+  cases: 'M5 4h11l3 3v13H5zM9 10h6M9 14h6',
+  blog: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+  contact: 'M4 6h16v12H4zm0 0 8 7 8-7',
+};
+const links: [string, string, string][] = [
+  [h('#about'), T.nav.about, 'about'], [h('#skills'), T.nav.skills, 'skills'], [h('#experience'), T.nav.experience, 'experience'],
+  [h('#projects'), T.nav.projects, 'projects'], ['/case', T.nav.cases, 'cases'], ['/blog', T.nav.blog, 'blog'], [h('#contact'), T.nav.contact, 'contact'],
 ];
 const path = Astro.url.pathname.replace(/\/$/, '');
 // no language switch on English pages; the Hindi home page keeps an "English" link back
@@ -21,8 +31,8 @@ const other = lang === 'hi' ? { href: '/', lang: 'en' } : { href: '/hi/', lang: 
     <a class="logo" href={home ? '#home' : homeHref(lang)} data-hover>DB<span>.</span></a>
     <div class="nav-links">
       {home && <span class="nav-pill" aria-hidden="true"></span>}
-      {links.map(([href, label]) => (
-        <a href={href} data-hover aria-current={path !== '' && href !== '/' && path.startsWith(href) ? 'page' : undefined}>{label}</a>
+      {links.map(([href, label, icon]) => (
+        <a href={href} data-hover aria-current={path !== '' && href !== '/' && path.startsWith(href) ? 'page' : undefined}><svg class="nl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICON[icon]} /></svg>{label}</a>
       ))}
     </div>
     <div class="nav-right">
@@ -39,7 +49,7 @@ const other = lang === 'hi' ? { href: '/', lang: 'en' } : { href: '/hi/', lang: 
     </div>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    {links.map(([href, label]) => <a href={href}>{label}</a>)}
+    {links.map(([href, label, icon]) => <a href={href}><svg class="nl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICON[icon]} /></svg>{label}</a>)}
     <a href="/resume.pdf" download>{T.nav.downloadResume}</a>
     {home && lang === 'hi' && <a href={other.href} hreflang={other.lang} lang={other.lang}>{T.meta.switchLabel}</a>}
   </div>

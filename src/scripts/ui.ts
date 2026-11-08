@@ -66,20 +66,17 @@ function experienceTabs(): void {
   });
 }
 
-/** Category filters with a staggered pop-in, plus "+N / Show less" on long tag lists. */
+/** Category and technology filters (they combine), with a staggered pop-in, plus "+N / Show less" on long tag lists. */
 function projectFilters(): void {
-  const bar = $('#filters'), grid = $('#project-grid');
+  const bar = $('#filters'), tags = $('#tag-filters'), grid = $('#project-grid');
   if (!bar || !grid) return;
-  bar.addEventListener('click', (e) => {
-    const b = (e.target as Element).closest<HTMLElement>('.filter');
-    if (!b) return;
-    for (const x of $$('.filter', bar)) {
-      x.classList.toggle('active', x === b);
-      x.setAttribute('aria-pressed', String(x === b));
-    }
+  let cat = 'All', tag: string | null = null;
+  const apply = () => {
+    for (const x of $$('.filter', bar)) { const on = x.dataset.f === cat; x.classList.toggle('active', on); x.setAttribute('aria-pressed', String(on)); }
+    for (const x of tags ? $$('.filter', tags) : []) { const on = x.dataset.tag === tag; x.classList.toggle('active', on); x.setAttribute('aria-pressed', String(on)); }
     let n = 0;
     for (const p of $$('.project', grid)) {
-      const hide = b.dataset.f !== 'All' && p.dataset.cat !== b.dataset.f;
+      const hide = (cat !== 'All' && p.dataset.cat !== cat) || (!!tag && !(p.dataset.tags ?? '').split('|').includes(tag));
       p.classList.toggle('hide', hide);
       p.classList.remove('pop');
       if (hide) continue;
@@ -87,6 +84,19 @@ function projectFilters(): void {
       p.style.setProperty('--pd', `${n++ * 0.05}s`);
       p.classList.add('pop');
     }
+  };
+  bar.addEventListener('click', (e) => {
+    const b = (e.target as Element).closest<HTMLElement>('.filter');
+    if (!b) return;
+    cat = b.dataset.f ?? 'All';
+    if (cat === 'All') tag = null; // "All" really means everything
+    apply();
+  });
+  tags?.addEventListener('click', (e) => {
+    const b = (e.target as Element).closest<HTMLElement>('.filter');
+    if (!b) return;
+    tag = tag === b.dataset.tag ? null : b.dataset.tag ?? null; // clicking the active technology clears it
+    apply();
   });
   grid.addEventListener('click', (e) => {
     const m = (e.target as Element).closest<HTMLElement>('.more');

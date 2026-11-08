@@ -147,25 +147,7 @@
   .stat b { display: block; font: 700 32px var(--head); }
   .stat span { font-size: 13px; color: var(--muted-fg); }
   .highlights { display: grid; gap: 14px; }
-  .photo { position: relative; padding: 10px; border-radius: 18px; }
-  .photo .frame { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 4 / 4.2; background: var(--muted); }
-  /* photo stays black and white; a colour copy shows through a soft circle that follows the cursor */
-  @property --lens { syntax: "<length>"; inherits: true; initial-value: 0px; }
-  .photo .pimg { position: absolute; inset: 0; transform: translateY(var(--py, 0px)) scale(1.12); transition: transform .8s cubic-bezier(.2,.8,.2,1), --lens .45s cubic-bezier(.16,1,.3,1); }
-  .photo:hover .pimg { transform: translateY(var(--py, 0px)) scale(1.15); }
-  .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
-  .photo img.bw { filter: grayscale(1) contrast(1.05); }
-  .photo img.clr {
-    -webkit-mask-image: radial-gradient(circle var(--lens) at var(--mx, 50%) var(--my, 50%), #000 60%, transparent 100%);
-    mask-image: radial-gradient(circle var(--lens) at var(--mx, 50%) var(--my, 50%), #000 60%, transparent 100%);
-  }
   .grid-bg { transform: translateY(var(--py, 0px)); }
-  .photo .frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.65), transparent 45%); pointer-events: none; }
-  .photo .cap { position: absolute; left: 26px; right: 26px; bottom: 24px; z-index: 1; color: #fff; display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
-  .photo .cap b { display: block; font: 700 22px var(--head); }
-  .photo .cap span { font: 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
-  .photo .live { font: 11px var(--mono); padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.14); backdrop-filter: blur(6px); white-space: nowrap; }
-  .photo .live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; margin-right: 6px; vertical-align: middle; }
   .highlight { padding: 22px; display: flex; gap: 16px; align-items: flex-start; }
   .highlight .ico { width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px; border: 1px solid var(--border); display: grid; place-items: center; transition: transform .4s; }
   .highlight svg { width: 22px; height: 22px; }
@@ -261,7 +243,8 @@
   #chat.open { transform: none; opacity: 1; pointer-events: auto; }
   .chat-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--accent-soft); }
   .chat-head .av { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--accent); }
-  .chat-head .av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+  .chat-head .av { display: grid; place-items: center; background: var(--accent-soft); color: var(--fg); font: 700 13px var(--head); letter-spacing: -.02em; }
+  .chat-head .av span { color: var(--accent); }
   .chat-head b { display: block; font: 700 15px var(--head); }
   .chat-head small { font-size: 12px; color: var(--muted-fg); }
   .chat-head small::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; margin-right: 6px; vertical-align: middle; }

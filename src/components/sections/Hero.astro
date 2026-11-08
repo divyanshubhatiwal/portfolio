@@ -10,7 +10,7 @@ const D = ui(lang);
 const roles = content(lang).roles;
 const T = D.hero;
 ---
-<section class="hero" id="home" data-tour={JSON.stringify(D.tour)}>
+<section class="hero" id="home" data-tour={JSON.stringify(D.tour)} data-chapter={T.chapter}>
   <!-- background: slowly drifting light, a gently panning grid, and a spotlight that follows the cursor (desktop) -->
   <div class="hero-glow" aria-hidden="true"><span></span><span></span></div>
   <div class="grid-bg" aria-hidden="true"></div>
@@ -34,6 +34,15 @@ const T = D.hero;
         <button type="button" class="hero-tour" id="tour-start"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg>{D.tour.start}</button>
       </div>
     </div>
+    <figure class="hero-photo">
+      <span class="hp-orbit" aria-hidden="true"></span>
+      <span class="hp-ring"><img src="/profile.jpg" alt={`Portrait of ${PROFILE.name}`} width="738" height="975" fetchpriority="high" decoding="async" /></span>
+      {T.badges.map(([label, value], i) => (
+        <span class={`hp-badge b${i + 1}`}><small>{label}</small><b>{value}</b></span>
+      ))}
+    </figure>
+  </div>
+  <div class="wrap">
     <aside class="hero-work" aria-labelledby="hero-work-title">
       <h2 id="hero-work-title">{T.workTitle}</h2>
       <ol>

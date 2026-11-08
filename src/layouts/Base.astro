@@ -85,10 +85,13 @@ const person = {
   <!-- runs before first paint so the saved theme never flashes the wrong colours -->
   <script is:inline>
     try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    // the loading screen plays once per visit, never for reduced motion; decided here so it can't flash
+    try { var r = document.documentElement; if (!sessionStorage.getItem('loaded-once') && !matchMedia('(prefers-reduced-motion: reduce)').matches) r.classList.add('loading'); } catch (e) {}
   </script>
   <slot name="head" />
 </head>
 <body class:list={{ 'is-home': home }}>
+  <div id="page-loader" aria-hidden="true"><div class="pl-mark"><span>D</span><span>B</span><span class="pl-dot">.</span></div><div class="pl-line"><i></i></div></div>
   <a class="skip-link" href="#main">{T.meta.skip}</a>
   <IconSprite />
   <Nav home={home} />
@@ -96,7 +99,7 @@ const person = {
     <slot />
   </main>
   <Footer />
-  <Overlays home={home} />
+  <Overlays />
 
   <script>
     import '@/scripts/main';
