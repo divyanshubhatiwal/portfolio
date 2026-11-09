@@ -24,11 +24,15 @@ export function initStarfield(): void {
   const meteors: Meteor[] = [];
   const mouse = { x: -1e4, y: -1e4 };
   let star = '255,255,255', line = '94,234,212';
+  // dark dots on a light page read much weaker than light dots on a dark one, so light mode draws
+  // bigger, more opaque stars and stronger lines
+  let sizeK = 1, alphaK = 1, shapeA = 0.36, cursorA = 0.35, lineW = 1;
 
   const colours = () => {
     const dark = document.documentElement.dataset.theme === 'dark';
-    star = dark ? '230,232,234' : '40,48,56';
-    line = dark ? '94,234,212' : '15,118,110';
+    star = dark ? '230,232,234' : '34,72,78'; // light: a dark slate-teal, so stars don't read as black specks
+    line = dark ? '94,234,212' : '13,110,102';
+    sizeK = dark ? 1 : 1.55; alphaK = dark ? 1 : 1.35; shapeA = dark ? 0.36 : 0.6; cursorA = dark ? 0.35 : 0.55; lineW = dark ? 1 : 1.3;
   };
 
   const resize = () => {
@@ -77,8 +81,8 @@ export function initStarfield(): void {
     for (const s of stars) {
       const { x, y } = pos(s);
       const a = still ? s.a : s.a * (0.55 + 0.45 * Math.sin(t / 1000 * s.tw + s.ph));
-      ctx.fillStyle = `rgba(${star},${a.toFixed(3)})`;
-      ctx.beginPath(); ctx.arc(x, y, s.r, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(${star},${Math.min(1, a * alphaK).toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(x, y, s.r * sizeK, 0, Math.PI * 2); ctx.fill();
     }
     if (still) return;
 
@@ -87,10 +91,10 @@ export function initStarfield(): void {
       const c = shapes[k]!, age = t - c.born;
       if (age > LIFE) { shapes.splice(k, 1); continue; }
       // kept faint: constellations sometimes form behind text, and must never compete with it
-      const alpha = age < DRAW + HOLD ? 0.36 : 0.36 * (1 - (age - DRAW - HOLD) / FADE);
+      const alpha = age < DRAW + HOLD ? shapeA : shapeA * (1 - (age - DRAW - HOLD) / FADE);
       const segs = c.pts.length - 1, progress = Math.min(1, age / DRAW) * segs;
       ctx.strokeStyle = `rgba(${line},${alpha.toFixed(3)})`;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = lineW;
       ctx.beginPath();
       for (let i = 0; i < segs && i < progress; i++) {
         const a = pos(stars[c.pts[i]!]!), b = pos(stars[c.pts[i + 1]!]!);
@@ -102,7 +106,7 @@ export function initStarfield(): void {
       for (const i of c.pts.slice(0, Math.ceil(progress) + 1)) { // the stars it joins glow a little
         const p = pos(stars[i]!);
         ctx.fillStyle = `rgba(${line},${(alpha * 0.9).toFixed(3)})`;
-        ctx.beginPath(); ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(p.x, p.y, 1.8 * Math.sqrt(sizeK), 0, Math.PI * 2); ctx.fill();
       }
     }
 
@@ -114,7 +118,7 @@ export function initStarfield(): void {
       const g = ctx.createLinearGradient(x, y, x - m.vx * 0.12, y - m.vy * 0.12);
       g.addColorStop(0, `rgba(${star},${(0.9 * fade).toFixed(3)})`);
       g.addColorStop(1, `rgba(${star},0)`);
-      ctx.strokeStyle = g; ctx.lineWidth = 1.4;
+      ctx.strokeStyle = g; ctx.lineWidth = 1.4 * lineW;
       ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - m.vx * 0.12, y - m.vy * 0.12); ctx.stroke();
     }
 
@@ -123,8 +127,8 @@ export function initStarfield(): void {
       for (const s of stars) {
         const p = pos(s), d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
         if (d > 130) continue;
-        ctx.strokeStyle = `rgba(${line},${(0.35 * (1 - d / 130)).toFixed(3)})`;
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = `rgba(${line},${(cursorA * (1 - d / 130)).toFixed(3)})`;
+        ctx.lineWidth = 0.8 * lineW;
         ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(p.x, p.y); ctx.stroke();
       }
     }
