@@ -5,8 +5,16 @@ export interface Dict {
   meta: { description: S; skip: S; switchLabel: S; switchTitle: S };
   nav: { about: S; skills: S; experience: S; projects: S; cases: S; blog: S; contact: S; resume: S; downloadResume: S };
   hero: {
-    chapter: S; role: S; lede: S; facts: S[]; badges: [label: S, value: S][]; viewWork: S; resume: S; contact: S;
-    workTitle: S; work: [name: S, line: S, href: S][]; allWork: S;
+    chapter: S; role: S; headline: [first: S, second: S]; lede: S; verify: S; viewWork: S; resume: S; contact: S;
+    statCgpa: S; statProjects: S; statSkills: S; of: S; proofNote: S;
+  };
+  /** three projects with their results drawn live, then the "pick your role" band */
+  showcase: {
+    title: S; live: S; all: S;
+    autosci: { tag: S; text: S; note: S; replay: S; caseStudy: S; experiments: S; chartAlt: S; arms: [random: S, bayes: S, heuristic: S] };
+    forensic: { tag: S; found: S; text: S; run: S; quiz: S; cellsAlt: S };
+    venture: { tag: S; gate: S; pass: S; blocked: S; text: S; sim: S; tour: S };
+    band: { title: S; text: S; roles: [ai: S, backend: S, fullstack: S] };
   };
   /** the guided 1-minute tour: [section selector, title, caption] per stop, then the closing links */
   tour: { start: S; next: S; back: S; done: S; skip: S; of: S; stops: [sel: S, title: S, text: S][]; endTitle: S; endLinks: [label: S, href: S][] };

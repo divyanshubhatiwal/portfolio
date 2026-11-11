@@ -95,24 +95,12 @@
   .hero-role { font: 600 15px var(--sans); color: var(--accent-text); margin: 0 0 14px; }
   .hero h1 { font: 700 clamp(42px, 6.4vw, 76px)/1.04 var(--head); letter-spacing: -.035em; margin: 0 0 22px; }
   .hero p.lede { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; color: var(--muted-fg); max-width: 640px; margin: 0 0 22px; }
-  .hero-facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0 0 32px; }
-  .hero-facts li { font-size: 13.5px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); background: color-mix(in srgb, var(--card) 70%, transparent); color: var(--fg); }
   .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
   .socials { display: flex; gap: 10px; align-items: center; }
   .socials a { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--muted-fg); transition: border-color .2s, color .2s; }
   .socials a:hover { border-color: var(--accent); color: var(--fg); }
   .socials svg { width: 18px; height: 18px; }
   .socials a.hero-contact { width: auto; padding: 0 14px; font-size: 14px; font-weight: 500; }
-  .hero-work { border: 1px solid var(--border); border-radius: 14px; background: color-mix(in srgb, var(--card) 85%, transparent); padding: 22px; }
-  .hero-work h2 { font: 600 12px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted-fg); margin: 0 0 6px; }
-  .hero-work ol { list-style: none; padding: 0; margin: 0; }
-  .hero-work li + li { border-top: 1px solid var(--border); }
-  .hero-work li a { display: grid; gap: 4px; padding: 14px 0; }
-  .hero-work li b { font: 600 16px var(--head); }
-  .hero-work li span { font-size: 14px; line-height: 1.5; color: var(--muted-fg); }
-  .hero-work li a:hover b { color: var(--accent-text); }
-  .hero-all { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--accent-text); }
-  .hero-all:hover { text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 900px) {
     .hero { min-height: 0; padding: 48px 0 64px; }
     .hero-grid { grid-template-columns: 1fr; gap: 36px; }

@@ -367,3 +367,19 @@ test('the live Forensic Agent page asks before downloading anything', async ({ p
   expect(manifest.python).not.toContain('forensics/auth.py');
   expect(Object.keys(manifest.cases)).toEqual(['CASE_001', 'CASE_002']);
 });
+
+test('the showcase draws real results, and the hero numbers match what they link to', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#home h1')).toContainText('shows its work');
+  await expect(page.locator('#proof .sc-card')).toHaveCount(3);
+  // AutoSci: the final scores of the three arms, straight from the study data
+  await expect(page.locator('.sc-legend b')).toHaveText(['0.777', '0.753', '0.747']);
+  await expect(page.locator('.sc-cells i')).toHaveCount(22);
+  await expect(page.locator('.sc-gate li.blocked')).toContainText('EDGE_BELOW_COST');
+  await expect(page.locator('.sc-band-roles a').first()).toHaveAttribute('href', '/?for=ai#projects');
+  // the hero's "skills in public code" number is the one the evidence page states
+  const stat = (await page.locator('.pc-stat[href="/evidence"] b').textContent())!.trim();
+  expect(stat).toMatch(/^\d+ of \d+$/);
+  await page.goto('/evidence');
+  await expect(page.getByText(`${stat} skills`)).toBeVisible();
+});

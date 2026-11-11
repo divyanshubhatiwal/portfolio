@@ -1,14 +1,27 @@
 ---
-// Landing section: who I am, what I build, the proof, and two clear next steps. Deliberately calm:
-// no loader, typewriter or particle effects, so the content is the first thing a visitor reads.
+// Landing section: a claim ("software that shows its work"), one line that proves it can be checked,
+// and beside it the portrait with three numbers that each link to what backs them.
 import Icon from '../Icon.astro';
-import { PROFILE } from '@/data/site';
+import { PROFILE, PROJECTS } from '@/data/site';
+import { buildEvidence } from '@/lib/evidence';
 import { content, getLang, ui } from '@/i18n';
 
 const lang = getLang(Astro.url);
 const D = ui(lang);
 const roles = content(lang).roles;
 const T = D.hero;
+
+// skills backed by public code: the same count the evidence page states, which this number links to
+const { skills } = buildEvidence();
+const coded = skills.filter((s) => s.proofs.some((p) => p.kind !== 'described')).length;
+const cgpa = PROFILE.education.cgpa;
+const stats = [
+  { value: cgpa.toFixed(2), label: T.statCgpa, href: '#experience', pct: cgpa * 10 },
+  { value: String(PROJECTS.length), label: T.statProjects, href: '#projects', pct: 100 },
+  { value: `${coded} ${T.of} ${skills.length}`, label: T.statSkills, href: '/evidence', pct: (coded / skills.length) * 100 },
+];
+// the command typed in the hero; its length sets the typing animation's width (see .hv-type)
+const VERIFY_CMD = 'verify --claim forensic-recall';
 ---
 <section class="hero" id="home" data-tour={JSON.stringify(D.tour)} data-chapter={T.chapter}>
   <!-- background: slowly drifting light, a gently panning grid, and a spotlight that follows the cursor (desktop) -->
@@ -18,10 +31,17 @@ const T = D.hero;
   <div class="wrap hero-grid">
     <div class="hero-main">
       <!-- the visible role line cycles through roles; screen readers get the main role once -->
-      <p class="hero-role"><span class="sr-only">{T.role}</span><span class="role-roll" aria-hidden="true" data-roles={JSON.stringify(roles)}><span>{roles[0]}</span></span></p>
-      <h1>{PROFILE.name}</h1>
+      <p class="hero-role"><span class="live-dot" aria-hidden="true"></span><span class="sr-only">{T.role}</span><span class="role-roll" aria-hidden="true" data-roles={JSON.stringify(roles)}><span>{roles[0]}</span></span></p>
+      <h1>
+        <span class="h1-name">{PROFILE.name}</span>{' '}
+        <span class="h1-line">{T.headline[0]}</span>{' '}
+        <span class="h1-line"><span class="h1-mark"><span class="h1-sheen">{T.headline[1]}</span><svg class="h1-under" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 9 C 60 2, 120 12, 180 6 S 270 4, 297 8" /></svg></span></span>
+      </h1>
       <p class="lede">{T.lede}</p>
-      <ul class="hero-facts">{T.facts.map((f) => <li>{f}</li>)}</ul>
+      <a class="hero-verify" href="/demo/forensic-live">
+        <span class="hv-cmd"><span class="hv-prompt" aria-hidden="true">$</span><span class="hv-type" style={`--n:${VERIFY_CMD.length}`}>{VERIFY_CMD}</span></span>
+        <span class="hv-out"><span class="hv-ok" aria-hidden="true">✓</span> {T.verify}</span>
+      </a>
       <div class="ctas">
         <a class="btn solid" href="#projects">{T.viewWork}<Icon id="i-arrow" /></a>
         <a class="btn ghost" href="/resume.pdf" download><Icon id="i-download" />{T.resume}</a>
@@ -34,23 +54,26 @@ const T = D.hero;
         <button type="button" class="hero-tour" id="tour-start"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg>{D.tour.start}</button>
       </div>
     </div>
-    <figure class="hero-photo">
-      <span class="hp-orbit" aria-hidden="true"></span>
-      <span class="hp-ring"><img src="/profile.jpg" alt={`Portrait of ${PROFILE.name}`} width="738" height="975" fetchpriority="high" decoding="async" /></span>
-      {T.badges.map(([label, value], i) => (
-        <span class={`hp-badge b${i + 1}`}><small>{label}</small><b>{value}</b></span>
-      ))}
-    </figure>
-  </div>
-  <div class="wrap">
-    <aside class="hero-work" aria-labelledby="hero-work-title">
-      <h2 id="hero-work-title">{T.workTitle}</h2>
-      <ol>
-        {T.work.map(([name, line, href]) => (
-          <li><a href={href}><b>{name}</b><span>{line}</span></a></li>
-        ))}
-      </ol>
-      <a class="hero-all" href="#projects">{T.allWork} →</a>
-    </aside>
+    <div class="hero-side">
+      <figure class="hero-photo">
+        <span class="hp-orbit" aria-hidden="true"></span>
+        <span class="hp-ring"><img src="/profile.jpg" alt={`Portrait of ${PROFILE.name}`} width="738" height="975" fetchpriority="high" decoding="async" /></span>
+      </figure>
+      <div class="proof-card">
+        <div class="pc-ring">
+          <div class="pc-inner">
+            <div class="pc-stats">
+              {stats.map((s) => (
+                <a class="pc-stat" href={s.href}>
+                  <b>{s.value}</b><span>{s.label}</span>
+                  <i class="pc-bar" aria-hidden="true"><i style={`--w:${s.pct.toFixed(1)}%`}></i></i>
+                </a>
+              ))}
+            </div>
+            <p class="pc-note">{T.proofNote}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>

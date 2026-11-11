@@ -1,0 +1,126 @@
+---
+// Three projects with their results drawn live, right under the hero:
+//  - AutoSci: the real best-so-far curves of one task and seed from the baseline study
+//  - Forensic Agent: the 22 planted anomalies it found, lighting up one by one
+//  - Venture DAO: an order walking through the risk gate and being blocked
+// then a band that sends a recruiter to the view of the site ordered for their role.
+// All motion is CSS only (features.css) and stops for reduced motion, where every card shows its final state.
+import study from '@/data/autosci-openml.json';
+import { PROJECTS } from '@/data/site';
+import { getLang, homeHref, ui } from '@/i18n';
+
+const lang = getLang(Astro.url);
+const T = ui(lang).showcase;
+const home = homeHref(lang);
+
+// AutoSci chart: "inc" is the best score so far after each experiment
+const TASK = 'vehicle', SEED = 0;
+const ARMS = ['random', 'bayes', 'heuristic'] as const;
+const W = 520, H = 210, X0 = 10, X1 = 510, Y_TOP = 22, Y_BOT = 196;
+const runs = ARMS.map((arm) => {
+  const run = study.trials.find((t) => t.arm === arm && t.task === TASK && t.seed === SEED);
+  if (!run) throw new Error(`Showcase: no ${arm} trial for ${TASK}, seed ${SEED}`);
+  return run;
+});
+const scores = runs.flatMap((r) => r.steps.map((s) => s.inc));
+const lo = Math.min(...scores), hi = Math.max(...scores);
+const px = (i: number, n: number) => X0 + (i / (n - 1)) * (X1 - X0);
+const py = (v: number) => Y_BOT - ((v - lo) / (hi - lo)) * (Y_BOT - Y_TOP);
+const curves = runs.map((r, k) => ({
+  arm: ARMS[k]!,
+  label: T.autosci.arms[k]!,
+  best: r.best.toFixed(3),
+  points: r.steps.map((s, i) => `${px(i, r.steps.length).toFixed(1)},${py(s.inc).toFixed(1)}`).join(' '),
+  endY: py(r.steps.at(-1)!.inc).toFixed(1),
+}));
+const lead = curves.find((c) => c.arm === 'heuristic')!; // the arm drawn in the accent colour
+const budget = runs[0]!.steps.length;
+
+// Forensic Agent, CASE_001: planted anomalies found (see /case/forensic-agent)
+const FOUND = 22;
+// Venture DAO: three of the risk gate's checks (codes from src/lib/preflight.ts); the last one blocks
+const CHECKS: [code: string, pass: boolean][] = [['NO_STOP', true], ['MAX_LEVERAGE', true], ['EDGE_BELOW_COST', false]];
+const ROLES = ['ai', 'backend', 'fullstack'] as const;
+---
+<section class="block showcase" id="proof">
+  <div class="wrap">
+    <div class="sc-head">
+      <div class="sc-title">
+        <h2>{T.title}</h2>
+        <span class="sc-live"><span class="live-dot" aria-hidden="true"></span>{T.live}</span>
+      </div>
+      <a class="sc-all" href="#projects">{T.all.replace('{n}', String(PROJECTS.length))} →</a>
+    </div>
+
+    <div class="sc-grid">
+      <article class="sc-card sc-spot reveal">
+        <div class="sc-copy">
+          <span class="sc-tag">{T.autosci.tag}</span>
+          <h3>AutoSci</h3>
+          <p>{T.autosci.text}</p>
+          <p class="sc-note">{T.autosci.note}</p>
+          <div class="sc-links"><a href="/demo/autosci">{T.autosci.replay} →</a><a href="/case/autosci">{T.autosci.caseStudy} →</a></div>
+        </div>
+        <div class="sc-chart">
+          <div class="sc-meta"><span>task: {TASK} · seed {SEED}</span><span><span class="live-dot" aria-hidden="true"></span>{budget} / {budget} {T.autosci.experiments}</span></div>
+          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={T.autosci.chartAlt}>
+            <defs>
+              <linearGradient id="sc-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-opacity=".2" /><stop offset="1" stop-opacity="0" /></linearGradient>
+            </defs>
+            <polygon class="c-area" points={`${lead.points} ${X1},${H} ${X0},${H}`} />
+            {curves.map((c) => <polyline class={`c-line c-${c.arm}`} points={c.points} />)}
+            <polyline class="c-line c-glow" points={lead.points} />
+            {curves.map((c) => <circle class={`c-dot c-${c.arm}`} cx={X1} cy={c.endY} r="4" />)}
+            <circle class="c-ping" cx={X1} cy={lead.endY} r="4" />
+            {/* a cover slides off to the right, so the lines appear to draw themselves */}
+            <g class="sc-curtain"><rect class="cover" x="0" y="0" width={W + 10} height={H} /><rect class="trail" x="1" y="0" width="26" height={H} /><line x1="1" y1="0" x2="1" y2={H} /></g>
+            {[40, 100, 160].map((gy) => <line class="gridline" x1="0" y1={gy} x2={W} y2={gy} />)}
+          </svg>
+          <ul class="sc-legend">
+            {curves.map((c) => <li class={`l-${c.arm}`}><span>{c.label}</span><b>{c.best}</b></li>)}
+          </ul>
+        </div>
+      </article>
+
+      <article class="sc-card sc-forensic reveal">
+        <span class="sc-tag">{T.forensic.tag}</span>
+        <div class="sc-row">
+          <div class="sc-stack">
+            <h3>Forensic Agent</h3>
+            <p class="sc-big"><b>{FOUND} / {FOUND}</b><span>{T.forensic.found}</span></p>
+          </div>
+          <div class="sc-radar" aria-hidden="true"><i></i><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="sc-cells" role="img" aria-label={T.forensic.cellsAlt}>
+          {Array.from({ length: FOUND }, (_, i) => <i style={`--i:${i}`}></i>)}
+        </div>
+        <p>{T.forensic.text}</p>
+        <div class="sc-links"><a href="/demo/forensic-live">{T.forensic.run} →</a><a href="/demo/forensic">{T.forensic.quiz} →</a></div>
+      </article>
+
+      <article class="sc-card sc-venture reveal">
+        <span class="sc-tag">{T.venture.tag}</span>
+        <h3>Venture DAO</h3>
+        <span class="sc-gate-label">{T.venture.gate}</span>
+        <div class="sc-gate">
+          <ul>
+            {CHECKS.map(([code, pass]) => <li class:list={{ blocked: !pass }}><span>{code}</span><b>{pass ? T.venture.pass : T.venture.blocked}</b></li>)}
+          </ul>
+        </div>
+        <p>{T.venture.text}</p>
+        <div class="sc-links"><a href="/demo/risk-gate">{T.venture.sim} →</a><a href="/tour/venture-dao-one-order">{T.venture.tour} →</a></div>
+      </article>
+    </div>
+
+    <aside class="sc-band reveal" aria-labelledby="sc-band-title">
+      <span class="sc-band-ring r1" aria-hidden="true"></span><span class="sc-band-ring r2" aria-hidden="true"></span>
+      <div class="sc-band-text">
+        <h3 id="sc-band-title">{T.band.title}</h3>
+        <p>{T.band.text}</p>
+      </div>
+      <div class="sc-band-roles">
+        {ROLES.map((key, i) => <a href={`${home}?for=${key}#projects`}>{T.band.roles[i]}</a>)}
+      </div>
+    </aside>
+  </div>
+</section>
